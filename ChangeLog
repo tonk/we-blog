@@ -1,0 +1,12 @@
+2011-08-15  Ton Kersten <we-blog@tonkersten.com>
+  * Forked BlazeBlogger 1.2.0 to we-blog 0.5
+    This because development of Blaze seems to be stalled
+
+2011-02-18  Jaromir Hradilek <jhradilek@gmail.com>
+
+  * INSTALL, Makefile, README, src/we-blog-add.pl, src/we-blog-config.pl,
+  src/we-blog-edit.pl, src/we-blog-init.pl, src/we-blog-list.pl, src/we-blog-log.pl,
+  src/we-blog-make.pl, src/we-blog-remove.pl, unix/we-blog.sh, unix/man/man1/we-blog.1,
+  windows/we-blog.bat: Increased the version number.
+
+  * unix/man/man1/we-blog.1: Updated the manual page for the command wrapper.

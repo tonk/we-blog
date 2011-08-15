@@ -1,0 +1,118 @@
+                  We-Blog - a CMS without boundaries
+
+                         installation instructions
+
+
+
+   Copyright (C) 2011 CTon Kersten
+   Copyright (C) 2009-2011 Jaromir Hradilek
+
+   Permission is granted to copy, distribute and/or modify this document
+   under the terms of the GNU Free Documentation License, Version 1.3 or
+   any later version published by the Free Software Foundation;  with no
+   Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+   A copy  of the license is included  as a file called FDL  in the main
+   directory of the We-Blog source package.
+
+
+ABSTRACT
+
+This document covers  the installation of We-Blog on various operating
+systems, including GNU/Linux, and Microsoft Windows.
+
+
+TABLE OF CONTENTS
+
+  1. System Requirements
+  2. Installing on GNU/Linux
+     2.1. Installing on Debian
+     2.2. Installing on Fedora
+     2.3. Installing on Ubuntu
+  3. Installing on Windows
+  4. Installing from the Source Code
+
+
+1. SYSTEM REQUIREMENTS
+
+A working installation of Perl is required, version 5.8.8 or higher.
+
+
+2. INSTALLING ON GNU/LINUX
+
+Note that with the exception of Ubuntu,  you have to be logged in as super-
+user in order to run commands described in this section. To do so, type the
+following at a shell prompt:
+
+  ~]$ su -
+  Password:
+
+2.1. Installing on Debian
+
+We-Blog is currently available in  both testing (Squeeze) and unstable
+(Sid) version of Debian. To install it, open a terminal, and run the follo-
+wing command:
+
+  ~]# apt-get install we-blog
+
+2.2. Installing on Fedora
+
+We-Blog is currently available in both Fedora 12 (Constantine)  and 13
+(Goddard).  To install it,  open a terminal, and run the following command:
+
+  ~]# yum install we-blog
+
+2.3. Installing on Ubuntu
+
+We-Blog  is currently available in  Ubuntu 10.04 LTS  (Lucid Lynx). To
+install it, open a terminal, and run the following command:
+
+  ~]# sudo apt-get install we-blog
+
+
+3. INSTALLING ON WINDOWS
+
+Currently, there is no installer for Microsoft Windows. To use We-Blog
+there,  download the latest version from the official homepage,  unpack it,
+and use the batch  files that are  located in  we-blog-0.5/windows/.
+For example:
+
+  C:\we-blog-0.5\windows> we-blog init
+
+Alternatively, you can use We-Blog with Cygwin. In that case, see Sec-
+tion 4, "Installing from the Source Code" for detailed installation instru-
+ctions.
+
+
+4. INSTALLING FROM THE SOURCE CODE
+
+To install  We-Blog  from the source code,  download the latest source
+package from the official homepage, and unpack it:
+
+  ~]$ tar xfz we-blog-0.5.tar.gz
+
+A directory called  we-blog-0.5 will  appear  in the current working
+directory.  Switch to superuser, get into the newly created directory,  and
+type "make install" at a shell prompt:
+
+  we-blog-0.5]# make install
+
+This will install executables, manual pages, documentation, and application
+data to the /usr/local/ directory,  and place  the Bash completion  file to
+/etc/bash_completion.d/. To use a different installation directory,  change
+the value of "prefix" on the command line. For example, if you want to ins-
+tall We-Blog to /usr/,  type the following command:
+
+  we-blog-0.5]# make prefix=/usr install
+
+Alternatively, you can choose to install executables only. For instance, to
+install We-Blog into your home directory, type:
+
+  we-blog-0.5]$ make prefix=$HOME install_bin
+
+Finally,  if you prefer to install all available files, but you do not have
+superuser privileges, change the value of "compdir" to a directory you have
+access to. For example:
+
+  we-blog-0.5]$ make prefix=$HOME compdir='$(prefix)/etc' install
+

@@ -1,4 +1,5 @@
-# makefile for BlazeBlogger, a CMS without boundaries
+# makefile for We-Blog, a CMS without boundaries
+# Copyright (C) 2011 Ton Kersten
 # Copyright (C) 2009-2011 Jaromir Hradilek
 
 # This program is  free software:  you can redistribute it and/or modify it
@@ -14,19 +15,19 @@
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 
 # General information:
-NAME    = blazeblogger
-VERSION = 1.2.0-TonK
+NAME    = we-blog
+VERSION = 0.5
 
 # General settings:
 SHELL   = /bin/sh
 INSTALL = /usr/bin/install -c
 POD2MAN = /usr/bin/pod2man
-MAN1    = src/blaze-add.1 src/blaze-config.1 src/blaze-edit.1 \
-          src/blaze-init.1 src/blaze-list.1 src/blaze-log.1 \
-          src/blaze-make.1 src/blaze-remove.1
-SRCS    = src/blaze-add.pl src/blaze-config.pl src/blaze-edit.pl \
-          src/blaze-init.pl src/blaze-list.pl src/blaze-log.pl \
-          src/blaze-make.pl src/blaze-remove.pl
+MAN1    = src/we-blog-add.1 src/we-blog-config.1 src/we-blog-edit.1	\
+          src/we-blog-init.1 src/we-blog-list.1 src/we-blog-log.1	\
+          src/we-blog-make.1 src/we-blog-remove.1
+SRCS    = src/we-blog-add.pl src/we-blog-config.pl src/we-blog-edit.pl	\
+          src/we-blog-init.pl src/we-blog-list.pl src/we-blog-log.pl	\
+          src/we-blog-make.pl src/we-blog-remove.pl
 
 # Installation directories:
 config  = /etc
@@ -47,20 +48,20 @@ all: $(MAN1)
 install_bin:
 	@echo "Copying executables..."
 	$(INSTALL) -d $(bindir)
-	$(INSTALL) -m 755 src/blaze-add.pl $(bindir)/blaze-add
-	$(INSTALL) -m 755 src/blaze-log.pl $(bindir)/blaze-log
-	$(INSTALL) -m 755 src/blaze-edit.pl $(bindir)/blaze-edit
-	$(INSTALL) -m 755 src/blaze-init.pl $(bindir)/blaze-init
-	$(INSTALL) -m 755 src/blaze-list.pl $(bindir)/blaze-list
-	$(INSTALL) -m 755 src/blaze-make.pl $(bindir)/blaze-make
-	$(INSTALL) -m 755 src/blaze-config.pl $(bindir)/blaze-config
-	$(INSTALL) -m 755 src/blaze-remove.pl $(bindir)/blaze-remove
-	$(INSTALL) -m 755 unix/blaze.sh $(bindir)/blaze
+	$(INSTALL) -m 755 src/we-blog-add.pl $(bindir)/we-blog-add
+	$(INSTALL) -m 755 src/we-blog-log.pl $(bindir)/we-blog-log
+	$(INSTALL) -m 755 src/we-blog-edit.pl $(bindir)/we-blog-edit
+	$(INSTALL) -m 755 src/we-blog-init.pl $(bindir)/we-blog-init
+	$(INSTALL) -m 755 src/we-blog-list.pl $(bindir)/we-blog-list
+	$(INSTALL) -m 755 src/we-blog-make.pl $(bindir)/we-blog-make
+	$(INSTALL) -m 755 src/we-blog-config.pl $(bindir)/we-blog-config
+	$(INSTALL) -m 755 src/we-blog-remove.pl $(bindir)/we-blog-remove
+	$(INSTALL) -m 755 unix/we-blog.sh $(bindir)/we-blog
 
 install_conf:
 	@echo "Copying bash completion..."
 	$(INSTALL) -d $(compdir)
-	$(INSTALL) -m 644 unix/bash_completion $(compdir)/blazeblogger
+	$(INSTALL) -m 644 unix/bash_completion $(compdir)/we-blog
 
 install_data:
 	@echo "Copying translations..."
@@ -76,6 +77,7 @@ install_data:
 	$(INSTALL) -m 644 lang/pt_BR $(datadir)/lang
 	$(INSTALL) -m 644 lang/ru_RU $(datadir)/lang
 	$(INSTALL) -m 644 lang/uk_UK $(datadir)/lang
+	$(INSTALL) -m 644 lang/nl_NL $(datadir)/lang
 
 install_docs:
 	@echo "Copying documentation..."
@@ -91,32 +93,32 @@ install_docs:
 install_man: $(MAN1)
 	@echo "Copying manual pages..."
 	$(INSTALL) -d $(man1dir)
-	$(INSTALL) -m 644 src/blaze-add.1 $(man1dir)
-	$(INSTALL) -m 644 src/blaze-log.1 $(man1dir)
-	$(INSTALL) -m 644 src/blaze-edit.1 $(man1dir)
-	$(INSTALL) -m 644 src/blaze-init.1 $(man1dir)
-	$(INSTALL) -m 644 src/blaze-list.1 $(man1dir)
-	$(INSTALL) -m 644 src/blaze-make.1 $(man1dir)
-	$(INSTALL) -m 644 src/blaze-config.1 $(man1dir)
-	$(INSTALL) -m 644 src/blaze-remove.1 $(man1dir)
-	$(INSTALL) -m 644 unix/man/man1/blaze.1 $(man1dir)
+	$(INSTALL) -m 644 src/we-blog-add.1 $(man1dir)
+	$(INSTALL) -m 644 src/we-blog-log.1 $(man1dir)
+	$(INSTALL) -m 644 src/we-blog-edit.1 $(man1dir)
+	$(INSTALL) -m 644 src/we-blog-init.1 $(man1dir)
+	$(INSTALL) -m 644 src/we-blog-list.1 $(man1dir)
+	$(INSTALL) -m 644 src/we-blog-make.1 $(man1dir)
+	$(INSTALL) -m 644 src/we-blog-config.1 $(man1dir)
+	$(INSTALL) -m 644 src/we-blog-remove.1 $(man1dir)
+	$(INSTALL) -m 644 unix/man/man1/we-blog.1 $(man1dir)
 
 install: install_bin install_conf install_data install_docs install_man
 
 uninstall:
 	@echo "Removing executables..."
-	-rm -f $(bindir)/blaze-add
-	-rm -f $(bindir)/blaze-log
-	-rm -f $(bindir)/blaze-edit
-	-rm -f $(bindir)/blaze-init
-	-rm -f $(bindir)/blaze-list
-	-rm -f $(bindir)/blaze-make
-	-rm -f $(bindir)/blaze-config
-	-rm -f $(bindir)/blaze-remove
-	-rm -f $(bindir)/blaze
+	-rm -f $(bindir)/we-blog-add
+	-rm -f $(bindir)/we-blog-log
+	-rm -f $(bindir)/we-blog-edit
+	-rm -f $(bindir)/we-blog-init
+	-rm -f $(bindir)/we-blog-list
+	-rm -f $(bindir)/we-blog-make
+	-rm -f $(bindir)/we-blog-config
+	-rm -f $(bindir)/we-blog-remove
+	-rm -f $(bindir)/we-blog
 	-rmdir $(bindir)
 	@echo "Removing bash completion..."
-	-rm -f $(compdir)/blazeblogger
+	-rm -f $(compdir)/we-blog
 	-rmdir $(compdir)
 	@echo "Removing translations..."
 	-rm -f $(datadir)/lang/cs_CZ
@@ -141,15 +143,15 @@ uninstall:
 	-rm -f $(docsdir)/ChangeLog
 	-rmdir $(docsdir)
 	@echo "Removing manual pages..."
-	-rm -f $(man1dir)/blaze-add.1
-	-rm -f $(man1dir)/blaze-log.1
-	-rm -f $(man1dir)/blaze-edit.1
-	-rm -f $(man1dir)/blaze-init.1
-	-rm -f $(man1dir)/blaze-list.1
-	-rm -f $(man1dir)/blaze-make.1
-	-rm -f $(man1dir)/blaze-config.1
-	-rm -f $(man1dir)/blaze-remove.1
-	-rm -f $(man1dir)/blaze.1
+	-rm -f $(man1dir)/we-blog-add.1
+	-rm -f $(man1dir)/we-blog-log.1
+	-rm -f $(man1dir)/we-blog-edit.1
+	-rm -f $(man1dir)/we-blog-init.1
+	-rm -f $(man1dir)/we-blog-list.1
+	-rm -f $(man1dir)/we-blog-make.1
+	-rm -f $(man1dir)/we-blog-config.1
+	-rm -f $(man1dir)/we-blog-remove.1
+	-rm -f $(man1dir)/we-blog.1
 	-rmdir $(man1dir)
 
 clean:
@@ -157,5 +159,5 @@ clean:
 
 %.1: %.pl
 	$(POD2MAN) --section=1 --release="Version $(VERSION)" \
-	                       --center="BlazeBlogger Documentation" $^ $@
+	                       --center="We-Blog Documentation" $^ $@
 
