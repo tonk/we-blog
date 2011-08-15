@@ -818,7 +818,7 @@ discussion group at <http://groups.google.com/group/we-blog/>.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2008-2011 Jaromir Hradilek
+Copyright (c) 2008-2011 Jaromir Hradilek / 2011 Ton Kersten
 
 This program is free software; see the source for copying conditions. It is
 distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;

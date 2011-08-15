@@ -260,60 +260,60 @@ sub create_theme {
   print FILE << 'END_THEME';
 <!-- START-DOCUMENT -->
 <head>
-  <!-- content-type -->
-  <!-- generator -->
-  <!-- lastrun -->
-  <!-- copyright -->
-  <!-- date -->
-  <!-- description -->
-  <!-- keywords -->
-  <!-- stylesheet -->
-  <!-- feed -->
-  <title><!-- page-title --></title>
+	<!-- content-type -->
+	<!-- generator -->
+	<!-- lastrun -->
+	<!-- copyright -->
+	<!-- date -->
+	<!-- description -->
+	<!-- keywords -->
+	<!-- stylesheet -->
+	<!-- feed -->
+	<title><!-- page-title --></title>
 </head>
 
 <body>
 
 <div id="wrapper">
-  <div id="shadow">
-    <div id="heading">
-      <h1><a href="%home%" rel="index"><!-- title --></a></h1>
-      <!-- subtitle -->
-    </div>
+	<div id="shadow">
+		<div id="heading">
+			<h1><a href="%home%" rel="index"><!-- title --></a></h1>
+			<!-- subtitle -->
+		</div>
 
-    <div id="menu">
-      <ul>
+		<div id="menu">
+			<ul>
 <li><a href="%home%" rel="index">Home</a></li>
 <!-- pages -->
-      </ul>
-    </div>
-  </div>
+			</ul>
+		</div>
+	</div>
 
-  <div id="content">
+	<div id="content">
 <!-- content -->
-  </div>
+	</div>
 
-  <div id="sidebar">
-    <h2>Categories</h2>
-    <ul>
+	<div id="sidebar">
+		<h2>Categories</h2>
+		<ul>
 <!-- tags -->
-    </ul>
+		</ul>
 
-    <h2>Archive</h2>
-    <ul>
+		<h2>Archive</h2>
+		<ul>
 <!-- archive -->
-    </ul>
+		</ul>
 
-    <h2>Links</h2>
-    <ul>
+		<h2>Links</h2>
+		<ul>
 <li><a href="http://tonkersten.com/we-blog">We-Blog</a></li>
-    </ul>
-  </div>
+		</ul>
+	</div>
 
-  <div id="footer">
-    Copyright &copy; <!-- year --> <!-- name -->.
-    Powered by <a href="http://tonkersten.com/we-blog">We-Blog</a>.
-  </div>
+	<div id="footer">
+		Copyright &copy; <!-- year --> <!-- name -->.
+		Powered by <a href="http://tonkersten.com/we-blog">We-Blog</a>.
+	</div>
 </div>
 
 </body>
@@ -344,6 +344,8 @@ sub create_style {
   # Write the default style style sheet to the file:
   print FILE << 'END_STYLE';
 /* default.css, the default theme for We-Blog
+ *
+ * Copyright (c) 2011, Ton Kersten
  * Copyright (c) 2009, 2010 Jaromir Hradilek
  *
  * This program is free software:  you can redistribute it and/or modify it
@@ -360,218 +362,218 @@ sub create_style {
  */
 
 body {
-  margin: 0px 0px 10px 0px;
-  padding: 0px;
-  color: #000000;
-  background-color: #e7e7e7;
-  font-family: "DejaVu Sans", Arial, sans;
-  font-size: small;
+	margin: 0px 0px 10px 0px;
+	padding: 0px;
+	color: #000000;
+	background-color: #e7e7e7;
+	font-family: "DejaVu Sans", Arial, sans;
+	font-size: small;
 }
 
 #wrapper {
-  margin: auto;
-  padding: 0px;
-  width: 768px;
-  border-left: 1px solid #d6d6d6;
-  border-right: 1px solid #d6d6d6;
-  border-bottom: 1px solid #d6d6d6;
-  background-color: #ffffff;
+	margin: auto;
+	padding: 0px;
+	width: 768px;
+	border-left: 1px solid #d6d6d6;
+	border-right: 1px solid #d6d6d6;
+	border-bottom: 1px solid #d6d6d6;
+	background-color: #ffffff;
 }
 
 #shadow {
-  margin: 0px;
-  padding: 0px;
-  border-bottom: 2px solid #e7e7e7;
+	margin: 0px;
+	padding: 0px;
+	border-bottom: 2px solid #e7e7e7;
 }
 
 #heading {
-  width: 728px;
-  padding: 20px;
-  background-color: #2e2e2e;
-  border-bottom: 2px solid #2a2a2a;
-  border-top: 2px solid #323232;
-  color: #d0d0d0;
+	width: 728px;
+	padding: 20px;
+	background-color: #2e2e2e;
+	border-bottom: 2px solid #2a2a2a;
+	border-top: 2px solid #323232;
+	color: #d0d0d0;
 }
 
 #heading a, #heading h1 {
-  margin: 0px;
-  text-decoration: none;
-  color: #ffffff;
+	margin: 0px;
+	text-decoration: none;
+	color: #ffffff;
 }
 
 #heading a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 
 #menu {
-  width: 768px;
-  border-top: 1px solid #5f5f5f;
-  border-bottom: 1px solid #3d3d3d;
-  background-color: #4e4e4e;
+	width: 768px;
+	border-top: 1px solid #5f5f5f;
+	border-bottom: 1px solid #3d3d3d;
+	background-color: #4e4e4e;
 }
 
 #menu ul {
-  padding: 4px 15px 4px 15px;
-  margin: 0px;
-  list-style-type: none;
+	padding: 4px 15px 4px 15px;
+	margin: 0px;
+	list-style-type: none;
 }
 
 #menu li {
-  display: inline;
-  padding: 4px 10px 5px 10px;
-  margin: 0px;
+	display: inline;
+	padding: 4px 10px 5px 10px;
+	margin: 0px;
 }
 
 #menu li:hover {
-  background-color: #3d3d3d;
-  border-bottom: 2px solid #dddddd;
-  border-top: 1px solid #4e4e4e;
+	background-color: #3d3d3d;
+	border-bottom: 2px solid #dddddd;
+	border-top: 1px solid #4e4e4e;
 }
 
 #menu a {
-  color: #ffffff;
-  font-size: x-small;
-  text-decoration: none;
+	color: #ffffff;
+	font-size: x-small;
+	text-decoration: none;
 }
 
 #menu a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 
 #content {
-  float: left;
-  margin: 0px;
-  padding: 10px 10px 20px 20px;
-  width: 528px;
-  text-align: justify;
+	float: left;
+	margin: 0px;
+	padding: 10px 10px 20px 20px;
+	width: 528px;
+	text-align: justify;
 }
 
 #content h2.post {
-  margin-bottom: 0px;
-  padding-bottom: 0px;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
 }
 
 #content .post a {
-  text-decoration: none;
-  color: #9acd32;
+	text-decoration: none;
+	color: #9acd32;
 }
 
 #content a {
-  text-decoration: none;
-  color: #4e9a06;
+	text-decoration: none;
+	color: #4e9a06;
 }
 
 #content a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 
 #content .information {
-  font-size: x-small;
-  color: #4e4e4e;
+	font-size: x-small;
+	color: #4e4e4e;
 }
 
 #content .information a {
-  color: #4e9a06;
-  text-decoration: underline;
+	color: #4e9a06;
+	text-decoration: underline;
 }
 
 #content .information a:hover {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 #content .post-heading {
-  font-size: x-small;
-  color: #4e4e4e;
+	font-size: x-small;
+	color: #4e4e4e;
 }
 
 #content .post-heading a {
-  color: #4e9a06;
-  text-decoration: underline;
+	color: #4e9a06;
+	text-decoration: underline;
 }
 
 #content .post-heading a:hover {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 #content .post-footer {
-  font-size: x-small;
-  color: #4e4e4e;
-  padding: 4px 2px 4px 2px;
-  border-top: 1px solid #e7e7e7;
-  border-bottom: 1px solid #e7e7e7;
-  background-color: #f8f8f8;
+	font-size: x-small;
+	color: #4e4e4e;
+	padding: 4px 2px 4px 2px;
+	border-top: 1px solid #e7e7e7;
+	border-bottom: 1px solid #e7e7e7;
+	background-color: #f8f8f8;
 }
 
 #content .post-footer a {
-  color: #4e9a06;
-  text-decoration: underline;
+	color: #4e9a06;
+	text-decoration: underline;
 }
 
 #content .post-footer a:hover {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 #content .section {
-  text-align: right;
-  font-size: x-small;
-  color: #808080;
+	text-align: right;
+	font-size: x-small;
+	color: #808080;
 }
 
 #content .previous {
-  padding: 10px 0px 10px 0px;
-  float: left;
+	padding: 10px 0px 10px 0px;
+	float: left;
 }
 
 #content .next {
-  padding: 10px 0px 10px 0px;
-  float: right;
+	padding: 10px 0px 10px 0px;
+	float: right;
 }
 
 #sidebar {
-  float: right;
-  margin: 0px;
-  padding: 10px 20px 20px 0px;
-  width: 180px;
+	float: right;
+	margin: 0px;
+	padding: 10px 20px 20px 0px;
+	width: 180px;
 }
 
 #sidebar h2 {
-  font-size: small;
+	font-size: small;
 }
 
 #sidebar ul {
-  list-style-type: none;
-  padding-left: 1em;
-  margin-left: 0px;
+	list-style-type: none;
+	padding-left: 1em;
+	margin-left: 0px;
 }
 
 #sidebar a {
-  text-decoration: underline;
-  color: #4e9a06;
+	text-decoration: underline;
+	color: #4e9a06;
 }
 
 #sidebar a:hover {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 #footer {
-  clear: both;
-  margin: 0px;
-  padding: 10px 20px 10px 20px;
-  border-top: 2px solid #e7e7e7;
-  border-bottom: 1px solid #3d3d3d;
-  background-color: #4e4e4e;
-  text-align: right;
-  font-size: x-small;
-  color: #d0d0d0;
+	clear: both;
+	margin: 0px;
+	padding: 10px 20px 10px 20px;
+	border-top: 2px solid #e7e7e7;
+	border-bottom: 1px solid #3d3d3d;
+	background-color: #4e4e4e;
+	text-align: right;
+	font-size: x-small;
+	color: #d0d0d0;
 }
 
 #footer a {
-  color: #ffffff;
-  text-decoration: none;
+	color: #ffffff;
+	text-decoration: none;
 }
 
 #footer a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 END_STYLE
 
@@ -808,7 +810,7 @@ discussion group at <http://groups.google.com/group/we-blog/>.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2008-2011 Jaromir Hradilek
+Copyright (c) 2008-2011 Jaromir Hradilek / 2011 Ton Kersten
 
 This program is free software; see the source for copying conditions. It is
 distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
