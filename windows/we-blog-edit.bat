@@ -1,7 +1,7 @@
 @echo off
 
 REM we-blog-edit, edit a blog post or a page in the We-Blog repository
-REM Copyright (C) 2009 Sergey Kuznetsov
+REM Copyright (c) 2009 Sergey Kuznetsov
 REM
 REM This program is  free software:  you can redistribute it and/or modify it
 REM under  the terms  of the  GNU General Public License  as published by the

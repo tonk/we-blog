@@ -1,8 +1,8 @@
 #!/usr/bin/env perl
 
 # we-blog-make - generates a blog from the We-Blog repository
-# Copyright (C) 2011 Ton Kersten
-# Copyright (C) 2009-2011 Jaromir Hradilek
+# Copyright (c) 2011 Ton Kersten
+# Copyright (c) 2009-2011 Jaromir Hradilek
 
 # This program is  free software:  you can redistribute it and/or modify it
 # under  the terms  of the  GNU General Public License  as published by the
@@ -116,7 +116,9 @@ sub display_version {
   print << "END_VERSION";
 $NAME $VERSION
 
-Copyright (C) 2009-2011 Jaromir Hradilek
+Copyright (c) 2011 Ton Kersten
+Copyright (c) 2009-2011 Jaromir Hradilek
+
 This program is free software; see the source for copying conditions. It is
 distributed in the hope  that it will be useful,  but WITHOUT ANY WARRANTY;
 without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PAR-
@@ -679,7 +681,7 @@ sub read_entry {
 
   # Initialize required variables:
   my $result  = '';
-  $result .= "\n<!-- We-Blog Post ID %id% -->\n";
+  $result .= "\n<!-- Start of We-Blog Post ID %id% -->\n";
 
   # Open the file for reading:
   open (FILE, $file) or return '';
@@ -707,6 +709,9 @@ sub read_entry {
 
   # Add the append to the post
   $result .= '<!-- start-append-index -->' . $append_index . '<!-- end-append-index -->';
+
+  # Add the 'End Post' tag
+  $result .= "\n<!-- End of We-Blog Post ID %id% -->\n";
 
   # Substitute the %id% tag with the id of the current post/page/etc:
   $result =~ s/%id%/$id/ig;
@@ -1970,7 +1975,7 @@ discussion group at <http://groups.google.com/group/we-blog/>.
 
 =head1 COPYRIGHT
 
-Copyright (C) 2009-2011 Jaromir Hradilek
+Copyright (c) 2009-2011 Jaromir Hradilek
 
 This program is free software; see the source for copying conditions. It is
 distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;

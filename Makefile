@@ -1,6 +1,6 @@
 # makefile for We-Blog, a CMS without boundaries
-# Copyright (C) 2011 Ton Kersten
-# Copyright (C) 2009-2011 Jaromir Hradilek
+# Copyright (c) 2011 Ton Kersten
+# Copyright (c) 2009-2011 Jaromir Hradilek
 
 # This program is  free software:  you can redistribute it and/or modify it
 # under  the terms  of the  GNU General Public License  as published by the

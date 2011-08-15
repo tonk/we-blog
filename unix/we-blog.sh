@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # we-blog, a command wrapper for We-Blog
-# Copyright (C) 2011 Ton Kersten
-# Copyright (C) 2009-2011 Jaromir Hradilek
+# Copyright (c) 2011 Ton Kersten
+# Copyright (c) 2009-2011 Jaromir Hradilek
 
 # This program is  free software:  you can redistribute it and/or modify it
 # under  the terms  of the  GNU General Public License  as published by the
@@ -104,7 +104,7 @@ case "$COMMAND" in
     # Display version information:
     echo "We-Blog $VERSION"
     echo
-    echo "Copyright (C) 2008-2011 Jaromir Hradilek"
+    echo "Copyright (c) 2008-2011 Jaromir Hradilek"
     echo "This program is free software; see the source for copying conditions. It is"
     echo "distributed in the hope  that it will be useful,  but WITHOUT ANY WARRANTY;"
     echo "without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PAR-"

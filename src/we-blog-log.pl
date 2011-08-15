@@ -1,8 +1,8 @@
 #!/usr/bin/env perl
 
 # we-blog-log - displays the We-Blog repository log
-# Copyright (C) 2011 Ton Kersten
-# Copyright (C) 2009-2011 Jaromir Hradilek
+# Copyright (c) 2011 Ton Kersten
+# Copyright (c) 2009-2011 Jaromir Hradilek
 
 # This program is  free software:  you can redistribute it and/or modify it
 # under  the terms  of the  GNU General Public License  as published by the
@@ -98,7 +98,9 @@ sub display_version {
   print << "END_VERSION";
 $NAME $VERSION
 
-Copyright (C) 2009-2011 Jaromir Hradilek
+Copyright (c) 2011 Ton Kersten
+Copyright (c) 2009-2011 Jaromir Hradilek
+
 This program is free software; see the source for copying conditions. It is
 distributed in the hope  that it will be useful,  but WITHOUT ANY WARRANTY;
 without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PAR-
@@ -417,7 +419,7 @@ discussion group at <http://groups.google.com/group/we-blog/>.
 
 =head1 COPYRIGHT
 
-Copyright (C) 2009-2011 Jaromir Hradilek
+Copyright (c) 2009-2011 Jaromir Hradilek
 
 This program is free software; see the source for copying conditions. It is
 distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
