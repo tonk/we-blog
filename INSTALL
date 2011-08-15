@@ -44,7 +44,7 @@ Note that with the exception of Ubuntu,  you have to be logged in as super-
 user in order to run commands described in this section. To do so, type the
 following at a shell prompt:
 
-  ~]$ su -
+  $ su -
   Password:
 
 2.1. Installing on Debian
@@ -53,21 +53,21 @@ We-Blog is currently available in  both testing (Squeeze) and unstable
 (Sid) version of Debian. To install it, open a terminal, and run the follo-
 wing command:
 
-  ~]# apt-get install we-blog
+  # apt-get install we-blog
 
 2.2. Installing on Fedora
 
 We-Blog is currently available in both Fedora 12 (Constantine)  and 13
 (Goddard).  To install it,  open a terminal, and run the following command:
 
-  ~]# yum install we-blog
+  # yum install we-blog
 
 2.3. Installing on Ubuntu
 
 We-Blog  is currently available in  Ubuntu 10.04 LTS  (Lucid Lynx). To
 install it, open a terminal, and run the following command:
 
-  ~]# sudo apt-get install we-blog
+  # sudo apt-get install we-blog
 
 
 3. INSTALLING ON WINDOWS
@@ -89,7 +89,7 @@ ctions.
 To install  We-Blog  from the source code,  download the latest source
 package from the official homepage, and unpack it:
 
-  ~]$ tar xfz we-blog-0.5.tar.gz
+  $ tar xfz we-blog-0.5.tar.gz
 
 A directory called  we-blog-0.5 will  appear  in the current working
 directory.  Switch to superuser, get into the newly created directory,  and

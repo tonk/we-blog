@@ -331,22 +331,22 @@ Displays version information and exits.
 
 Remove a blog post:
 
-  ~]$ we-blog-remove 10
+  $ we-blog-remove 10
   Successfully removed the post with ID 10.
 
 Remove a page:
 
-  ~]$ we-blog-remove -p 4
+  $ we-blog-remove -p 4
   Successfully removed the page with ID 4.
 
 Remove multiple blog posts:
 
-  ~]$ we-blog-remove 10 4 6
+  $ we-blog-remove 10 4 6
   Successfully removed the post with ID 10, 4 and 6.
 
 Remove multiple blog posts safely:
 
-  ~]$ we-blog-remove -i 10 4 6
+  $ we-blog-remove -i 10 4 6
   Remove the post with ID 10 titled `Debian and Fedora Packages'? y
   Remove the post with ID 4 titled `We-Blog 0.8.0 RC2'? y
   Remove the post with ID 6 titled `We-Blog 0.8.1'? y

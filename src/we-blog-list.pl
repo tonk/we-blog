@@ -636,7 +636,7 @@ Displays version information and exits.
 
 List all blog post:
 
-  ~]$ we-blog-list
+  $ we-blog-list
   ID: 11 | 2010-07-05 | Jaromir Hradilek
 
       Title: Join #we-blog on IRC
@@ -651,7 +651,7 @@ List all blog post:
 
 List all blog post in reverse order:
 
-  ~]$ we-blog-list -r
+  $ we-blog-list -r
   ID: 1 | 2009-02-10 | Jaromir Hradilek
 
       Title: We-Blog 0.7.0
@@ -666,7 +666,7 @@ List all blog post in reverse order:
 
 List all pages:
 
-  ~]$ we-blog-list -p
+  $ we-blog-list -p
   ID: 5 | 2009-02-10 | Jaromir Hradilek
 
       Title: Downloads
@@ -679,14 +679,14 @@ List all pages:
 
 List each blog post on a single line:
 
-  ~]$ we-blog-list -s
+  $ we-blog-list -s
   ID: 11 | 2010-07-05 | Join #we-blog on IRC
   ID: 10 | 2009-12-16 | Debian and Fedora Packages
   etc.
 
 Display a short version of blog statistics:
 
-  ~]$ we-blog-list -Ss
+  $ we-blog-list -Ss
   There is a total number of 11 blog posts and 5 pages in the repository.
 
 =head1 SEE ALSO

@@ -796,15 +796,15 @@ system-wide settings to decide which editor to use.
 
 Edit a blog post in an external text editor:
 
-  ~]$ we-blog-edit 10
+  $ we-blog-edit 10
 
 Edit a page in an external text editor:
 
-  ~]$ we-blog-edit -p 4
+  $ we-blog-edit -p 4
 
 Edit a page in B<nano>:
 
-  ~]$ we-blog-edit -p 2 -E nano
+  $ we-blog-edit -p 2 -E nano
 
 =head1 SEE ALSO
 

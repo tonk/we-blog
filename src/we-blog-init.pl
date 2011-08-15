@@ -306,13 +306,13 @@ sub create_theme {
 
     <h2>Links</h2>
     <ul>
-<li><a href="http://we-blog.blackened.cz">We-Blog</a></li>
+<li><a href="http://tonkersten.com/we-blog">We-Blog</a></li>
     </ul>
   </div>
 
   <div id="footer">
     Copyright &copy; <!-- year --> <!-- name -->.
-    Powered by <a href="http://we-blog.blackened.cz/">We-Blog</a>.
+    Powered by <a href="http://tonkersten.com/we-blog">We-Blog</a>.
   </div>
 </div>
 
@@ -774,22 +774,22 @@ Displays version information and exits.
 
 Create a new blog in a current directory:
 
-  ~]$ we-blog-init
+  $ we-blog-init
   Created a We-Blog repository in .we-blog.
 
 Create a new blog in ~/public_html:
 
-  ~]$ we-blog-init -b ~/public_html
+  $ we-blog-init -b ~/public_html
   Created a We-Blog repository in /home/joe/public_html/.we-blog.
 
 Revert a configuration file and default templates to their initial state:
 
-  ~]$ we-blog-init -f
+  $ we-blog-init -f
   Recovered a We-Blog repository in .we-blog.
 
 Or if you want to see what files have been reverted:
 
-  ~]$ we-blog-init -fV
+  $ we-blog-init -fV
   Created .we-blog/config
   Created .we-blog/theme/default.html
   Created .we-blog/style/default.css

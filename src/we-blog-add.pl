@@ -848,20 +848,20 @@ system-wide settings to decide which editor to use.
 
 Write a new blog post in an external text editor:
 
-  ~]$ we-blog-add
+  $ we-blog-add
 
 Add a new blog post from a file:
 
-  ~]$ we-blog-add new_packages.txt
+  $ we-blog-add new_packages.txt
   Successfully added the post with ID 10.
 
 Write a new page in an external text editor:
 
-  ~]$ we-blog-add -p
+  $ we-blog-add -p
 
 Write a new page in B<nano>:
 
-  ~]$ we-blog-add -p -E nano
+  $ we-blog-add -p -E nano
 
 =head1 SEE ALSO
 

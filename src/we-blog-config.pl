@@ -847,44 +847,44 @@ A directory containing language files.
 
 Configure the default text editor:
 
-  ~]$ we-blog-config core.editor nano
+  $ we-blog-config core.editor nano
   The option has been successfully saved.
 
 Configure the user information:
 
-  ~]$ we-blog-config user.name Jaromir Hradilek
+  $ we-blog-config user.name Jaromir Hradilek
   The option has been successfully saved.
-  ~]$ we-blog-config user.email jhradilek@gmail.com
+  $ we-blog-config user.email jhradilek@gmail.com
   The option has been successfully saved.
 
 Configure the blog appearance:
 
-  ~]$ we-blog-config blog.title We-Blog
+  $ we-blog-config blog.title We-Blog
   The option has been successfully saved.
-  ~]$ we-blog-config blog.subtitle a CMS without boundaries
+  $ we-blog-config blog.subtitle a CMS without boundaries
   The option has been successfully saved.
-  ~]$ we-blog-config blog.theme keepitsimple.html
+  $ we-blog-config blog.theme keepitsimple.html
   The option has been successfully saved.
-  ~]$ we-blog-config blog.style keepitsimple.css
+  $ we-blog-config blog.style keepitsimple.css
   The option has been successfully saved.
 
 Configure the RSS feed:
 
-  ~]$ we-blog-config feed.fullposts true
+  $ we-blog-config feed.fullposts true
   The option has been successfully saved.
-  ~]$ we-blog-config feed.posts 10
+  $ we-blog-config feed.posts 10
   The option has been successfully saved.
-  ~]$ we-blog-config feed.baseurl http://we-blog.blackened.cz/
+  $ we-blog-config feed.baseurl http://tonkersten.com/we-blog
   The option has been successfully saved.
 
 Enable the use of the Markdown markup language:
 
-  ~]$ we-blog-config core.processor 'markdown %in% > %out%'
+  $ we-blog-config core.processor 'markdown %in% > %out%'
   The option has been successfully saved.
 
 Open the configuration in a text editor:
 
-  ~]$ we-blog-config -e
+  $ we-blog-config -e
 
 =head1 SEE ALSO
 
@@ -898,6 +898,7 @@ discussion group at <http://groups.google.com/group/we-blog/>.
 
 =head1 COPYRIGHT
 
+Copyright (c) 2011 Ton Kersten
 Copyright (c) 2008-2011 Jaromir Hradilek
 
 This program is free software; see the source for copying conditions. It is

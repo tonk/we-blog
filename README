@@ -50,9 +50,9 @@ website.
 
 1.2 Example Usage
 
-  ~]$ we-blog-init   # Creates a new repository in .we-blog/
-  ~]$ we-blog-add    # Allows you to write a new post in your favorite editor
-  ~]$ we-blog-make   # Generates a blog from the repository
+  $ we-blog-init   # Creates a new repository in .we-blog/
+  $ we-blog-add    # Allows you to write a new post in your favorite editor
+  $ we-blog-make   # Generates a blog from the repository
 
 
 2. DEVELOPMENT

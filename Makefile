@@ -48,15 +48,15 @@ all: $(MAN1)
 install_bin:
 	@echo "Copying executables..."
 	$(INSTALL) -d $(bindir)
-	$(INSTALL) -m 755 src/we-blog-add.pl $(bindir)/we-blog-add
-	$(INSTALL) -m 755 src/we-blog-log.pl $(bindir)/we-blog-log
-	$(INSTALL) -m 755 src/we-blog-edit.pl $(bindir)/we-blog-edit
-	$(INSTALL) -m 755 src/we-blog-init.pl $(bindir)/we-blog-init
-	$(INSTALL) -m 755 src/we-blog-list.pl $(bindir)/we-blog-list
-	$(INSTALL) -m 755 src/we-blog-make.pl $(bindir)/we-blog-make
-	$(INSTALL) -m 755 src/we-blog-config.pl $(bindir)/we-blog-config
-	$(INSTALL) -m 755 src/we-blog-remove.pl $(bindir)/we-blog-remove
-	$(INSTALL) -m 755 unix/we-blog.sh $(bindir)/we-blog
+	$(INSTALL) -m 755 src/we-blog-add.pl	$(bindir)/we-blog-add
+	$(INSTALL) -m 755 src/we-blog-log.pl	$(bindir)/we-blog-log
+	$(INSTALL) -m 755 src/we-blog-edit.pl	$(bindir)/we-blog-edit
+	$(INSTALL) -m 755 src/we-blog-init.pl	$(bindir)/we-blog-init
+	$(INSTALL) -m 755 src/we-blog-list.pl	$(bindir)/we-blog-list
+	$(INSTALL) -m 755 src/we-blog-make.pl	$(bindir)/we-blog-make
+	$(INSTALL) -m 755 src/we-blog-config.pl	$(bindir)/we-blog-config
+	$(INSTALL) -m 755 src/we-blog-remove.pl	$(bindir)/we-blog-remove
+	$(INSTALL) -m 755 unix/we-blog.sh	$(bindir)/we-blog
 
 install_conf:
 	@echo "Copying bash completion..."

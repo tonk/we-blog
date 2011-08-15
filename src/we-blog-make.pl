@@ -1950,17 +1950,17 @@ A directory containing language files.
 
 Generate a blog in a current working directory:
 
-  ~]$ we-blog-make
+  $ we-blog-make
   Done.
 
 Generate a blog in the C<~/public_html/> directory:
 
-  ~]$ we-blog-make -d ~/public_html
+  $ we-blog-make -d ~/public_html
   Done.
 
 Generate a blog with full paths enabled:
 
-  ~]$ we-blog-make -F
+  $ we-blog-make -F
   Done.
 
 =head1 SEE ALSO

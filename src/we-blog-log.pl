@@ -378,7 +378,7 @@ A file containing the repository log.
 
 List the whole repository history:
 
-  ~]$ we-blog-log
+  $ we-blog-log
   Date: Sun Jul 25 16:48:22 2010
 
       Edited the page with ID 5.
@@ -391,7 +391,7 @@ List the whole repository history:
 
 List the whole repository history in reverse order:
 
-  ~]$ we-blog-log -r
+  $ we-blog-log -r
   Date: Tue Feb 10 00:40:16 2009
 
       Created/recovered a We-Blog repository.
@@ -404,7 +404,7 @@ List the whole repository history in reverse order:
 
 Display the very first log entry on a single line:
 
-  ~]$ we-blog-log -rs -n 1
+  $ we-blog-log -rs -n 1
   Tue Feb 10 00:40:16 2009 - Created/recovered a We-Blog repository.
 
 =head1 SEE ALSO
