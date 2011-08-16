@@ -888,6 +888,8 @@ sub format_navigation {
 
 # Prepare a template:
 sub format_template {
+  my $VERSION = VERSION;
+
   my $data          = shift || die 'Missing argument';
   my $theme_file    = shift || $conf->{blog}->{theme} || 'default.html';
   my $style_file    = shift || $conf->{blog}->{style} || 'default.css';
@@ -978,6 +980,7 @@ sub format_template {
   $template =~ s/<!--\s*generator\s*-->/$meta_generator/ig;
   $template =~ s/<!--\s*copyright\s*-->/$meta_copyright/ig;
   $template =~ s/<!--\s*date\s*-->/$meta_date/ig;
+  $template =~ s/<!--\s*version\s*-->/$VERSION/ig;
   $template =~ s/<!--\s*description\s*-->/$meta_description/ig;
   $template =~ s/<!--\s*keywords\s*-->/$meta_keywords/ig;
   $template =~ s/<!--\s*stylesheet\s*-->/$link_stylesheet/ig;
@@ -1272,16 +1275,16 @@ sub convert_smilies {
 	$smurl = '<img class="smiley" alt="smiley" src="' . $smurl;
 
 	my %smilies = (
-		':-\)',	'regular_smile.gif',	':-\D',	'teeth_smile.gif',
-		':-O',	'omg_smile.gif',	':-P',	'tongue_smile.gif',
-		';-\)',	'wink_smile.gif',	':-\(',	'sad_smile.gif',
-		':-S',	'confused_smile.gif',	':-\|',	'what_smile.gif',
-		':\'\(','cry_smile.gif',	':-\$',	'red_smile.gif',
+		':\-\)','regular_smile.gif',	':\-D',	'teeth_smile.gif',
+		':\-O',	'omg_smile.gif',	':\-P',	'tongue_smile.gif',
+		';-\)',	'wink_smile.gif',	':\-\(','sad_smile.gif',
+		':\-S',	'confused_smile.gif',	':\-\|','what_smile.gif',
+		':\'\(','cry_smile.gif',	':\-\$','red_smile.gif',
 		'\(H\)','shades_smile.gif',	':-\@',	'angry_smile.gif',
 		'\(A\)','angel_smile.gif',	'\(6\)','devil_smile.gif',
 		':-\#',	'47_47.gif',		'8o\|',	'48_48.gif',
 		'8-\|',	'49_49.gif',		'\^o\)','50_50.gif',
-		':-\*',	'51_51.gif',		'\+o\(','52_52.gif',
+		':\-\*','51_51.gif',		'\+o\(','52_52.gif',
 		':\^\)','71_71.gif',		'\*-\)','72_72.gif',
 		'\<:o\)','74_74.gif',		'8-\)',	'75_75.gif',
 		'\|-\)','77_77.gif',		'\(C\)','coffee.gif',
@@ -1289,7 +1292,7 @@ sub convert_smilies {
 		'\(B\)','beer_mug.gif',		'\(D\)','martini.gif',
 		'\(X\)','girl.gif',		'\(Z\)','guy.gif',
 		'\(\{\)','guy_hug.gif',		'\(\}\)','girl_hug.gif',
-		'\:-\[','bat.gif',		'\(^\)','cake.gif',
+		'\:\-\[','bat.gif',		'\(^\)','cake.gif',
 		'\(L\)','heart.gif',		'\(U\)','broken_heart.gif',
 		'\(K\)','kiss.gif',		'\(G\)','present.gif',
 		'\(F\)','rose.gif',		'\(W\)','wilted_rose.gif',
