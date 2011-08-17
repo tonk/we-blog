@@ -149,6 +149,14 @@ sub rfc_822_date {
                  $date[2], $date[1], $date[0]);
 }
 
+sub date_time_to_string {
+  my @date = localtime(shift);
+
+  # Return the result:
+  return sprintf("%02d-%02d-%02d %02d:%02d", ($date[5] + 1900),
+		++$date[4], $date[3], $date[2], $date[1], $date[0]);
+}
+
 # Append proper index file name to the end of the link if requested:
 sub fix_link {
   my $link = shift || '';
@@ -919,11 +927,11 @@ sub format_template {
   # Prepare the META tags:
   my $meta_content_type = '<meta http-equiv="Content-Type" content="' .
                           'txt/html; charset=' . $conf_encoding . '">';
-  my $meta_generator    = '<meta name="Generator" content="We-Blog ' .
+  my $meta_generator    = '<meta name="Generator" content="We-Blog version ' .
                           VERSION . '">';
   my $meta_copyright    = '<meta name="Copyright" content="&copy; ' .
                           $current_year . ' ' . $conf_name . '">';
-  my $meta_date         = '<meta name="Date" content="'. localtime() .'">';
+  my $meta_date         = '<meta name="Date" content="'. date_time_to_string(time) .'">';
   my $meta_description  = '<meta name="Description" content="' .
                           $conf_desc . '">';
   my $meta_keywords     = '<meta name="Keywords" content="%keywords%">';
@@ -1017,6 +1025,7 @@ sub write_page {
   my $heading  = shift || $conf->{blog}->{title} || 'My Blog';
   my $keywords = shift || '';
   my $index    = shift || '';
+  my $lastmod  = date_time_to_string(time);
 
   # Initialize required variables:
   my $home    = fix_link($root);
@@ -1059,6 +1068,9 @@ sub write_page {
 
   # Substitute the target (filename of the current post/page/etc):
   $template =~ s/%target%/$target/ig;
+
+  # Substitute the last generated date/time
+  $template =~ s/%lastmod%/$lastmod/ig;
 
   # Substitute the `blog post / page / tag with the selected ID'
   # placeholder:
