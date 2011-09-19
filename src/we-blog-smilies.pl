@@ -59,6 +59,7 @@ while ( <> )
 	}
 	print;
 }
+print "\n";
 
 __END__
 

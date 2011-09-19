@@ -18,7 +18,7 @@
 
 # General script information:
 NAME=${0##*/}
-VERSION='0.5'
+VERSION='0.6'
 
 # Get the command if any, and shift command line options:
 COMMAND=$1
@@ -104,7 +104,7 @@ case "$COMMAND" in
     # Display version information:
     echo "We-Blog $VERSION"
     echo
-    echo "Copyright (c) 2008-2011 Jaromir Hradilek"
+    echo "Copyright (c) 2008-2011 Jaromir Hradilek / 2011 Ton Kersten"
     echo "This program is free software; see the source for copying conditions. It is"
     echo "distributed in the hope  that it will be useful,  but WITHOUT ANY WARRANTY;"
     echo "without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PAR-"
