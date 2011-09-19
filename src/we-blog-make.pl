@@ -724,9 +724,6 @@ sub read_entry {
   # Substitute the %id% tag with the id of the current post/page/etc:
   $result =~ s/%id%/$id/ig;
 
-  # convert_smilies
-  $result = convert_smilies($result);
-
   # Close the file:
   close(FILE);
 
@@ -1278,57 +1275,6 @@ sub generate_rss {
   return 1;
 }
 
-sub convert_smilies {
-	#
-	# Change the smiley ascii's to picts
-	#
-	my $text  = shift;
-  	my $smurl = $conf->{blog}->{smilies} || return $text;
-	$smurl = '<img class="smiley" alt="smiley" src="' . $smurl;
-
-	my %smilies = (
-		':\-\)','regular_smile.gif',	':\-D',	'teeth_smile.gif',
-		':\-O',	'omg_smile.gif',	':\-P',	'tongue_smile.gif',
-		';-\)',	'wink_smile.gif',	':\-\(','sad_smile.gif',
-		':\-S',	'confused_smile.gif',	':\-\|','what_smile.gif',
-		':\'\(','cry_smile.gif',	':\-\$','red_smile.gif',
-		'\(H\)','shades_smile.gif',	':-\@',	'angry_smile.gif',
-		'\(A\)','angel_smile.gif',	'\(6\)','devil_smile.gif',
-		':-\#',	'47_47.gif',		'8o\|',	'48_48.gif',
-		'8-\|',	'49_49.gif',		'\^o\)','50_50.gif',
-		':\-\*','51_51.gif',		'\+o\(','52_52.gif',
-		':\^\)','71_71.gif',		'\*-\)','72_72.gif',
-		'\<:o\)','74_74.gif',		'8-\)',	'75_75.gif',
-		'\|-\)','77_77.gif',		'\(C\)','coffee.gif',
-		'\(Y\)','thumbs_up.gif',	'\(N\)','thumbs_down.gif',
-		'\(B\)','beer_mug.gif',		'\(D\)','martini.gif',
-		'\(X\)','girl.gif',		'\(Z\)','guy.gif',
-		'\(\{\)','guy_hug.gif',		'\(\}\)','girl_hug.gif',
-		'\:\-\[','bat.gif',		'\(^\)','cake.gif',
-		'\(L\)','heart.gif',		'\(U\)','broken_heart.gif',
-		'\(K\)','kiss.gif',		'\(G\)','present.gif',
-		'\(F\)','rose.gif',		'\(W\)','wilted_rose.gif',
-		'\(P\)','camera.gif',		'\(\~\)','film.gif',
-		'\(\@\)','cat.gif',		'\(\&\)','dog.gif',
-		'\(T\)','phone.gif',		'\(I\)','lightbulb.gif',
-		'\(8\)','note.gif',		'\(S\)','moon.gif',
-		'\(\*\)','star.gif',		'\(E\)','envelope.gif',
-		'\(O\)','clock.gif',		'\(sn\)','53_53.gif',
-	);
-
-
-	#print STDERR "Starting run\n";
-	my $tag;
-	foreach $tag (keys %smilies)
-	{
-		#print STDERR "$tag -> $smilies{$tag}\n";
-		$text =~ s!$tag!$smurl/$smilies{$tag}\" />!g;
-	}
-	#print STDERR "Ending run\n";
-
-	return $text;
-}
-
 # Generate the index page:
 sub generate_index {
   my $data       = shift || die 'Missing argument';
@@ -1478,9 +1424,6 @@ sub generate_posts {
 
     # Substitute the %id% tag with the id of the current post/page/etc:
     $post_body =~ s/%id%/$id/ig;
-
-    # convert_smilies
-    $post_body = convert_smilies($post_body);
 
     # And strip the index comments out
     $post_body =~ s/<!-- start-append-index -->.*<!-- end-append-index -->//g;

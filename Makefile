@@ -24,10 +24,12 @@ INSTALL = /usr/bin/install -c
 POD2MAN = /usr/bin/pod2man
 MAN1    = src/we-blog-add.1 src/we-blog-config.1 src/we-blog-edit.1	\
           src/we-blog-init.1 src/we-blog-list.1 src/we-blog-log.1	\
-          src/we-blog-make.1 src/we-blog-remove.1
+          src/we-blog-make.1 src/we-blog-remove.1			\
+          src/we-blog-smilies.1
 SRCS    = src/we-blog-add.pl src/we-blog-config.pl src/we-blog-edit.pl	\
           src/we-blog-init.pl src/we-blog-list.pl src/we-blog-log.pl	\
-          src/we-blog-make.pl src/we-blog-remove.pl
+          src/we-blog-make.pl src/we-blog-remove.pl			\
+          src/we-blog-smilies.pl
 
 # Installation directories:
 config  = /etc
@@ -48,15 +50,16 @@ all: $(MAN1)
 install_bin:
 	@echo "Copying executables..."
 	$(INSTALL) -d $(bindir)
-	$(INSTALL) -m 755 src/we-blog-add.pl	$(bindir)/we-blog-add
-	$(INSTALL) -m 755 src/we-blog-log.pl	$(bindir)/we-blog-log
-	$(INSTALL) -m 755 src/we-blog-edit.pl	$(bindir)/we-blog-edit
-	$(INSTALL) -m 755 src/we-blog-init.pl	$(bindir)/we-blog-init
-	$(INSTALL) -m 755 src/we-blog-list.pl	$(bindir)/we-blog-list
-	$(INSTALL) -m 755 src/we-blog-make.pl	$(bindir)/we-blog-make
-	$(INSTALL) -m 755 src/we-blog-config.pl	$(bindir)/we-blog-config
-	$(INSTALL) -m 755 src/we-blog-remove.pl	$(bindir)/we-blog-remove
-	$(INSTALL) -m 755 unix/we-blog.sh	$(bindir)/we-blog
+	$(INSTALL) -m 755 src/we-blog-add.pl		$(bindir)/we-blog-add
+	$(INSTALL) -m 755 src/we-blog-log.pl		$(bindir)/we-blog-log
+	$(INSTALL) -m 755 src/we-blog-edit.pl		$(bindir)/we-blog-edit
+	$(INSTALL) -m 755 src/we-blog-init.pl		$(bindir)/we-blog-init
+	$(INSTALL) -m 755 src/we-blog-list.pl		$(bindir)/we-blog-list
+	$(INSTALL) -m 755 src/we-blog-make.pl		$(bindir)/we-blog-make
+	$(INSTALL) -m 755 src/we-blog-config.pl		$(bindir)/we-blog-config
+	$(INSTALL) -m 755 src/we-blog-remove.pl		$(bindir)/we-blog-remove
+	$(INSTALL) -m 755 src/we-blog-smilies.pl	$(bindir)/we-blog-smilies
+	$(INSTALL) -m 755 unix/we-blog.sh		$(bindir)/we-blog
 
 install_conf:
 	@echo "Copying bash completion..."
@@ -74,10 +77,10 @@ install_data:
 	$(INSTALL) -m 644 lang/eu_ES $(datadir)/lang
 	$(INSTALL) -m 644 lang/fr_FR $(datadir)/lang
 	$(INSTALL) -m 644 lang/ja_JP $(datadir)/lang
+	$(INSTALL) -m 644 lang/nl_NL $(datadir)/lang
 	$(INSTALL) -m 644 lang/pt_BR $(datadir)/lang
 	$(INSTALL) -m 644 lang/ru_RU $(datadir)/lang
 	$(INSTALL) -m 644 lang/uk_UK $(datadir)/lang
-	$(INSTALL) -m 644 lang/nl_NL $(datadir)/lang
 
 install_docs:
 	@echo "Copying documentation..."
@@ -101,6 +104,7 @@ install_man: $(MAN1)
 	$(INSTALL) -m 644 src/we-blog-make.1 $(man1dir)
 	$(INSTALL) -m 644 src/we-blog-config.1 $(man1dir)
 	$(INSTALL) -m 644 src/we-blog-remove.1 $(man1dir)
+	$(INSTALL) -m 644 src/we-blog-smilies.1 $(man1dir)
 	$(INSTALL) -m 644 unix/man/man1/we-blog.1 $(man1dir)
 
 install: install_bin install_conf install_data install_docs install_man
@@ -115,6 +119,7 @@ uninstall:
 	-rm -f $(bindir)/we-blog-make
 	-rm -f $(bindir)/we-blog-config
 	-rm -f $(bindir)/we-blog-remove
+	-rm -f $(bindir)/we-blog-smilies
 	-rm -f $(bindir)/we-blog
 	-rmdir $(bindir)
 	@echo "Removing bash completion..."
@@ -129,6 +134,7 @@ uninstall:
 	-rm -f $(datadir)/lang/eu_ES
 	-rm -f $(datadir)/lang/fr_FR
 	-rm -f $(datadir)/lang/ja_JP
+	-rm -f $(datadir)/lang/nl_NL
 	-rm -f $(datadir)/lang/pt_BR
 	-rm -f $(datadir)/lang/ru_RU
 	-rm -f $(datadir)/lang/uk_UK
@@ -151,6 +157,7 @@ uninstall:
 	-rm -f $(man1dir)/we-blog-make.1
 	-rm -f $(man1dir)/we-blog-config.1
 	-rm -f $(man1dir)/we-blog-remove.1
+	-rm -f $(man1dir)/we-blog-smilies.1
 	-rm -f $(man1dir)/we-blog.1
 	-rmdir $(man1dir)
 
