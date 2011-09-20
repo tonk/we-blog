@@ -16,7 +16,7 @@ REM You should have received a copy of the  GNU General Public License  along
 REM with this program. If not, see <http://www.gnu.org/licenses/>.
 
 set we-blogNAME=%~n0
-set we-blogVERSION=0.5
+set we-blogVERSION=0.6
 
 if defined we-blogCOMMAND (
 	perl %~d0%~p0..\src\%we-blogCOMMAND%.pl %*
