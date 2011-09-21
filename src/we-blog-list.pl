@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# $Id: we-blog-list.pl 1 2011-09-21 15:00:50 tonk $
 
 # we-blog-list - lists blog posts or pages in the We-Blog repository
 # Copyright (c) 2011 Ton Kersten
