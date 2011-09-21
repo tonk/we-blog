@@ -116,3 +116,4 @@ access to. For example:
 
   we-blog-x.x]$ make prefix=$HOME compdir='$(prefix)/etc' install
 
+# $Id: INSTALL 1 2011-09-21 15:02:54 tonk $
