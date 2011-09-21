@@ -74,10 +74,10 @@ install it, open a terminal, and run the following command:
 
 Currently, there is no installer for Microsoft Windows. To use We-Blog
 there,  download the latest version from the official homepage,  unpack it,
-and use the batch  files that are  located in  we-blog-0.5/windows/.
+and use the batch  files that are  located in  we-blog/windows/.
 For example:
 
-  C:\we-blog-0.5\windows> we-blog init
+  C:\we-blog\windows> we-blog init
 
 Alternatively, you can use We-Blog with Cygwin. In that case, see Sec-
 tion 4, "Installing from the Source Code" for detailed installation instru-
@@ -89,13 +89,13 @@ ctions.
 To install  We-Blog  from the source code,  download the latest source
 package from the official homepage, and unpack it:
 
-  $ tar xfz we-blog-0.5.tar.gz
+  $ tar xfz we-blog-x.x.tar.gz
 
-A directory called  we-blog-0.5 will  appear  in the current working
+A directory called  we-blog-x.x will  appear  in the current working
 directory.  Switch to superuser, get into the newly created directory,  and
 type "make install" at a shell prompt:
 
-  we-blog-0.5]# make install
+  we-blog-x.x]# make install
 
 This will install executables, manual pages, documentation, and application
 data to the /usr/local/ directory,  and place  the Bash completion  file to
@@ -103,16 +103,16 @@ data to the /usr/local/ directory,  and place  the Bash completion  file to
 the value of "prefix" on the command line. For example, if you want to ins-
 tall We-Blog to /usr/,  type the following command:
 
-  we-blog-0.5]# make prefix=/usr install
+  we-blog-x.x]# make prefix=/usr install
 
 Alternatively, you can choose to install executables only. For instance, to
 install We-Blog into your home directory, type:
 
-  we-blog-0.5]$ make prefix=$HOME install_bin
+  we-blog-x.x]$ make prefix=$HOME install_bin
 
 Finally,  if you prefer to install all available files, but you do not have
 superuser privileges, change the value of "compdir" to a directory you have
 access to. For example:
 
-  we-blog-0.5]$ make prefix=$HOME compdir='$(prefix)/etc' install
+  we-blog-x.x]$ make prefix=$HOME compdir='$(prefix)/etc' install
 

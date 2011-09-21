@@ -1,3 +1,7 @@
+2011-09-21  Ton Kersten <we-blog@tonkersten.com>
+  * Increased we-blog to version 0.7
+  * Added 'smiley' converter
+
 2011-08-15  Ton Kersten <we-blog@tonkersten.com>
   * Forked BlazeBlogger 1.2.0 to we-blog 0.5
     This because development of Blaze seems to be stalled
