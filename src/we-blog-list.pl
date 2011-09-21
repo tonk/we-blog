@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $Id: we-blog-list.pl 1 2011-09-21 15:00:50 tonk $
+# $Id: we-blog-list.pl 2 2011-09-21 15:34:25 tonk $
 
 # we-blog-list - lists blog posts or pages in the We-Blog repository
 # Copyright (c) 2011 Ton Kersten
@@ -27,7 +27,7 @@ use Text::Wrap;
 
 # General script information:
 use constant NAME    => basename($0, '.pl');        # Script name.
-use constant VERSION => '0.7';                      # Script version.
+use constant VERSION => '0.8';                      # Script version.
 
 # General script settings:
 our $blogdir    = '.';                              # Repository location.
