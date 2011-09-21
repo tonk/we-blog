@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# $Id: we-blog-config.pl 1 2011-09-21 15:00:42 tonk $
 
 # we-blog-config - displays or sets We-Blog configuration options
 # Copyright (c) 2011 Ton Kersten
