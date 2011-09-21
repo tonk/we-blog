@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# $Id: we-blog-add.pl 1 2011-09-21 15:00:36 tonk $
 
 # we-blog-add - adds a blog post or a page to the We-Blog repository
 # Copyright (c) 2011 Ton Kersten
