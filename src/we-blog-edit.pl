@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# $Id: we-blog-edit.pl 1 2011-09-21 15:00:44 tonk $
 
 # we-blog-edit - edits a blog post or a page in the We-Blog repository
 # Copyright (c) 2011 Ton Kersten
