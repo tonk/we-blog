@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $Id: we-blog-smilies.pl 1 2011-09-21 15:01:04 tonk $
+# $Id: we-blog-smilies.pl 2 2011-09-21 15:34:58 tonk $
 
 # we-blog-smilies - Convert all smiley (emoticon) text tags to pictures
 
@@ -18,16 +18,16 @@
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 
 # $Author: Ton Kersten <we-blog@tonkersten.com> $
-# $Date: 2011-09-21 15:01:38 +0200 (Wed, 21 Sep 2011) $
+# $Date: 2011-09-21 15:35:21 +0200 (Wed, 21 Sep 2011) $
 # $Fname: developer:.../src/we-blog-smilies.pl $
-# $Revision: 1 $
+# $Revision: 2 $
 
 use strict;
 use warnings;
 
 # General script information:
 use constant NAME    => basename($0, '.pl');        # Script name.
-use constant VERSION => '0.7';                      # Script version.
+use constant VERSION => '0.8';                      # Script version.
 
 my $smurl = '<img class="smiley" alt="smiley" src="/images/smilies';
 
