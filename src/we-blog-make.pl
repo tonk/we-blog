@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $Id: we-blog-make.pl 1 2011-09-21 15:00:57 tonk $
+# $Id: we-blog-make.pl 2 2011-09-21 15:34:42 tonk $
 
 # we-blog-make - generates a blog from the We-Blog repository
 # Copyright (c) 2011 Ton Kersten
@@ -30,7 +30,7 @@ use Time::Local 'timelocal_nocheck';
 
 # General script information:
 use constant NAME    => basename($0, '.pl');        # Script name.
-use constant VERSION => '0.7';                      # Script version.
+use constant VERSION => '0.8';                      # Script version.
 
 # General script settings:
 our $blogdir     = '.';                             # Repository location.
