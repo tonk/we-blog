@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $Id: we-blog-remove.pl 1 2011-09-21 15:01:01 tonk $
+# $Id: we-blog-remove.pl 2 2011-09-21 15:34:50 tonk $
 
 # we-blog-remove - removes a post or page from the We-Blog repository
 # Copyright (c) 2011 Ton Kersten
@@ -25,7 +25,7 @@ use Getopt::Long;
 
 # General script information:
 use constant NAME    => basename($0, '.pl');        # Script name.
-use constant VERSION => '0.7';                      # Script version.
+use constant VERSION => '0.8';                      # Script version.
 
 # General script settings:
 our $blogdir = '.';                                 # Repository location.
