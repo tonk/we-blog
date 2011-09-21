@@ -16,10 +16,10 @@
 # You should have received a copy of the  GNU General Public License  along
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# $Author: Ton Kersten <we-blog@tonkersten.com>                                                                                 $
-# $Date: 2011-09-21 14:34:40 +0200 (Wed, 21 Sep 2011)                                                                                  $
+# $Author:  $
+# $Date:  $
 # $Fname: developer:.../src/we-blog-smilies.pl $
-# $Revision: 1                                                                                 $
+# $Revision:  $
 
 use strict;
 use warnings;
