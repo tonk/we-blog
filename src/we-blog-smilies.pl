@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# $Id: we-blog-smilies.pl 1 2011-09-21 15:01:04 tonk $
 
 # we-blog-smilies - Convert all smiley (emoticon) text tags to pictures
 
@@ -16,10 +17,10 @@
 # You should have received a copy of the  GNU General Public License  along
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# $Author:  $
-# $Date:  $
+# $Author: Ton Kersten <we-blog@tonkersten.com> $
+# $Date: 2011-09-21 15:01:38 +0200 (Wed, 21 Sep 2011) $
 # $Fname: developer:.../src/we-blog-smilies.pl $
-# $Revision:  $
+# $Revision: 1 $
 
 use strict;
 use warnings;
