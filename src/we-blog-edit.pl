@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $Id: we-blog-edit.pl 1 2011-09-21 15:00:44 tonk $
+# $Id: we-blog-edit.pl 2 2011-09-21 15:34:09 tonk $
 
 # we-blog-edit - edits a blog post or a page in the We-Blog repository
 # Copyright (c) 2011 Ton Kersten
@@ -28,7 +28,7 @@ use Getopt::Long;
 
 # General script information:
 use constant NAME    => basename($0, '.pl');        # Script name.
-use constant VERSION => '0.7';                      # Script version.
+use constant VERSION => '0.8';                      # Script version.
 
 # General script settings:
 our $blogdir = '.';                                 # Repository location.
