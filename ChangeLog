@@ -1,6 +1,10 @@
 2011-09-21  Ton Kersten <we-blog@tonkersten.com>
+  * And switched to branch 0.8 for further development
+
+2011-09-21  Ton Kersten <we-blog@tonkersten.com>
   * Increased we-blog to version 0.7
   * Added 'smiley' converter
+  * Published the project on GitHub
 
 2011-08-15  Ton Kersten <we-blog@tonkersten.com>
   * Forked BlazeBlogger 1.2.0 to we-blog 0.5
@@ -15,4 +19,4 @@
 
   * unix/man/man1/we-blog.1: Updated the manual page for the command wrapper.
 
-# $Id: ChangeLog 1 2011-09-21 15:02:42 tonk $
+# $Id: ChangeLog 2 2011-09-21 15:32:43 tonk $
