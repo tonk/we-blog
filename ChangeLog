@@ -14,3 +14,5 @@
   windows/we-blog.bat: Increased the version number.
 
   * unix/man/man1/we-blog.1: Updated the manual page for the command wrapper.
+
+# $Id: ChangeLog 1 2011-09-21 15:02:42 tonk $
