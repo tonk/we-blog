@@ -61,12 +61,12 @@ As a version control system for its source code, We-Blog uses Git with
 a public repository located at gitorious.org. To get the latest development
 version, use the following command:
 
-  git clone git://gitorious.org/we-blog/mainline.git we-blog
+  git clone git://github.com/tonk/we-blog.git we-blog
 
 Alternatively, if you are behind a restrictive firewall,  use the following
 command instead:
 
-  git clone http://git.gitorious.org/we-blog/mainline.git we-blog
+  git clone http://github.com/tonk/we-blog.git we-blog
 
 If you are planning to make some interesting changes, please, consider clo-
 ning the project on Gitorious, so that I can follow you and eventually pull
@@ -75,18 +75,17 @@ your work to the upstream.
 
 3. BUGS
 
-To report a bug or to send a patch, please, add a new issue to the bug tra-
-cker at <http://code.google.com/p/we-blog/issues/>,  or visit the dis-
-cussion group at <http://groups.google.com/group/we-blog/>.
+To report a bug or to send a patch, please, send an e-mail.
 
 
 4. COPYRIGHT
 
 Copyright (c) 2008-2011 Jaromir Hradilek
+Copyright (c) 2011 Ton Kersten
 
 This program is free software; see the source for copying conditions. It is
 distributed  in the hope that it will be useful,  but WITHOUT ANY WARRANTY;
 without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PAR-
 TICULAR PURPOSE.
 
-# $Id: README 1 2011-09-21 15:03:25 tonk $
+# $Id: README 2 2011-09-21 15:23:43 tonk $
