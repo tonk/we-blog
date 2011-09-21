@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# $Id: we-blog-log.pl 1 2011-09-21 15:00:53 tonk $
 
 # we-blog-log - displays the We-Blog repository log
 # Copyright (c) 2011 Ton Kersten
