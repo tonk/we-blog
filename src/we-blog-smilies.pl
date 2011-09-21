@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 
 # we-blog-smilies - Convert all smiley (emoticon) text tags to pictures
+
 # Copyright (c) 2011 Ton Kersten
 
 # This program is  free software:  you can redistribute it and/or modify it
@@ -17,6 +18,10 @@
 
 use strict;
 use warnings;
+
+# General script information:
+use constant NAME    => basename($0, '.pl');        # Script name.
+use constant VERSION => '0.7';                      # Script version.
 
 my $smurl = '<img class="smiley" alt="smiley" src="/images/smilies';
 

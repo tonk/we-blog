@@ -2,6 +2,7 @@
 
 REM we-blog, a command wrapper for We-Blog
 REM Copyright (c) 2009-2011 Sergey Kuznetsov
+REM Copyright (c) 2011 Ton Kersten
 REM
 REM This program is  free software:  you can redistribute it and/or modify it
 REM under  the terms  of the  GNU General Public License  as published by the
@@ -16,7 +17,7 @@ REM You should have received a copy of the  GNU General Public License  along
 REM with this program. If not, see <http://www.gnu.org/licenses/>.
 
 set we-blogNAME=%~n0
-set we-blogVERSION=0.6
+set we-blogVERSION=0.7
 
 if defined we-blogCOMMAND (
 	perl %~d0%~p0..\src\%we-blogCOMMAND%.pl %*
