@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $Id: we-blog-log.pl 1 2011-09-21 15:00:53 tonk $
+# $Id: we-blog-log.pl 2 2011-09-21 15:34:33 tonk $
 
 # we-blog-log - displays the We-Blog repository log
 # Copyright (c) 2011 Ton Kersten
@@ -27,7 +27,7 @@ use Text::Wrap;
 
 # General script information:
 use constant NAME    => basename($0, '.pl');        # Script name.
-use constant VERSION => '0.7';                      # Script version.
+use constant VERSION => '0.8';                      # Script version.
 
 # General script settings:
 our $blogdir    = '.';                              # Repository location.
