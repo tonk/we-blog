@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $Id: we-blog-init.pl 1 2011-09-21 15:00:47 tonk $
+# $Id: we-blog-init.pl 2 2011-09-21 15:34:18 tonk $
 
 # we-blog-init - creates or recovers a We-Blog repository
 # Copyright (c) 2011 Ton Kersten
@@ -26,7 +26,7 @@ use Getopt::Long;
 
 # General script information:
 use constant NAME    => basename($0, '.pl');        # Script name.
-use constant VERSION => '0.7';                      # Script version.
+use constant VERSION => '0.8';                      # Script version.
 
 # General script settings:
 our $blogdir = '.';                                 # Repository location.
