@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $Id: we-blog-config.pl 2 2011-09-21 15:34:03 tonk $
+# $Id: we-blog-config.pl 3 2011-09-22 08:56:52 tonk $
 
 # we-blog-config - displays or sets We-Blog configuration options
 # Copyright (c) 2011 Ton Kersten
@@ -862,7 +862,7 @@ Configure the blog appearance:
 
   $ we-blog-config blog.title We-Blog
   The option has been successfully saved.
-  $ we-blog-config blog.subtitle a CMS without boundaries
+  $ we-blog-config blog.subtitle We Blog our hearts out
   The option has been successfully saved.
   $ we-blog-config blog.theme keepitsimple.html
   The option has been successfully saved.
