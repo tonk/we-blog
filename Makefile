@@ -1,5 +1,5 @@
-# makefile for We-Blog, a CMS without boundaries
-# $Id: Makefile 1 2011-09-21 15:03:16 tonk $
+# makefile for We-Blog, We Blog our hearts out
+# $Id: Makefile 2 2011-09-22 08:56:20 tonk $
 
 # Copyright (c) 2011 Ton Kersten
 # Copyright (c) 2009-2011 Jaromir Hradilek
