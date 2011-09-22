@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $Id: we-blog-add.pl 2 2011-09-21 15:33:56 tonk $
+# $Id: we-blog-add.pl 3 2011-09-22 10:13:39 tonk $
 
 # we-blog-add - adds a blog post or a page to the We-Blog repository
 # Copyright (c) 2011 Ton Kersten
@@ -548,6 +548,7 @@ END_POST_HEADER
 # you use non-ASCII characters in your page title.
 #
 #   title:    $title
+#   author:   $author
 #   date:     $date
 #   keywords: $keywords
 #   url:      $url
