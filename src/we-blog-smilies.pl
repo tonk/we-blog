@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $Id: we-blog-smilies.pl 2 2011-09-21 15:34:58 tonk $
+# $Id: we-blog-smilies.pl 3 2011-09-22 10:23:20 tonk $
 
 # we-blog-smilies - Convert all smiley (emoticon) text tags to pictures
 
@@ -18,18 +18,94 @@
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 
 # $Author: Ton Kersten <we-blog@tonkersten.com> $
-# $Date: 2011-09-21 15:35:21 +0200 (Wed, 21 Sep 2011) $
+# $Date: 2011-09-22 10:26:18 +0200 (Thu, 22 Sep 2011) $
 # $Fname: developer:.../src/we-blog-smilies.pl $
-# $Revision: 2 $
+# $Revision: 3 $
 
 use strict;
 use warnings;
+use Digest::MD5;
+use File::Basename;
+use File::Copy;
+use File::Path;
+use File::Spec::Functions;
+use Getopt::Long;
 
 # General script information:
 use constant NAME    => basename($0, '.pl');        # Script name.
 use constant VERSION => '0.8';                      # Script version.
 
-my $smurl = '<img class="smiley" alt="smiley" src="/images/smilies';
+# General script settings:
+our $blogdir  = '.';                                # Repository location.
+
+# Global variables:
+our $conf    = {};                                  # Configuration.
+
+sub read_ini {
+  my $file    = shift || die 'Missing argument';
+
+  # Initialize required variables:
+  my $hash    = {};
+  my $section = 'default';
+
+  # Open the file for reading:
+  open(INI, "$file") or return 0;
+
+  # Process each line:
+  while (my $line = <INI>) {
+    # Parse the line:
+    if ($line =~ /^\s*\[([^\]]+)\]\s*$/) {
+      # Change the section:
+      $section = $1;
+    }
+    elsif ($line =~ /^\s*(\S+)\s*=\s*(\S.*)$/) {
+      # Add the option to the hash:
+      $hash->{$section}->{$1} = $2;
+    }
+  }
+
+  # Close the file:
+  close(INI);
+
+  # Return the result:
+  return $hash;
+}
+
+
+# Read the configuration
+sub read_conf {
+  # Prepare the file name:
+  my $file = catfile($blogdir, '.we-blog', 'config');
+
+  # Parse the file:
+  if (my $conf = read_ini($file)) {
+    # Return the result:
+    return $conf;
+  }
+  else {
+    # Report failure:
+    display_warning("Unable to read the configuration.");
+
+    # Return an empty configuration:
+    return {};
+  }
+}
+
+# Display a warning message:
+sub display_warning {
+  my $message = shift || 'A warning was requested.';
+
+  # Display the warning message:
+  print STDERR "$message\n";
+
+  # Return success:
+  return 1;
+}
+
+$conf = read_conf();
+
+my $smurl = $conf->{blog}->{smilies} || '/images/smilies';
+$smurl = '<img class="smiley" alt="smiley" src="' . $smurl;
 
 my %smilies = (
 	':-{0,1}\)'   => 'regular_smile.gif',	':-{0,1}D'    => 'teeth_smile.gif',
