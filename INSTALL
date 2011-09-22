@@ -1,10 +1,10 @@
-                  We-Blog - a CMS without boundaries
+                      We-Blog - We Blog our hearts out
 
                          installation instructions
 
 
 
-   Copyright (c) 2011 CTon Kersten
+   Copyright (c) 2011 Ton Kersten
    Copyright (c) 2009-2011 Jaromir Hradilek
 
    Permission is granted to copy, distribute and/or modify this document
@@ -38,53 +38,7 @@ TABLE OF CONTENTS
 A working installation of Perl is required, version 5.8.8 or higher.
 
 
-2. INSTALLING ON GNU/LINUX
-
-Note that with the exception of Ubuntu,  you have to be logged in as super-
-user in order to run commands described in this section. To do so, type the
-following at a shell prompt:
-
-  $ su -
-  Password:
-
-2.1. Installing on Debian
-
-We-Blog is currently available in  both testing (Squeeze) and unstable
-(Sid) version of Debian. To install it, open a terminal, and run the follo-
-wing command:
-
-  # apt-get install we-blog
-
-2.2. Installing on Fedora
-
-We-Blog is currently available in both Fedora 12 (Constantine)  and 13
-(Goddard).  To install it,  open a terminal, and run the following command:
-
-  # yum install we-blog
-
-2.3. Installing on Ubuntu
-
-We-Blog  is currently available in  Ubuntu 10.04 LTS  (Lucid Lynx). To
-install it, open a terminal, and run the following command:
-
-  # sudo apt-get install we-blog
-
-
-3. INSTALLING ON WINDOWS
-
-Currently, there is no installer for Microsoft Windows. To use We-Blog
-there,  download the latest version from the official homepage,  unpack it,
-and use the batch  files that are  located in  we-blog/windows/.
-For example:
-
-  C:\we-blog\windows> we-blog init
-
-Alternatively, you can use We-Blog with Cygwin. In that case, see Sec-
-tion 4, "Installing from the Source Code" for detailed installation instru-
-ctions.
-
-
-4. INSTALLING FROM THE SOURCE CODE
+2. INSTALLING FROM THE SOURCE CODE
 
 To install  We-Blog  from the source code,  download the latest source
 package from the official homepage, and unpack it:
@@ -116,4 +70,4 @@ access to. For example:
 
   we-blog-x.x]$ make prefix=$HOME compdir='$(prefix)/etc' install
 
-# $Id: INSTALL 1 2011-09-21 15:02:54 tonk $
+# $Id: INSTALL 2 2011-09-22 08:56:01 tonk $
