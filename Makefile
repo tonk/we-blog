@@ -18,7 +18,7 @@
 
 # General information:
 NAME    = we-blog
-VERSION = 0.7
+VERSION = 0.8
 
 # General settings:
 SHELL   = /bin/sh
