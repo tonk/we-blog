@@ -81,7 +81,7 @@ sub display_help {
   # Display the usage:
   print << "END_HELP";
 Usage: $NAME [-pqCPV] [-b DIRECTORY] [-E EDITOR] [-a AUTHOR] [-d DATE]
-                 [-t TITLE] [-k KEYWORDS] [-T TAGS] [-u URL] [FILE...]
+                 [-t TITLE] [-k KEYWORDS] [-T TAGS] [-u URL] [-A alt] [FILE...]
        $NAME -h|-v
 
   -b, --blogdir DIRECTORY     specify a directory in which the We-Blog
@@ -93,6 +93,7 @@ Usage: $NAME [-pqCPV] [-b DIRECTORY] [-E EDITOR] [-a AUTHOR] [-d DATE]
   -k, --keywords KEYWORDS     specify a comma-separated list of keywords
   -T, --tags TAGS             specify a comma-separated list of tags
   -u, --url URL               specify a URL
+  -A, --alt ALTTEXT           Alternative text for pages. Show on mouse-over
   -p, --page                  add a page or pages
   -P, --post                  add a blog post or blog posts
   -C, --no-processor          disable processing the blog post or page with
@@ -181,7 +182,7 @@ sub write_ini {
     # Process each option in the section:
     foreach my $option (sort(keys(%{$hash->{$section}}))) {
       # Write the option and its value to the file:
-      print INI "  $option = $hash->{$section}->{$option}\n";
+      print INI "\t$option = $hash->{$section}->{$option}\n";
     }
   }
 
@@ -358,7 +359,7 @@ sub save_record {
     last unless $line =~ /^#/;
 
     # Collect data for the record header:
-    if ($line =~ /(title|author|date|keywords|tags|url):\s*(\S.*)$/) {
+    if ($line =~ /(title|author|date|keywords|tags|url|alt):\s*(\S.*)$/) {
       $data->{header}->{$1} = $2;
     }
   }
@@ -510,6 +511,7 @@ sub add_new {
   my $keywords = $data->{header}->{keywords} || '';
   my $tags     = $data->{header}->{tags}     || '';
   my $url      = $data->{header}->{url}      || '';
+  my $alt      = $data->{header}->{alt}      || '';
 
   # Declare other necessary variables:
   my $head;
@@ -532,6 +534,7 @@ sub add_new {
 #   keywords: $keywords
 #   tags:     $tags
 #   url:      $url
+#   alt:      $alt
 #
 # The header ends here. The rest is the content of your blog post.
 
@@ -552,6 +555,7 @@ END_POST_HEADER
 #   date:     $date
 #   keywords: $keywords
 #   url:      $url
+#   alt:      $alt
 #
 # The header ends here. The rest is the content of your page.
 
@@ -655,6 +659,7 @@ GetOptions(
   'keywords|k=s'   => sub { $data->{header}->{keywords} = $_[1]; },
   'tags|tag|T=s'   => sub { $data->{header}->{tags}     = $_[1]; },
   'url|u=s'        => sub { $data->{header}->{url}      = $_[1]; },
+  'alt|A=s'        => sub { $data->{header}->{alt}      = $_[1]; },
 );
 
 # Check whether the repository is present, no matter how naive this method
@@ -712,7 +717,7 @@ we-blog-add - adds a blog post or a page to the We-Blog repository
 
 B<we-blog-add> [B<-pqCPV>] [B<-b> I<directory>] [B<-E> I<editor>]
 [B<-a> I<author>] [B<-d> I<date>] [B<-t> I<title>] [B<-k> I<keywords>]
-[B<-T> I<tags>] [B<-u> I<url>] [I<file>...]
+[B<-T> I<tags>] [B<-u> I<url>] [B<-A> I<alt>] [I<file>...]
 
 B<we-blog-add> B<-h>|B<-v>
 

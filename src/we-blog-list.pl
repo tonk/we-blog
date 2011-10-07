@@ -198,7 +198,7 @@ sub read_conf {
 sub make_record {
   my $type = shift || die 'Missing argument';
   my $id   = shift || die 'Missing argument';
-  my ($title, $author, $date, $tags, $url) = @_;
+  my ($title, $author, $date, $tags, $url, $alt) = @_;
 
   # Check whether the title is specified:
   if ($title) {
@@ -274,6 +274,7 @@ sub make_record {
     'date'   => $date,
     'tags'   => $tags,
     'url'    => $url,
+    'alt'    => $alt,
   };
 }
 
@@ -312,13 +313,14 @@ sub collect_headers {
     my $data = read_ini(catfile($head, $id)) or next;
     my $date   = $data->{header}->{date};
     my $tags   = $data->{header}->{tags};
+    my $title  = $data->{header}->{title};
     my $author = $data->{header}->{author};
     my $url    = $data->{header}->{url};
-    my $title  = $data->{header}->{title};
+    my $alt    = $data->{header}->{alt};
 
     # Create the record:
     my $record = make_record($type, $id, $title, $author, $date,
-                             $tags, $url);
+                             $tags, $url, $alt);
 
     # Add the record to the beginning of the list:
     push(@records, $record);

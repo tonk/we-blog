@@ -295,7 +295,7 @@ sub make_url {
 sub make_record {
   my $type = shift || die 'Missing argument';
   my $id   = shift || die 'Missing argument';
-  my ($title, $author, $date, $keywords, $tags, $url) = @_;
+  my ($title, $author, $date, $keywords, $tags, $url, $alt) = @_;
 
   # Check whether the title is specified:
   if ($title) {
@@ -404,6 +404,12 @@ sub make_record {
                     "Using `$url' instead.");
   }
 
+  # Check whether the alternative text is specified:
+  if ($alt) {
+    # Strip quotation marks:
+    $alt =~ s/"//g;
+  }
+
   # Return the composed record:
   return {
     'id'       => $id,
@@ -413,6 +419,7 @@ sub make_record {
     'keywords' => $keywords,
     'tags'     => $tags,
     'url'      => $url,
+    'alt'      => $alt,
   };
 }
 
@@ -442,10 +449,11 @@ sub collect_headers {
     my $keywords = $data->{header}->{keywords};
     my $tags     = $data->{header}->{tags};
     my $url      = $data->{header}->{url};
+    my $alt      = $data->{header}->{alt};
 
     # Create the record:
     my $record = make_record($type, $id, $title, $author, $date,
-                             $keywords, $tags, $url);
+                             $keywords, $tags, $url, $alt);
 
     # Add the record to the beginning of the list:
     push(@records, $record);
@@ -495,6 +503,7 @@ sub collect_metadata {
     my $temp           = $month_name[int($month) - 1];
     my $name           = ($locale->{lang}->{$temp} || "\u$temp") ." $year";
     my $url            = $record->{url};
+    my $alt            = $record->{alt};
     my $id             = $record->{id};
 
     # Set up the blog post URL:
@@ -622,9 +631,10 @@ sub list_of_pages {
     # Decompose the record:
     my $title = $record->{title};
     my $url   = $record->{url};
+    my $alt   = $record->{alt};
 
     # Add the page link to the list:
-    $list .= "<li><a href=\"".fix_link("%root%$url")."\">$title</a></li>\n";
+    $list .= "<li><a href=\"".fix_link("%root%$url")."\" title=\"$alt\">$title</a></li>\n";
   }
 
   # Strip trailing line break:
@@ -661,7 +671,7 @@ sub list_of_posts {
 
     # Add the post link to the list:
     $list .= "<li><a href=\"" . fix_link("%root%$year/$month/$url") .
-             "\" rel=\"permalink\">$title</a></li>\n";
+             "\" rel=\"permalink\" title=\"$title\">$title</a></li>\n";
 
     # Increase the counter:
     $count++;

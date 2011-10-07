@@ -173,7 +173,7 @@ sub write_ini {
     # Process each option in the section:
     foreach my $option (sort(keys(%{$hash->{$section}}))) {
       # Write the option and its value to the file:
-      print INI "  $option = $hash->{$section}->{$option}\n";
+      print INI "\t$option = $hash->{$section}->{$option}\n";
     }
   }
 
@@ -335,6 +335,7 @@ sub read_record {
   my $keywords = $data->{header}->{keywords} || '';
   my $tags     = $data->{header}->{tags}     || '';
   my $url      = $data->{header}->{url}      || '';
+  my $alt      = $data->{header}->{alt}      || '';
 
   # Prepare the temporary file header:
   if ($type eq 'post') {
@@ -354,6 +355,7 @@ sub read_record {
 #   keywords: $keywords
 #   tags:     $tags
 #   url:      $url
+#   alt:      $alt
 #   postid:   $id
 #
 # The header ends here. The rest is the content of your blog post.
@@ -374,6 +376,7 @@ END_POST_HEADER
 #   date:     $date
 #   keywords: $keywords
 #   url:      $url
+#   alt:      $alt
 #   pageid:   $id
 #
 # The header ends here. The rest is the content of your page.
@@ -458,7 +461,7 @@ sub save_record {
     last unless $line =~ /^#/;
 
     # Collect data for the record header:
-    if ($line =~ /(title|author|date|keywords|tags|url):\s*(\S.*)$/) {
+    if ($line =~ /(title|author|date|keywords|tags|url|alt):\s*(\S.*)$/) {
       $data->{header}->{$1} = $2;
     }
   }
