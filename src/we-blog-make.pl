@@ -763,6 +763,9 @@ sub format_information {
   my $class  = ($type eq 'top') ? 'post-header' : 'post-footer';
   my ($date, $author, $taglist) = ('', '', '');
 
+  my $post_id = $conf->{post}->{showid} || 'no';
+  my $id = $record->{id};
+
   # Read required data from the configuration:
   my $author_location = $conf->{post}->{author} || 'top';
   my $date_location   = $conf->{post}->{date}   || 'top';
@@ -776,7 +779,11 @@ sub format_information {
   # Check whether the date of publishing is to be included:
   if ($date_location eq $type) {
     # Format the date of publishing:
-    $date   = "$posted_on <span class=\"date\">$record->{date}</span>";
+    $date   = "$posted_on <span class=\"date\">$record->{date}";
+    if ($post_id eq "yes") {
+        $date .= " ($id)";
+    }
+    $date .= "</span>";
   }
 
   # Check whether the author is to be included:

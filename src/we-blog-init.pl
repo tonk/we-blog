@@ -205,11 +205,13 @@ fullposts=false
 ##  tags           A location of post tags. They can either be placed above
 ##                 the post (top),  below it (bottom),  or  nowhere  on the
 ##                 page (none).
+##  showid         Show the post id with every post. Can be 'yes' of 'no'
 ##
 [post]
 author=top
 date=top
 tags=top
+showid=no
 
 ## User settings. Available options are:
 ##
