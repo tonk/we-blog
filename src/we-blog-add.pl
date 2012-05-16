@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $Id: we-blog-add.pl 3 2011-09-22 10:13:39 tonk $
+# $Id: we-blog-add.pl 4 2012-05-16 16:00:17 tonk $
 
 # we-blog-add - adds a blog post or a page to the We-Blog repository
 # Copyright (c) 2011 Ton Kersten
@@ -520,6 +520,8 @@ sub add_new {
   if ($type eq 'post') {
     # Use the variant for a blog post:
     $head = << "END_POST_HEADER";
+# vi: set sw=4 ts=4 ai:
+#
 # This and the following lines beginning with '#' are the blog post header.
 # Please take your time and replace these options with desired values. Just
 # remember that the date has to be in the YYYY-MM-DD form, tags are a comma
@@ -543,6 +545,8 @@ END_POST_HEADER
   else {
     # Use the variant for a page:
     $head = << "END_PAGE_HEADER";
+# vi: set sw=4 ts=4 ai:
+#
 # This and the following lines beginning with '#' are the page header. Ple-
 # ase take your time and replace these  options with  desired  values. Just
 # remember that the date has to be in the YYYY-MM-DD form, and the  url, if
