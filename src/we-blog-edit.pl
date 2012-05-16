@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $Id: we-blog-edit.pl 2 2011-09-21 15:34:09 tonk $
+# $Id: we-blog-edit.pl 3 2012-05-16 16:00:33 tonk $
 
 # we-blog-edit - edits a blog post or a page in the We-Blog repository
 # Copyright (c) 2011 Ton Kersten
@@ -341,6 +341,8 @@ sub read_record {
   if ($type eq 'post') {
     # Use the variant for a blog post:
     $head_file = << "END_POST_HEADER";
+# vi: set sw=4 ts=4 ai:
+#
 # This and the following lines beginning with '#' are the blog post header.
 # Please take your time and replace these options with desired values. Just
 # remember that the date has to be in the YYYY-MM-DD form, tags are a comma
@@ -364,6 +366,8 @@ END_POST_HEADER
   else {
     # Use the variant for a page:
     $head_file = << "END_PAGE_HEADER";
+# vi: set sw=4 ts=4 ai:
+#
 # This and the following lines beginning with '#' are the page header. Ple-
 # ase take your time and replace these  options with  desired  values. Just
 # remember that the date has to be in the YYYY-MM-DD form, and the  url, if
