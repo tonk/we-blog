@@ -2,7 +2,7 @@
 # $Id: we-blog-edit.pl 3 2012-05-16 16:00:33 tonk $
 
 # we-blog-edit - edits a blog post or a page in the We-Blog repository
-# Copyright (c) 2011 Ton Kersten
+# Copyright (c) 2011-2012 Ton Kersten
 # Copyright (c) 2008-2011 Jaromir Hradilek
 
 # This program is  free software:  you can redistribute it and/or modify it
@@ -108,7 +108,7 @@ sub display_version {
   print << "END_VERSION";
 $NAME $VERSION
 
-Copyright (c) 2011 Ton Kersten
+Copyright (c) 2011-2012 Ton Kersten
 Copyright (c) 2008-2011 Jaromir Hradilek
 
 This program is free software; see the source for copying conditions. It is
@@ -827,7 +827,7 @@ discussion group at <http://groups.google.com/group/we-blog/>.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2008-2011 Jaromir Hradilek / 2011 Ton Kersten
+Copyright (c) 2008-2011 Jaromir Hradilek / 2011-2012 Ton Kersten
 
 This program is free software; see the source for copying conditions. It is
 distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;

@@ -2,7 +2,7 @@
 # $Id: we-blog-config.pl 3 2011-09-22 08:56:52 tonk $
 
 # we-blog-config - displays or sets We-Blog configuration options
-# Copyright (c) 2011 Ton Kersten
+# Copyright (c) 2011-2012 Ton Kersten
 # Copyright (c) 2008-2011 Jaromir Hradilek
 
 # This program is  free software:  you can redistribute it and/or modify it
@@ -136,7 +136,7 @@ sub display_version {
   print << "END_VERSION";
 $NAME $VERSION
 
-Copyright (c) 2011 Ton Kersten
+Copyright (c) 2011-2012 Ton Kersten
 Copyright (c) 2008-2011 Jaromir Hradilek
 
 This program is free software; see the source for copying conditions. It is
@@ -900,7 +900,7 @@ discussion group at <http://groups.google.com/group/we-blog/>.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2008-2011 Jaromir Hradilek / 2011 Ton Kersten
+Copyright (c) 2008-2011 Jaromir Hradilek / 2011-2012 Ton Kersten
 
 This program is free software; see the source for copying conditions. It is
 distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
