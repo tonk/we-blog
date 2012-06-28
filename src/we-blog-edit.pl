@@ -32,6 +32,7 @@ use constant VERSION => '0.8';                      # Script version.
 
 # General script settings:
 our $blogdir = '.';                                 # Repository location.
+our $weblog   = '.we-blog';                         # We-blog data and config directory
 our $editor  = '';                                  # Editor to use.
 our $force   = 0;                                   # Force raw file?
 our $process = 1;                                   # Use processor?
@@ -187,7 +188,7 @@ sub write_ini {
 # Read the content of the configuration file:
 sub read_conf {
   # Prepare the file name:
-  my $file = catfile($blogdir, '.we-blog', 'config');
+  my $file = catfile($blogdir, $weblog, 'config');
 
   # Parse the file:
   if (my $conf = read_ini($file)) {
@@ -313,9 +314,9 @@ sub read_record {
   my $type = shift || 'post';
 
   # Prepare the record file names:
-  my $head_file = catfile($blogdir, '.we-blog', "${type}s", 'head', $id);
-  my $body_file = catfile($blogdir, '.we-blog', "${type}s", 'body', $id);
-  my $raw_file  = catfile($blogdir, '.we-blog', "${type}s", 'raw',  $id);
+  my $head_file = catfile($blogdir, $weblog, "${type}s", 'head', $id);
+  my $body_file = catfile($blogdir, $weblog, "${type}s", 'body', $id);
+  my $raw_file  = catfile($blogdir, $weblog, "${type}s", 'raw',  $id);
 
   # If the processor is enabled, make sure the raw file exists:
   if ($process && ! -e $raw_file) {
@@ -432,9 +433,9 @@ sub save_record {
   my $line = '';
 
   # Prepare the record directory names:
-  my $head_dir  = catdir($blogdir, '.we-blog', "${type}s", 'head');
-  my $body_dir  = catdir($blogdir, '.we-blog', "${type}s", 'body');
-  my $raw_dir   = catdir($blogdir, '.we-blog', "${type}s", 'raw');
+  my $head_dir  = catdir($blogdir, $weblog, "${type}s", 'head');
+  my $body_dir  = catdir($blogdir, $weblog, "${type}s", 'body');
+  my $raw_dir   = catdir($blogdir, $weblog, "${type}s", 'raw');
 
   # Prepare the record file names:
   my $head      = catfile($head_dir, $id);
@@ -442,9 +443,9 @@ sub save_record {
   my $raw       = catfile($raw_dir,  $id);
 
   # Prepare the temporary file names:
-  my $temp_head = catfile($blogdir, '.we-blog', 'temp.head');
-  my $temp_body = catfile($blogdir, '.we-blog', 'temp.body');
-  my $temp_raw  = catfile($blogdir, '.we-blog', 'temp.raw');
+  my $temp_head = catfile($blogdir, $weblog, 'temp.head');
+  my $temp_body = catfile($blogdir, $weblog, 'temp.body');
+  my $temp_raw  = catfile($blogdir, $weblog, 'temp.raw');
 
   # Read required data from the configuration:
   my $processor = $conf->{core}->{processor};
@@ -538,7 +539,7 @@ sub edit_record {
   my ($before, $after);
 
   # Prepare the temporary file name:
-  my $temp = catfile($blogdir, '.we-blog', 'temp');
+  my $temp = catfile($blogdir, $weblog, 'temp');
 
   # Decide which editor to use:
   my $edit = $editor || $conf->{core}->{editor} || $ENV{EDITOR} || 'vi';
@@ -615,7 +616,7 @@ sub add_to_log {
   my $text = shift || 'Something miraculous has just happened!';
 
   # Prepare the log file name:
-  my $file = catfile($blogdir, '.we-blog', 'log');
+  my $file = catfile($blogdir, $weblog, 'log');
 
   # Open the log file for appending:
   open(LOG, ">>$file") or return 0;
@@ -653,7 +654,7 @@ exit_with_error("Wrong number of options.", 22) if (scalar(@ARGV) != 1);
 # Check whether the repository is present, no matter how naive this method
 # actually is:
 exit_with_error("Not a We-Blog repository! Try `we-blog-init' first.",1)
-  unless (-d catdir($blogdir, '.we-blog'));
+  unless (-d catdir($blogdir, ));
 
 # Read the configuration file:
 $conf = read_conf();

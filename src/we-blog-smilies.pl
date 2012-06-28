@@ -36,7 +36,8 @@ use constant NAME    => basename($0, '.pl');        # Script name.
 use constant VERSION => '0.8';                      # Script version.
 
 # General script settings:
-our $blogdir  = '.';                                # Repository location.
+our $blogdir = '.';                                 # Repository location.
+our $weblog  = '.we-blog';                          # We-blog data and config directory
 
 # Global variables:
 our $conf    = {};                                  # Configuration.
@@ -75,7 +76,7 @@ sub read_ini {
 # Read the configuration
 sub read_conf {
   # Prepare the file name:
-  my $file = catfile($blogdir, '.we-blog', 'config');
+  my $file = catfile($blogdir, $weblog, 'config');
 
   # Parse the file:
   if (my $conf = read_ini($file)) {

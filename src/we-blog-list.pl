@@ -31,6 +31,7 @@ use constant VERSION => '0.8';                      # Script version.
 
 # General script settings:
 our $blogdir    = '.';                              # Repository location.
+our $weblog     = '.we-blog';                       # We-blog data and config directory
 our $verbose    = 1;                                # Verbosity level.
 our $compact    = 0;                                # Use compact listing?
 our $coloured   = undef;                            # Use colors?
@@ -178,7 +179,7 @@ sub read_ini {
 # Read the content of the configuration file:
 sub read_conf {
   # Prepare the file name:
-  my $file = catfile($blogdir, '.we-blog', 'config');
+  my $file = catfile($blogdir, $weblog, 'config');
 
   # Parse the file:
   if (my $conf = read_ini($file)) {
@@ -299,7 +300,7 @@ sub collect_headers {
   my @records = ();
 
   # Prepare the file name:
-  my $head    = catdir($blogdir, '.we-blog', "${type}s", 'head');
+  my $head    = catdir($blogdir, $weblog, "${type}s", 'head');
 
   # Open the headers directory:
   opendir(HEAD, $head) or return @records;
@@ -479,7 +480,7 @@ exit_with_error("Invalid option `$ARGV[0]'.", 22) if (scalar(@ARGV) != 0);
 # Check whether the repository is present, no matter how naive this method
 # actually is:
 exit_with_error("Not a We-Blog repository! Try `we-blog-init' first.",1)
-  unless (-d catdir($blogdir, '.we-blog'));
+  unless (-d catdir($blogdir, ));
 
 # Read the configuration file:
 $conf = read_conf();

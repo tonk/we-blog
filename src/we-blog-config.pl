@@ -30,6 +30,7 @@ use constant VERSION => '0.8';                      # Script version.
 
 # General script settings:
 our $blogdir = '.';                                 # Repository location.
+our $weblog   = '.we-blog';                         # We-blog data and config directory
 our $editor  = '';                                  # Editor to use.
 our $verbose = 1;                                   # Verbosity level.
 
@@ -209,7 +210,7 @@ sub write_ini {
 # Read the content of the configuration file:
 sub read_conf {
   # Prepare the file name:
-  my $file = catfile($blogdir, '.we-blog', 'config');
+  my $file = catfile($blogdir, $weblog, 'config');
 
   # Parse the file:
   if (my $conf = read_ini($file)) {
@@ -230,7 +231,7 @@ sub write_conf {
   my $conf = shift || die 'Missing argument';
 
   # Prepare the file name:
-  my $file = catfile($blogdir, '.we-blog', 'config');
+  my $file = catfile($blogdir, $weblog, 'config');
 
   # Save the configuration file:
   unless (write_ini($file, $conf)) {
@@ -248,7 +249,7 @@ sub write_conf {
 # Create a human readable version of the configuration file:
 sub create_temp {
   my $conf = shift || die 'Missing argument';
-  my $file = shift || catfile($blogdir, '.we-blog', 'temp');
+  my $file = shift || catfile($blogdir, $weblog, 'temp');
 
   # Prepare the general blog settings:
   my $blog_title     = $conf->{blog}->{title}     || $opt{'blog.title'};
@@ -418,7 +419,7 @@ sub edit_options {
   my ($before, $after);
 
   # Prepare the temporary file name:
-  my $temp = catfile($blogdir, '.we-blog', 'temp');
+  my $temp = catfile($blogdir, $weblog, 'temp');
 
   # Read the configuration file:
   my $conf = read_conf();
@@ -587,7 +588,7 @@ GetOptions(
 # Check whether the repository is present, no matter how naive this method
 # actually is:
 exit_with_error("Not a We-Blog repository! Try `we-blog-init' first.",1)
-  unless (-d catdir($blogdir, '.we-blog'));
+  unless (-d catdir($blogdir, ));
 
 # Decide which action to perform:
 if ($edit) {

@@ -29,6 +29,7 @@ use constant VERSION => '0.8';                      # Script version.
 
 # General script settings:
 our $blogdir = '.';                                 # Repository location.
+our $weblog  = '.we-blog';                          # We-blog data and config directory
 our $prompt  = 0;                                   # Ask for confirmation?
 our $verbose = 1;                                   # Verbosity level.
 
@@ -152,9 +153,9 @@ sub remove_records {
   # Process each record:
   foreach my $id (@$ids) {
     # Prepare the file names:
-    my $head = catfile($blogdir, '.we-blog', "${type}s", 'head', $id);
-    my $body = catfile($blogdir, '.we-blog', "${type}s", 'body', $id);
-    my $raw  = catfile($blogdir, '.we-blog', "${type}s", 'raw', $id);
+    my $head = catfile($blogdir, $weblog, "${type}s", 'head', $id);
+    my $body = catfile($blogdir, $weblog, "${type}s", 'body', $id);
+    my $raw  = catfile($blogdir, $weblog, "${type}s", 'raw', $id);
 
     # Enter the interactive mode if requested:
     if ($prompt) {
@@ -201,7 +202,7 @@ sub add_to_log {
   my $text = shift || 'Something miraculous has just happened!';
 
   # Prepare the log file name:
-  my $file = catfile($blogdir, '.we-blog', 'log');
+  my $file = catfile($blogdir, $weblog, 'log');
 
   # Open the log file for appending:
   open(LOG, ">>$file") or return 0;
@@ -238,7 +239,7 @@ exit_with_error("Wrong number of options.", 22) if (scalar(@ARGV) < 1);
 # Check whether the repository is present, no matter how naive this method
 # actually is:
 exit_with_error("Not a We-Blog repository! Try `we-blog-init' first.",1)
-  unless (-d catdir($blogdir, '.we-blog'));
+  unless (-d catdir($blogdir, ));
 
 # Remove the records from the repository:
 my @list = remove_records($type, \@ARGV);

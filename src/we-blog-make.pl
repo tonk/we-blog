@@ -34,6 +34,7 @@ use constant VERSION => '0.8';                      # Script version.
 
 # General script settings:
 our $blogdir     = '.';                             # Repository location.
+our $weblog      = '.we-blog';                      # We-blog data and config directory
 our $destdir     = '.';                             # HTML pages location.
 our $verbose     = 1;                               # Verbosity level.
 our $with_index  = 1;                               # Generate index page?
@@ -237,7 +238,7 @@ sub read_ini {
 # Read the content of the configuration file:
 sub read_conf {
   # Prepare the file name:
-  my $file = catfile($blogdir, '.we-blog', 'config');
+  my $file = catfile($blogdir, $weblog, 'config');
 
   # Parse the file:
   if (my $conf = read_ini($file)) {
@@ -258,7 +259,7 @@ sub read_lang {
   my $name = shift || 'en_US';
 
   # Prepare the file name:
-  my $file = catfile($blogdir, '.we-blog', 'lang', $name);
+  my $file = catfile($blogdir, $weblog, 'lang', $name);
 
   # Parse the file:
   if (my $lang = read_ini($file)) {
@@ -431,7 +432,7 @@ sub collect_headers {
   my @records = ();
 
   # Prepare the file name:
-  my $head    = catdir($blogdir, '.we-blog', "${type}s", 'head');
+  my $head    = catdir($blogdir, $weblog, "${type}s", 'head');
 
   # Open the directory:
   opendir(HEAD, $head) or return @records;
@@ -692,7 +693,7 @@ sub read_entry {
   my $excerpt = shift || 0;
 
   # Prepare the file name:
-  my $file    = catfile($blogdir, '.we-blog', "${type}s", 'body', $id);
+  my $file    = catfile($blogdir, $weblog, "${type}s", 'body', $id);
 
   # Get the index append for posts
   my $append_index = $conf->{appends}->{index} || '';
@@ -987,7 +988,7 @@ sub format_template {
   }
 
   # Open the theme file for reading:
-  open(THEME, catfile($blogdir, '.we-blog', 'theme', $theme_file))
+  open(THEME, catfile($blogdir, $weblog, 'theme', $theme_file))
     or return 0;
 
   # Read the theme file:
@@ -1150,7 +1151,7 @@ sub write_page {
 sub copy_stylesheet {
   # Prepare file names:
   my $style = $conf->{blog}->{style} || 'default.css';
-  my $from  = catfile($blogdir, '.we-blog', 'style', $style);
+  my $from  = catfile($blogdir, $weblog, 'style', $style);
   my $to    = ($destdir eq '.') ? $style : catfile($destdir, $style);
 
   # Check whether the existing style sheet differs:
@@ -1763,7 +1764,7 @@ exit_with_error("Invalid option `$ARGV[0]'.", 22) if (scalar(@ARGV) != 0);
 # Check whether the repository is present, no matter how naive this method
 # actually is:
 exit_with_error("Not a We-Blog repository! Try `we-blog-init' first.",1)
-  unless (-d catdir($blogdir, '.we-blog'));
+  unless (-d catdir($blogdir, ));
 
 # Make sure there is something to do at all:
 unless ($with_posts || $with_pages) {

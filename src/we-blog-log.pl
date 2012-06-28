@@ -31,6 +31,7 @@ use constant VERSION => '0.8';                      # Script version.
 
 # General script settings:
 our $blogdir    = '.';                              # Repository location.
+our $weblog     = '.we-blog';                       # We-blog data and config directory
 our $coloured   = undef;                            # Use colors?
 our $compact    = 0;                                # Use compact listing?
 our $number     = 0;                                # Listed records limit.
@@ -146,7 +147,7 @@ sub read_ini {
 # Read the content of the configuration file:
 sub read_conf {
   # Prepare the file name:
-  my $file = catfile($blogdir, '.we-blog', 'config');
+  my $file = catfile($blogdir, $weblog, 'config');
 
   # Parse the file:
   if (my $conf = read_ini($file)) {
@@ -202,7 +203,7 @@ sub display_log {
   my $count = 0;
 
   # Prepare the file name:
-  my $file  = catfile($blogdir, '.we-blog', 'log');
+  my $file  = catfile($blogdir, $weblog, 'log');
 
   # Open the log file for reading:
   open(LOG, "$file") or return 0;
@@ -278,7 +279,7 @@ exit_with_error("Invalid option `$ARGV[0]'.", 22) if (scalar(@ARGV) != 0);
 # Check whether the repository is present, no matter how naive this method
 # actually is:
 exit_with_error("Not a We-Blog repository! Try `we-blog-init' first.",1)
-  unless (-d catdir($blogdir, '.we-blog'));
+  unless (-d catdir($blogdir, ));
 
 # Unless specified on the command line, read the color setup from the
 # configuration file:

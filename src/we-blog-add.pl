@@ -32,6 +32,7 @@ use constant VERSION => '0.8';                      # Script version.
 
 # General script settings:
 our $blogdir  = '.';                                # Repository location.
+our $weblog   = '.we-blog';                         # We-blog data and config directory
 our $editor   = '';                                 # Editor to use.
 our $process  = 1;                                  # Use processor?
 our $verbose  = 1;                                  # Verbosity level.
@@ -196,7 +197,7 @@ sub write_ini {
 # Read the content of the configuration file:
 sub read_conf {
   # Prepare the file name:
-  my $file = catfile($blogdir, '.we-blog', 'config');
+  my $file = catfile($blogdir, $weblog, 'config');
 
   # Parse the file:
   if (my $conf = read_ini($file)) {
@@ -326,9 +327,9 @@ sub save_record {
   my $line = '';
 
   # Prepare the record directory names:
-  my $head_dir  = catdir($blogdir, '.we-blog', "${type}s", 'head');
-  my $body_dir  = catdir($blogdir, '.we-blog', "${type}s", 'body');
-  my $raw_dir   = catdir($blogdir, '.we-blog', "${type}s", 'raw');
+  my $head_dir  = catdir($blogdir, $weblog, "${type}s", 'head');
+  my $body_dir  = catdir($blogdir, $weblog, "${type}s", 'body');
+  my $raw_dir   = catdir($blogdir, $weblog, "${type}s", 'raw');
 
   # Prepare the record file names:
   my $head      = catfile($head_dir, $id);
@@ -336,9 +337,9 @@ sub save_record {
   my $raw       = catfile($raw_dir,  $id);
 
   # Prepare the temporary file names:
-  my $temp_head = catfile($blogdir, '.we-blog', 'temp.head');
-  my $temp_body = catfile($blogdir, '.we-blog', 'temp.body');
-  my $temp_raw  = catfile($blogdir, '.we-blog', 'temp.raw');
+  my $temp_head = catfile($blogdir, $weblog, 'temp.head');
+  my $temp_body = catfile($blogdir, $weblog, 'temp.body');
+  my $temp_raw  = catfile($blogdir, $weblog, 'temp.raw');
 
   # Read required data from the configuration:
   my $processor = $conf->{core}->{processor};
@@ -428,7 +429,7 @@ sub collect_ids {
   my $type = shift || 'post';
 
   # Prepare the post or page directory name:
-  my $head = catdir($blogdir, '.we-blog', "${type}s", 'head');
+  my $head = catdir($blogdir, $weblog, "${type}s", 'head');
 
   # Open the header directory:
   opendir(HEADS, $head) or return 0;
@@ -567,7 +568,7 @@ END_PAGE_HEADER
   }
 
   # Prepare the temporary file name:
-  my $temp = catfile($blogdir, '.we-blog', 'temp');
+  my $temp = catfile($blogdir, $weblog, 'temp');
 
   # Open the file for writing:
   if (open(FILE, ">$temp")) {
@@ -628,7 +629,7 @@ sub add_to_log {
   my $text = shift || 'Something miraculous has just happened!';
 
   # Prepare the log file name:
-  my $file = catfile($blogdir, '.we-blog', 'log');
+  my $file = catfile($blogdir, $weblog, 'log');
 
   # Open the log file for appending:
   open(LOG, ">>$file") or return 0;
@@ -669,7 +670,7 @@ GetOptions(
 # Check whether the repository is present, no matter how naive this method
 # actually is:
 exit_with_error("Not a We-Blog repository! Try `we-blog-init' first.",1)
-  unless (-d catdir($blogdir, '.we-blog'));
+  unless (-d catdir($blogdir, ));
 
 # Read the configuration file:
 $conf = read_conf();

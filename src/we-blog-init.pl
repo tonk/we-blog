@@ -30,6 +30,7 @@ use constant VERSION => '0.8';                      # Script version.
 
 # General script settings:
 our $blogdir = '.';                                 # Repository location.
+our $weblog  = '.we-blog';                          # We-blog data and config directory
 our $force   = 0;                                   # Force files rewrite?
 our $verbose = 1;                                   # Verbosity level.
 
@@ -109,7 +110,7 @@ END_VERSION
 # Create the default configuration file:
 sub create_conf {
   # Prepare the configuration file name:
-  my $file = catfile($blogdir, '.we-blog', 'config');
+  my $file = catfile($blogdir, $weblog, 'config');
 
   # Unless explicitly requested, do not overwrite the existing file:
   return 1 if (-e $file && !$force);
@@ -251,7 +252,7 @@ END_CONFIG
 # Create the default theme file:
 sub create_theme {
   # Prepare the theme file name:
-  my $file = catfile($blogdir, '.we-blog', 'theme', 'default.html');
+  my $file = catfile($blogdir, $weblog, 'theme', 'default.html');
 
   # Unless explicitly requested, do not overwrite the existing file:
   return 1 if (-e $file && !$force);
@@ -336,7 +337,7 @@ END_THEME
 # Create the default style sheet:
 sub create_style {
   # Prepare the style sheet file name:
-  my $file = catfile($blogdir, '.we-blog', 'style', 'default.css');
+  my $file = catfile($blogdir, $weblog, 'style', 'default.css');
 
   # Unless explicitly requested, do not overwrite the existing file:
   return 1 if (-e $file && !$force);
@@ -593,7 +594,7 @@ END_STYLE
 # Create the default localization file:
 sub create_lang {
   # Prepare the localization file name:
-  my $file = catfile($blogdir, '.we-blog', 'lang', 'en_US');
+  my $file = catfile($blogdir, $weblog, 'lang', 'en_US');
 
   # Unless explicitly requested, do not overwrite the existing file:
   return 1 if (-e $file && !$force);
@@ -642,7 +643,7 @@ sub add_to_log {
   my $text = shift || 'Something miraculous has just happened!';
 
   # Prepare the log file name:
-  my $file = catfile($blogdir, '.we-blog', 'log');
+  my $file = catfile($blogdir, $weblog, 'log');
 
   # Open the log file for appending:
   open(LOG, ">>$file") or return 0;
@@ -674,21 +675,21 @@ GetOptions(
 exit_with_error("Invalid option `$ARGV[0]'.", 22) if (scalar(@ARGV) != 0);
 
 # Decide whether to create or recover the repository:
-my $action = (-d catdir($blogdir, '.we-blog')) ? 'Recovered' : 'Created';
+my $action = (-d catdir($blogdir, )) ? 'Recovered' : 'Created';
 
 # Create the directory tree:
 eval {
   mkpath(
     [
-      catdir($blogdir, '.we-blog', 'lang'),
-      catdir($blogdir, '.we-blog', 'theme'),
-      catdir($blogdir, '.we-blog', 'style'),
-      catdir($blogdir, '.we-blog', 'pages', 'head'),
-      catdir($blogdir, '.we-blog', 'pages', 'body'),
-      catdir($blogdir, '.we-blog', 'pages', 'raw'),
-      catdir($blogdir, '.we-blog', 'posts', 'head'),
-      catdir($blogdir, '.we-blog', 'posts', 'body'),
-      catdir($blogdir, '.we-blog', 'posts', 'raw'),
+      catdir($blogdir, $weblog, 'lang'),
+      catdir($blogdir, $weblog, 'theme'),
+      catdir($blogdir, $weblog, 'style'),
+      catdir($blogdir, $weblog, 'pages', 'head'),
+      catdir($blogdir, $weblog, 'pages', 'body'),
+      catdir($blogdir, $weblog, 'pages', 'raw'),
+      catdir($blogdir, $weblog, 'posts', 'head'),
+      catdir($blogdir, $weblog, 'posts', 'body'),
+      catdir($blogdir, $weblog, 'posts', 'raw'),
     ],
     0 # Do not be verbose.
   );
@@ -719,7 +720,7 @@ add_to_log("$action a We-Blog repository.")
 
 # Report success:
 print "$action a We-Blog repository in " .
-      catdir($blogdir, '.we-blog') . ".\n" if $verbose;
+      catdir($blogdir, ) . ".\n" if $verbose;
 
 # Return success:
 exit 0;
