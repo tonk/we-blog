@@ -26,18 +26,9 @@ use Getopt::Long;
 use Term::ANSIColor;
 use Text::Wrap;
 
-# General script information:
-use constant NAME    => basename($0, '.pl');        # Script name.
-use constant VERSION => '0.8';                      # Script version.
-
-# General script settings:
-our $blogdir    = '.';                              # Repository location.
-our $weblog     = '.we-blog';                       # We-blog data and config directory
-our $verbose    = 1;                                # Verbosity level.
-our $compact    = 0;                                # Use compact listing?
-our $coloured   = undef;                            # Use colors?
-our $reverse    = 0;                                # Use reverse order?
-our $number     = 0;                                # Listed records limit.
+# Set the library path and use our own module
+use lib dirname($0);
+use we;
 
 # Global variables:
 our $conf       = {};                               # Configuration.
@@ -52,38 +43,8 @@ my  $month      = '';                               # Month search pattern.
 my  $day        = '';                               # Day search pattern.
 my  $tag        = '';                               # Tag search pattern.
 
-# Set up the __WARN__ signal handler:
-$SIG{__WARN__}  = sub {
-	print STDERR NAME . ": " . (shift);
-};
-
-# Display an error message, and terminate the script:
-sub exit_with_error {
-	my $message      = shift || 'An error has occurred.';
-	my $return_value = shift || 1;
-
-	# Display the error message:
-	print STDERR NAME . ": $message\n";
-
-	# Terminate the script:
-	exit $return_value;
-}
-
-# Display a warning message:
-sub display_warning {
-	my $message = shift || 'A warning was requested.';
-
-	# Display the warning message:
-	print STDERR "$message\n";
-
-	# Return success:
-	return 1;
-}
-
 # Display usage information:
 sub display_help {
-	my $NAME = NAME;
-
 	# Display the usage:
 	print << "END_HELP";
 Usage: $NAME [-cpqrsCPSV] [-b DIRECTORY] [-I ID] [-a AUTHOR]
@@ -117,83 +78,6 @@ END_HELP
 
 	# Return success:
 	return 1;
-}
-
-# Display version information:
-sub display_version {
-	my ($NAME, $VERSION) = (NAME, VERSION);
-
-	# Display the version:
-	print << "END_VERSION";
-$NAME $VERSION
-
-Copyright (c) 2011-2012 Ton Kersten
-Copyright (c) 2009-2011 Jaromir Hradilek
-
-This program is free software; see the source for copying conditions. It is
-distributed in the hope  that it will be useful,  but WITHOUT ANY WARRANTY;
-without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PAR-
-TICULAR PURPOSE.
-END_VERSION
-
-	# Return success:
-	return 1;
-}
-
-# Translate a date to the YYYY-MM-DD form:
-sub date_to_string {
-	my @date = localtime(shift);
-	return sprintf("%d-%02d-%02d", ($date[5] + 1900), ++$date[4], $date[3]);
-}
-
-# Read data from the INI file:
-sub read_ini {
-	my $file    = shift || die 'Missing argument';
-
-	# Initialize required variables:
-	my $hash    = {};
-	my $section = 'default';
-
-	# Open the file for reading:
-	open(INI, "$file") or return 0;
-
-	# Process each line:
-	while (my $line = <INI>) {
-		# Parse the line:
-		if ($line =~ /^\s*\[([^\]]+)\]\s*$/) {
-			# Change the section:
-			$section = $1;
-		}
-		elsif ($line =~ /^\s*(\S+)\s*=\s*(\S.*)$/) {
-			# Add the option to the hash:
-			$hash->{$section}->{$1} = $2;
-		}
-	}
-
-	# Close the file:
-	close(INI);
-
-	# Return the result:
-	return $hash;
-}
-
-# Read the content of the configuration file:
-sub read_conf {
-	# Prepare the file name:
-	my $file = catfile($blogdir, $weblog, 'config');
-
-	# Parse the file:
-	if (my $conf = read_ini($file)) {
-		# Return the result:
-		return $conf;
-	}
-	else {
-		# Report failure:
-		display_warning("Unable to read the configuration.");
-
-		# Return an empty configuration:
-		return {};
-	}
 }
 
 # Compose a blog post or a page record:

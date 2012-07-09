@@ -27,16 +27,9 @@ use File::Path;
 use File::Spec::Functions;
 use Getopt::Long;
 
-# General script information:
-use constant NAME		=> basename($0, '.pl');		# Script name.
-use constant VERSION	=> '0.8';					# Script version.
-
-# General script settings:
-our $blogdir	= '.';								# Repository location.
-our $weblog		= '.we-blog';						# We-blog data and config directory
-our $editor		= '';								# Editor to use.
-our $process	= 1;								# Use processor?
-our $verbose	= 1;								# Verbosity level.
+# Set the library path and use our own module
+use lib dirname($0);
+use we;
 
 # Global variables:
 our $chosen		= 1;								# Available ID guess.
@@ -48,38 +41,8 @@ my  $type		= 'post';							# Type: post or page.
 my  $added		= '';								# List of added IDs.
 my  $data		= {};								# Post/page meta data.
 
-# Set up the __WARN__ signal handler:
-$SIG{__WARN__} = sub {
-	print STDERR NAME . ": " . (shift);
-};
-
-# Display an error message, and terminate the script:
-sub exit_with_error {
-	my $message      = shift || 'An error has occurred.';
-	my $return_value = shift || 1;
-
-	# Display the error message:
-	print STDERR NAME . ": $message\n";
-
-	# Terminate the script:
-	exit $return_value;
-}
-
-# Display a warning message:
-sub display_warning {
-	my $message = shift || 'A warning was requested.';
-
-	# Display the warning message:
-	print STDERR "$message\n";
-
-	# Return success:
-	return 1;
-}
-
 # Display usage information:
 sub display_help {
-	my $NAME = NAME;
-
 	# Display the usage:
 	print << "END_HELP";
 Usage: $NAME [-pqCPV] [-b DIRECTORY] [-E EDITOR] [-a AUTHOR] [-d DATE]
@@ -108,110 +71,6 @@ END_HELP
 
 	# Return success:
 	return 1;
-}
-
-# Display version information:
-sub display_version {
-	my ($NAME, $VERSION) = (NAME, VERSION);
-
-	# Display the version:
-	print << "END_VERSION";
-$NAME $VERSION
-
-Copyright (c) 2011-2012 Ton Kersten
-Copyright (c) 2008-2011 Jaromir Hradilek
-
-This program is free software; see the source for copying conditions. It is
-distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PAR-
-TICULAR PURPOSE.
-END_VERSION
-
-	# Return success:
-	return 1;
-}
-
-# Translate a date to the YYYY-MM-DD form:
-sub date_to_string {
-	my @date = localtime(shift);
-	return sprintf("%d-%02d-%02d", ($date[5] + 1900), ++$date[4], $date[3]);
-}
-
-# Read data from the INI file:
-sub read_ini {
-	my $file	= shift || die 'Missing argument';
-
-	# Initialize required variables:
-	my $hash	= {};
-	my $section	= 'default';
-
-	# Open the file for reading:
-	open(INI, "$file") or return 0;
-
-	# Process each line:
-	while (my $line = <INI>) {
-		# Parse the line:
-		if ($line =~ /^\s*\[([^\]]+)\]\s*$/) {
-			# Change the section:
-			$section = $1;
-		}
-		elsif ($line =~ /^\s*(\S+)\s*=\s*(\S.*)$/) {
-			# Add the option to the hash:
-			$hash->{$section}->{$1} = $2;
-		}
-	}
-
-	# Close the file:
-	close(INI);
-
-	# Return the result:
-	return $hash;
-}
-
-# Write data to the INI file:
-sub write_ini {
-	my $file = shift || 'Missing argument';
-	my $hash = shift || 'Missing argument';
-
-	# Open the file for writing:
-	open(INI, ">$file") or return 0;
-
-	# Process each section:
-	foreach my $section (sort(keys(%$hash))) {
-		# Write the section header to the file::
-		print INI "[$section]\n";
-
-		# Process each option in the section:
-		foreach my $option (sort(keys(%{$hash->{$section}}))) {
-			# Write the option and its value to the file:
-			print INI "\t$option = $hash->{$section}->{$option}\n";
-		}
-	}
-
-	# Close the file:
-	close(INI);
-
-	# Return success:
-	return 1;
-}
-
-# Read the content of the configuration file:
-sub read_conf {
-	# Prepare the file name:
-	my $file = catfile($blogdir, $weblog, 'config');
-
-	# Parse the file:
-	if (my $conf = read_ini($file)) {
-		# Return the result:
-		return $conf;
-	}
-	else {
-		# Report failure:
-		display_warning("Unable to read the configuration.");
-
-		# Return an empty configuration:
-		return {};
-	}
 }
 
 # Make proper URL from the string while stripping all forbidden characters:
@@ -623,26 +482,6 @@ END_PAGE_HEADER
 
 	# Return the record ID:
 	return shift(@list);
-}
-
-# Add the event to the log:
-sub add_to_log {
-	my $text = shift || 'Something miraculous has just happened!';
-
-	# Prepare the log file name:
-	my $file = catfile($blogdir, $weblog, 'log');
-
-	# Open the log file for appending:
-	open(LOG, ">>$file") or return 0;
-
-	# Write the event to the file:
-	print LOG localtime(time) . " - $text\n";
-
-	# Close the file:
-	close(LOG);
-
-	# Return success:
-	return 1;
 }
 
 # Set up the option parser:

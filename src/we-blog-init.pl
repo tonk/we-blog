@@ -25,48 +25,12 @@ use File::Path;
 use File::Spec::Functions;
 use Getopt::Long;
 
-# General script information:
-use constant NAME    => basename($0, '.pl');        # Script name.
-use constant VERSION => '0.8';                      # Script version.
-
-# General script settings:
-our $blogdir = '.';                                 # Repository location.
-our $weblog  = '.we-blog';                          # We-blog data and config directory
-our $force   = 0;                                   # Force files rewrite?
-our $verbose = 1;                                   # Verbosity level.
-
-# Set up the __WARN__ signal handler:
-$SIG{__WARN__} = sub {
-	print STDERR NAME . ": " . (shift);
-};
-
-# Display an error message, and terminate the script:
-sub exit_with_error {
-	my $message      = shift || 'An error has occurred.';
-	my $return_value = shift || 1;
-
-	# Display the error message:
-	print STDERR NAME . ": $message\n";
-
-	# Terminate the script:
-	exit $return_value;
-}
-
-# Display a warning message:
-sub display_warning {
-	my $message = shift || 'A warning was requested.';
-
-	# Display the warning message:
-	print STDERR "$message\n";
-
-	# Return success:
-	return 1;
-}
+# Set the library path and use our own module
+use lib dirname($0);
+use we;
 
 # Display usage information:
 sub display_help {
-	my $NAME = NAME;
-
 	# Display the usage:
 	print << "END_HELP";
 Usage: $NAME [-fqV] [-b DIRECTORY]
@@ -82,27 +46,6 @@ Usage: $NAME [-fqV] [-b DIRECTORY]
 	-h, --help                  display this help and exit
 	-v, --version               display version information and exit
 END_HELP
-
-	# Return success:
-	return 1;
-}
-
-# Display version information:
-sub display_version {
-	my ($NAME, $VERSION) = (NAME, VERSION);
-
-	# Display the version:
-	print << "END_VERSION";
-$NAME $VERSION
-
-Copyright (c) 2011-2012 Ton Kersten
-Copyright (c) 2008-2011 Jaromir Hradilek
-
-This program is free software; see the source for copying conditions. It is
-distributed in the hope  that it will be useful,  but WITHOUT ANY WARRANTY;
-without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PAR-
-TICULAR PURPOSE.
-END_VERSION
 
 	# Return success:
 	return 1;
@@ -634,26 +577,6 @@ END_LANG
 
 	# Report success:
 	print "Created $file\n" if $verbose > 1;
-
-	# Return success:
-	return 1;
-}
-
-# Add the event to the log:
-sub add_to_log {
-	my $text = shift || 'Something miraculous has just happened!';
-
-	# Prepare the log file name:
-	my $file = catfile($blogdir, $weblog, 'log');
-
-	# Open the log file for appending:
-	open(LOG, ">>$file") or return 0;
-
-	# Write the event to the file:
-	print LOG localtime(time) . " - $text\n";
-
-	# Close the file:
-	close(LOG);
 
 	# Return success:
 	return 1;

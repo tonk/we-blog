@@ -29,15 +29,11 @@ use File::Spec::Functions;
 use Getopt::Long;
 use Time::Local 'timelocal_nocheck';
 
-# General script information:
-use constant NAME    => basename($0, '.pl');        # Script name.
-use constant VERSION => '0.8';                      # Script version.
+# Set the library path and use our own module
+use lib dirname($0);
+use we;
 
 # General script settings:
-our $blogdir     = '.';                             # Repository location.
-our $weblog      = '.we-blog';                      # We-blog data and config directory
-our $destdir     = '.';                             # HTML pages location.
-our $verbose     = 1;                               # Verbosity level.
 our $with_index  = 1;                               # Generate index page?
 our $with_posts  = 1;                               # Generate posts?
 our $with_pages  = 1;                               # Generate pages?
@@ -51,38 +47,8 @@ our $conf        = {};                              # Configuration.
 our $locale      = {};                              # Localization.
 our $cache_theme = '';                              # Cached template.
 
-# Set up the __WARN__ signal handler:
-$SIG{__WARN__}  = sub {
-	print STDERR NAME . ": " . (shift);
-};
-
-# Display an error message, and terminate the script:
-sub exit_with_error {
-	my $message      = shift || 'An error has occurred.';
-	my $return_value = shift || 1;
-
-	# Display the error message:
-	print STDERR NAME . ": $message\n";
-
-	# Terminate the script:
-	exit $return_value;
-}
-
-# Display a warning message:
-sub display_warning {
-	my $message = shift || 'A warning was requested.';
-
-	# Display the warning message:
-	print STDERR "$message\n";
-
-	# Return success:
-	return 1;
-}
-
 # Display usage information:
 sub display_help {
-	my $NAME = NAME;
-
 	# Display the usage:
 	print << "END_HELP";
 Usage: $NAME [-cpqrIFPTV] [-b DIRECTORY] [-d DIRECTORY]
@@ -109,56 +75,6 @@ END_HELP
 
 	# Return success:
 	return 1;
-}
-
-# Display version information:
-sub display_version {
-	my ($NAME, $VERSION) = (NAME, VERSION);
-
-	# Display the version:
-	print << "END_VERSION";
-$NAME $VERSION
-
-Copyright (c) 2011-2012 Ton Kersten
-Copyright (c) 2009-2011 Jaromir Hradilek
-
-This program is free software; see the source for copying conditions. It is
-distributed in the hope  that it will be useful,  but WITHOUT ANY WARRANTY;
-without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PAR-
-TICULAR PURPOSE.
-END_VERSION
-
-	# Return success:
-	return 1;
-}
-
-# Translate given date to YYYY-MM-DD string:
-sub date_to_string {
-	my @date = localtime(shift);
-	return sprintf("%d-%02d-%02d", ($date[5] + 1900), ++$date[4], $date[3]);
-}
-
-# Translate a date to a string in the RFC 822 form:
-sub rfc_822_date {
-	my @date = localtime(shift);
-
-	# Prepare aliases:
-	my @months = qw( Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec );
-	my @days   = qw( Sun Mon Tue Wed Thu Fri Sat );
-
-	# Return the result:
-	return sprintf("%s, %02d %s %d %02d:%02d:%02d GMT",
-			$days[$date[6]],
-			$date[3], $months[$date[4]], 1900 + $date[5],
-			$date[2], $date[1], $date[0]);
-}
-
-sub date_time_to_string {
-	my @date = localtime(shift);
-
-	# Return the result:
-	return sprintf("%02d-%02d-%02d %02d:%02d", ($date[5] + 1900),
-		++$date[4], $date[3], $date[2], $date[1], $date[0]);
 }
 
 # Append proper index file name to the end of the link if requested:
@@ -204,56 +120,6 @@ sub strip_html {
 
 	# Return the result:
 	return $string;
-}
-
-# Read data from the INI file:
-sub read_ini {
-	my $file    = shift || die 'Missing argument';
-
-	# Initialize required variables:
-	my $hash    = {};
-	my $section = 'default';
-
-	# Open the file for reading:
-	open(INI, "$file") or return 0;
-
-	# Process each line:
-	while (my $line = <INI>) {
-		# Parse the line:
-		if ($line =~ /^\s*\[([^\]]+)\]\s*$/) {
-			# Change the section:
-			$section = $1;
-		}
-		elsif ($line =~ /^\s*(\S+)\s*=\s*(\S.*)$/) {
-			# Add the option to the hash:
-			$hash->{$section}->{$1} = $2;
-		}
-	}
-
-	# Close the file:
-	close(INI);
-
-	# Return the result:
-	return $hash;
-}
-
-# Read the content of the configuration file:
-sub read_conf {
-	# Prepare the file name:
-	my $file = catfile($blogdir, $weblog, 'config');
-
-	# Parse the file:
-	if (my $conf = read_ini($file)) {
-		# Return the result:
-		return $conf;
-	}
-	else {
-		# Report failure:
-		display_warning("Unable to read the configuration.");
-
-		# Return an empty configuration:
-		return {};
-	}
 }
 
 # Read the content of the localization file:
@@ -914,8 +780,6 @@ sub format_navigation {
 
 # Prepare a template:
 sub format_template {
-	my $VERSION = VERSION;
-
 	my $data          = shift || die 'Missing argument';
 	my $theme_file    = shift || $conf->{blog}->{theme} || 'default.html';
 	my $style_file    = shift || $conf->{blog}->{style} || 'default.css';
@@ -946,7 +810,7 @@ sub format_template {
 	my $meta_content_type = '<meta http-equiv="Content-Type" content="' .
 				'txt/html; charset=' . $conf_encoding . '">';
 	my $meta_generator    = '<meta name="Generator" content="We-Blog version ' .
-				VERSION . '">';
+				$VERSION . '">';
 	my $meta_copyright    = '<meta name="Copyright" content="&copy; ' .
 				$current_year . ' ' . $conf_name . '">';
 	my $meta_date         = '<meta name="Date" content="'. date_time_to_string(time) .'">';
@@ -1240,7 +1104,7 @@ sub generate_rss {
 						"  <title>$blog_title</title>\n" .
 						"  <link>$feed_baseurl/</link>\n" .
 						"  <description>$blog_subtitle</description>\n" .
-						"  <generator>We-Blog " . VERSION . "</generator>\n";
+						"  <generator>We-Blog " . $VERSION . "</generator>\n";
 
 	# Process the requested number of posts:
 	foreach my $record (@{$data->{headers}->{posts}}) {

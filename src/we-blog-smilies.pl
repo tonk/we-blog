@@ -32,79 +32,38 @@ use File::Path;
 use File::Spec::Functions;
 use Getopt::Long;
 
-# General script information:
-use constant NAME    => basename($0, '.pl');		# Script name.
-use constant VERSION => '0.8';						# Script version.
-
-# General script settings:
-our $blogdir = '.';									# Repository location.
-our $weblog  = '.we-blog';							# We-blog data and config directory
+# Set the library path and use our own module
+use lib dirname($0);
+use we;
 
 # Global variables:
 our $conf    = {};									# Configuration.
 
-sub read_ini {
-	my $file = shift || die 'Missing argument';
-
-	# Initialize required variables:
-	my $hash    = {};
-	my $section = 'default';
-
-	# Open the file for reading:
-	open(INI, "$file") or return 0;
-
-	# Process each line:
-	while (my $line = <INI>) {
-		# Parse the line:
-		if ($line =~ /^\s*\[([^\]]+)\]\s*$/) {
-			# Change the section:
-			$section = $1;
-		}
-		elsif ($line =~ /^\s*(\S+)\s*=\s*(\S.*)$/) {
-			# Add the option to the hash:
-			$hash->{$section}->{$1} = $2;
-		}
-	}
-
-	# Close the file:
-	close(INI);
-
-	# Return the result:
-	return $hash;
-}
-
-
-# Read the configuration
-sub read_conf {
-	# Prepare the file name:
-	my $file = catfile($blogdir, $weblog, 'config');
-
-	# Parse the file:
-	if (my $conf = read_ini($file)) {
-		# Return the result:
-		return $conf;
-	}
-	else {
-		# Report failure:
-		display_warning("Unable to read the configuration.");
-
-		# Return an empty configuration:
-		return {};
-	}
-}
-
-# Display a warning message:
-sub display_warning {
-	my $message = shift || 'A warning was requested.';
-
-	# Display the warning message:
-	print STDERR "$message\n";
-
-	# Return success:
-	return 1;
-}
-
 $conf = read_conf();
+
+# Display usage information:
+sub display_help {
+    # Display the usage:
+    print << "END_HELP";
+Usage:  $NAME [-vh]
+    $NAME -h|-v
+
+    -h, --help                  display this help and exit
+    -v, --version               display version information and exit
+END_HELP
+
+    # Return success:
+    return 1;
+}
+
+# Set up the option parser:
+Getopt::Long::Configure('no_auto_abbrev', 'no_ignore_case', 'bundling');
+
+# Process command line options:
+GetOptions(
+    'help|h'         => sub { display_help();       exit 0; },
+    'version|v'      => sub { display_version();    exit 0; },
+);
 
 my $smurl = $conf->{blog}->{smilies} || '/images/smilies';
 $smurl = '<img class="smiley" alt="smiley" src="' . $smurl;

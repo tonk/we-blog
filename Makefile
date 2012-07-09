@@ -31,7 +31,7 @@ MAN1    = src/we-blog-add.1 src/we-blog-config.1 src/we-blog-edit.1	\
 SRCS    = src/we-blog-add.pl src/we-blog-config.pl src/we-blog-edit.pl	\
           src/we-blog-init.pl src/we-blog-list.pl src/we-blog-log.pl	\
           src/we-blog-make.pl src/we-blog-remove.pl			\
-          src/we-blog-smilies.pl
+          src/we-blog-smilies.pl we.pm
 SMLS	= smilies
 
 # Installation directories:
@@ -62,6 +62,7 @@ install_bin:
 	$(INSTALL) -m 755 src/we-blog-config.pl		$(bindir)/we-blog-config
 	$(INSTALL) -m 755 src/we-blog-remove.pl		$(bindir)/we-blog-remove
 	$(INSTALL) -m 755 src/we-blog-smilies.pl	$(bindir)/we-blog-smilies
+	$(INSTALL) -m 755 src/we.pm			$(bindir)/we.pm
 	$(INSTALL) -m 755 unix/we-blog.sh		$(bindir)/we-blog
 
 install_conf:
@@ -128,6 +129,7 @@ uninstall:
 	-rm -f $(bindir)/we-blog-config
 	-rm -f $(bindir)/we-blog-remove
 	-rm -f $(bindir)/we-blog-smilies
+	-rm -f $(bindir)/we.pm
 	-rm -f $(bindir)/we-blog
 	-rmdir $(bindir)
 	@echo "Removing bash completion..."
