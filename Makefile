@@ -1,5 +1,5 @@
 # makefile for We-Blog, We Blog our hearts out
-# $Id: Makefile 2 2011-09-22 08:56:20 tonk $
+# $Id: Makefile 3 2012-07-09 13:51:16 tonk $
 
 # Copyright (c) 2011-2012 Ton Kersten
 # Copyright (c) 2009-2011 Jaromir Hradilek
@@ -32,6 +32,7 @@ SRCS    = src/we-blog-add.pl src/we-blog-config.pl src/we-blog-edit.pl	\
           src/we-blog-init.pl src/we-blog-list.pl src/we-blog-log.pl	\
           src/we-blog-make.pl src/we-blog-remove.pl			\
           src/we-blog-smilies.pl
+SMLS	= smilies
 
 # Installation directories:
 config  = /etc
@@ -84,6 +85,11 @@ install_data:
 	$(INSTALL) -m 644 lang/ru_RU $(datadir)/lang
 	$(INSTALL) -m 644 lang/uk_UK $(datadir)/lang
 
+install_smilies:
+	@echo "Copying smilies..."
+	$(INSTALL) -d -p -m 755 smilies $(datadir)/smilies
+	$(INSTALL) -p -m 644 smilies/* $(datadir)/smilies
+
 install_docs:
 	@echo "Copying documentation..."
 	$(INSTALL) -d $(docsdir)
@@ -109,7 +115,7 @@ install_man: $(MAN1)
 	$(INSTALL) -m 644 src/we-blog-smilies.1 $(man1dir)
 	$(INSTALL) -m 644 unix/man/man1/we-blog.1 $(man1dir)
 
-install: install_bin install_conf install_data install_docs install_man
+install: install_bin install_conf install_data install_docs install_man install_smilies
 
 uninstall:
 	@echo "Removing executables..."
@@ -127,6 +133,9 @@ uninstall:
 	@echo "Removing bash completion..."
 	-rm -f $(compdir)/we-blog
 	-rmdir $(compdir)
+	@echo "Removing smilies..."
+	-rm -f $(datadir)/smilies/*
+	-rmdir $(datadir)/smilies
 	@echo "Removing translations..."
 	-rm -f $(datadir)/lang/cs_CZ
 	-rm -f $(datadir)/lang/de_DE
