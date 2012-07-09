@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# vi: set sw=4 ts=4 ai:
 # $Id: we-blog-list.pl 2 2011-09-21 15:34:25 tonk $
 
 # we-blog-list - lists blog posts or pages in the We-Blog repository
@@ -53,77 +54,77 @@ my  $tag        = '';                               # Tag search pattern.
 
 # Set up the __WARN__ signal handler:
 $SIG{__WARN__}  = sub {
-  print STDERR NAME . ": " . (shift);
+	print STDERR NAME . ": " . (shift);
 };
 
 # Display an error message, and terminate the script:
 sub exit_with_error {
-  my $message      = shift || 'An error has occurred.';
-  my $return_value = shift || 1;
+	my $message      = shift || 'An error has occurred.';
+	my $return_value = shift || 1;
 
-  # Display the error message:
-  print STDERR NAME . ": $message\n";
+	# Display the error message:
+	print STDERR NAME . ": $message\n";
 
-  # Terminate the script:
-  exit $return_value;
+	# Terminate the script:
+	exit $return_value;
 }
 
 # Display a warning message:
 sub display_warning {
-  my $message = shift || 'A warning was requested.';
+	my $message = shift || 'A warning was requested.';
 
-  # Display the warning message:
-  print STDERR "$message\n";
+	# Display the warning message:
+	print STDERR "$message\n";
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Display usage information:
 sub display_help {
-  my $NAME = NAME;
+	my $NAME = NAME;
 
-  # Display the usage:
-  print << "END_HELP";
+	# Display the usage:
+	print << "END_HELP";
 Usage: $NAME [-cpqrsCPSV] [-b DIRECTORY] [-I ID] [-a AUTHOR]
-                  [-t TITLE] [-T TAG] [-d DAY] [-m MONTH] [-y YEAR]
-                  [-n NUMBER]
+	     [-t TITLE] [-T TAG] [-d DAY] [-m MONTH] [-y YEAR]
+	     [-n NUMBER ]
        $NAME -h|-v
 
-  -b, --blogdir DIRECTORY     specify a directory in which the We-Blog
-                              repository is placed
-  -I, --id ID                 display a single blog post or a page
-  -a, --author AUTHOR         list blog posts or pages by selected author
-  -t, --title TITLE           list blog posts or pages with matching title
-  -T, --tag TAG               list blog posts or pages with matching tag
-  -d, --day DAY               list blog posts or pages from selected day
-  -m, --month MONTH           list blog posts or pages from selected month
-  -y, --year YEAR             list blog posts or pages from selected year
-  -n, --number NUMBER         specify a number of blog posts or pages to
-                              be listed
-  -p, --pages                 list pages
-  -P, --posts                 list blog posts
-  -S, --stats                 display repository statistics
-  -s, --short                 display blog posts or pages on a single line
-  -r, --reverse               display blog posts or pages in reverse order
-  -c, --color                 enable colored output
-  -C, --no-color              disable colored output
-  -q, --quiet                 do not display unnecessary messages
-  -V, --verbose               display all messages
-  -h, --help                  display this help and exit
-  -v, --version               display version information and exit
+	-b, --blogdir DIRECTORY     specify a directory in which the We-Blog
+	                            repository is placed
+	-I, --id ID                 display a single blog post or a page
+	-a, --author AUTHOR         list blog posts or pages by selected author
+	-t, --title TITLE           list blog posts or pages with matching title
+	-T, --tag TAG               list blog posts or pages with matching tag
+	-d, --day DAY               list blog posts or pages from selected day
+	-m, --month MONTH           list blog posts or pages from selected month
+	-y, --year YEAR             list blog posts or pages from selected year
+	-n, --number NUMBER         specify a number of blog posts or pages to
+	                            be listed
+	-p, --pages                 list pages
+	-P, --posts                 list blog posts
+	-S, --stats                 display repository statistics
+	-s, --short                 display blog posts or pages on a single line
+	-r, --reverse               display blog posts or pages in reverse order
+	-c, --color                 enable colored output
+	-C, --no-color              disable colored output
+	-q, --quiet                 do not display unnecessary messages
+	-V, --verbose               display all messages
+	-h, --help                  display this help and exit
+	-v, --version               display version information and exit
 END_HELP
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Display version information:
 sub display_version {
-  my ($NAME, $VERSION) = (NAME, VERSION);
+	my ($NAME, $VERSION) = (NAME, VERSION);
 
-  # Display the version:
-  print << "END_VERSION";
+	# Display the version:
+	print << "END_VERSION";
 $NAME $VERSION
 
 Copyright (c) 2011-2012 Ton Kersten
@@ -135,316 +136,316 @@ without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PAR-
 TICULAR PURPOSE.
 END_VERSION
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Translate a date to the YYYY-MM-DD form:
 sub date_to_string {
-  my @date = localtime(shift);
-  return sprintf("%d-%02d-%02d", ($date[5] + 1900), ++$date[4], $date[3]);
+	my @date = localtime(shift);
+	return sprintf("%d-%02d-%02d", ($date[5] + 1900), ++$date[4], $date[3]);
 }
 
 # Read data from the INI file:
 sub read_ini {
-  my $file    = shift || die 'Missing argument';
+	my $file    = shift || die 'Missing argument';
 
-  # Initialize required variables:
-  my $hash    = {};
-  my $section = 'default';
+	# Initialize required variables:
+	my $hash    = {};
+	my $section = 'default';
 
-  # Open the file for reading:
-  open(INI, "$file") or return 0;
+	# Open the file for reading:
+	open(INI, "$file") or return 0;
 
-  # Process each line:
-  while (my $line = <INI>) {
-    # Parse the line:
-    if ($line =~ /^\s*\[([^\]]+)\]\s*$/) {
-      # Change the section:
-      $section = $1;
-    }
-    elsif ($line =~ /^\s*(\S+)\s*=\s*(\S.*)$/) {
-      # Add the option to the hash:
-      $hash->{$section}->{$1} = $2;
-    }
-  }
+	# Process each line:
+	while (my $line = <INI>) {
+		# Parse the line:
+		if ($line =~ /^\s*\[([^\]]+)\]\s*$/) {
+			# Change the section:
+			$section = $1;
+		}
+		elsif ($line =~ /^\s*(\S+)\s*=\s*(\S.*)$/) {
+			# Add the option to the hash:
+			$hash->{$section}->{$1} = $2;
+		}
+	}
 
-  # Close the file:
-  close(INI);
+	# Close the file:
+	close(INI);
 
-  # Return the result:
-  return $hash;
+	# Return the result:
+	return $hash;
 }
 
 # Read the content of the configuration file:
 sub read_conf {
-  # Prepare the file name:
-  my $file = catfile($blogdir, $weblog, 'config');
+	# Prepare the file name:
+	my $file = catfile($blogdir, $weblog, 'config');
 
-  # Parse the file:
-  if (my $conf = read_ini($file)) {
-    # Return the result:
-    return $conf;
-  }
-  else {
-    # Report failure:
-    display_warning("Unable to read the configuration.");
+	# Parse the file:
+	if (my $conf = read_ini($file)) {
+		# Return the result:
+		return $conf;
+	}
+	else {
+		# Report failure:
+		display_warning("Unable to read the configuration.");
 
-    # Return an empty configuration:
-    return {};
-  }
+		# Return an empty configuration:
+		return {};
+	}
 }
 
 # Compose a blog post or a page record:
 sub make_record {
-  my $type = shift || die 'Missing argument';
-  my $id   = shift || die 'Missing argument';
-  my ($title, $author, $date, $tags, $url, $alt) = @_;
+	my $type = shift || die 'Missing argument';
+	my $id   = shift || die 'Missing argument';
+	my ($title, $author, $date, $tags, $url, $alt) = @_;
 
-  # Check whether the title is specified:
-  if ($title) {
-    # Strip trailing spaces:
-    $title =~ s/\s+$//;
-  }
-  else {
-    # Assign the default value:
-    $title = 'Untitled';
+	# Check whether the title is specified:
+	if ($title) {
+		# Strip trailing spaces:
+		$title =~ s/\s+$//;
+	}
+	else {
+		# Assign the default value:
+		$title = 'Untitled';
 
-    # Display the appropriate warning:
-    display_warning("Missing title in the $type with ID $id. " .
-                    "Using `$title' instead.");
-  }
+		# Display the appropriate warning:
+		display_warning("Missing title in the $type with ID $id. " .
+				"Using `$title' instead.");
+	}
 
-  # Check whether the author is specified:
-  unless ($author) {
-    # Assign the default value:
-    $author = $conf->{user}->{name} || 'admin';
+	# Check whether the author is specified:
+	unless ($author) {
+		# Assign the default value:
+		$author = $conf->{user}->{name} || 'admin';
 
-    # Report the missing author:
-    display_warning("Missing author in the $type with ID $id. " .
-                    "Using `$author' instead.");
-  }
+		# Report the missing author:
+		display_warning("Missing author in the $type with ID $id. " .
+				"Using `$author' instead.");
+	}
 
-  # Check whether the date is specified:
-  if ($date) {
-    # Check whether the format is valid:
-    unless ($date =~ /\d{4}-[01]\d-[0-3]\d/) {
-      # Use current date instead:
-      $date = date_to_string(time);
+	# Check whether the date is specified:
+	if ($date) {
+		# Check whether the format is valid:
+		unless ($date =~ /\d{4}-[01]\d-[0-3]\d/) {
+			# Use current date instead:
+			$date = date_to_string(time);
 
-      # Report the invalid date:
-      display_warning("Invalid date in the $type with ID $id. " .
-                      "Using `$date' instead.");
-    }
-  }
-  else {
-    # Use current date instead:
-    $date = date_to_string(time);
+			# Report the invalid date:
+			display_warning("Invalid date in the $type with ID $id. " .
+					"Using `$date' instead.");
+		}
+	}
+	else {
+		# Use current date instead:
+		$date = date_to_string(time);
 
-    # Report the missing date:
-    display_warning("Missing date in the $type with ID $id. " .
-                    "Using `$date' instead.");
-  }
+		# Report the missing date:
+		display_warning("Missing date in the $type with ID $id. " .
+				"Using `$date' instead.");
+	}
 
-  # Check whether the tags are specified:
-  if ($tags) {
-    # Make all tags lower case:
-    $tags = lc($tags);
+	# Check whether the tags are specified:
+	if ($tags) {
+		# Make all tags lower case:
+		$tags = lc($tags);
 
-    # Strip superfluous spaces:
-    $tags =~ s/\s{2,}/ /g;
-    $tags =~ s/\s+$//;
+		# Strip superfluous spaces:
+		$tags =~ s/\s{2,}/ /g;
+		$tags =~ s/\s+$//;
 
-    # Strip trailing commas:
-    $tags =~ s/^,+|,+$//g;
+		# Strip trailing commas:
+		$tags =~ s/^,+|,+$//g;
 
-    # Remove duplicates:
-    my %temp = map { $_, 1 } split(/,+\s*/, $tags);
-    $tags = join(', ', sort(keys(%temp)));
-  }
-  else {
-    # Assign the default value:
-    $tags = '';
-  }
+		# Remove duplicates:
+		my %temp = map { $_, 1 } split(/,+\s*/, $tags);
+		$tags = join(', ', sort(keys(%temp)));
+	}
+	else {
+		# Assign the default value:
+		$tags = '';
+	}
 
-  # Return the composed record:
-  return {
-    'id'     => $id,
-    'title'  => $title,
-    'author' => $author,
-    'date'   => $date,
-    'tags'   => $tags,
-    'url'    => $url,
-    'alt'    => $alt,
-  };
+	# Return the composed record:
+	return {
+		'id'     => $id,
+		'title'  => $title,
+		'author' => $author,
+		'date'   => $date,
+		'tags'   => $tags,
+		'url'    => $url,
+		'alt'    => $alt,
+	};
 }
 
 # Compare two records:
 sub compare_records {
-  # Check whether to use reverse order:
-  unless ($reverse) {
-    return sprintf("%s:%08d", $b->{date}, $b->{id}) cmp
-           sprintf("%s:%08d", $a->{date}, $a->{id});
-  }
-  else {
-    return sprintf("%s:%08d", $a->{date}, $a->{id}) cmp
-           sprintf("%s:%08d", $b->{date}, $b->{id});
-  }
+	# Check whether to use reverse order:
+	unless ($reverse) {
+		return sprintf("%s:%08d", $b->{date}, $b->{id}) cmp
+				sprintf("%s:%08d", $a->{date}, $a->{id});
+	}
+	else {
+		return sprintf("%s:%08d", $a->{date}, $a->{id}) cmp
+				sprintf("%s:%08d", $b->{date}, $b->{id});
+	}
 }
 
 # Return a list of blog post or page header records:
 sub collect_headers {
-  my $type    = shift || 'post';
+	my $type    = shift || 'post';
 
-  # Initialize required variables:
-  my @records = ();
+	# Initialize required variables:
+	my @records = ();
 
-  # Prepare the file name:
-  my $head    = catdir($blogdir, $weblog, "${type}s", 'head');
+	# Prepare the file name:
+	my $head    = catdir($blogdir, $weblog, "${type}s", 'head');
 
-  # Open the headers directory:
-  opendir(HEAD, $head) or return @records;
+	# Open the headers directory:
+	opendir(HEAD, $head) or return @records;
 
-  # Process each file:
-  while (my $id = readdir(HEAD)) {
-    # Skip both . and ..:
-    next if $id =~ /^\.\.?$/;
+	# Process each file:
+	while (my $id = readdir(HEAD)) {
+		# Skip both . and ..:
+		next if $id =~ /^\.\.?$/;
 
-    # Parse the header data:
-    my $data = read_ini(catfile($head, $id)) or next;
-    my $date   = $data->{header}->{date};
-    my $tags   = $data->{header}->{tags};
-    my $title  = $data->{header}->{title};
-    my $author = $data->{header}->{author};
-    my $url    = $data->{header}->{url};
-    my $alt    = $data->{header}->{alt};
+		# Parse the header data:
+		my $data = read_ini(catfile($head, $id)) or next;
+		my $date   = $data->{header}->{date};
+		my $tags   = $data->{header}->{tags};
+		my $title  = $data->{header}->{title};
+		my $author = $data->{header}->{author};
+		my $url    = $data->{header}->{url};
+		my $alt    = $data->{header}->{alt};
 
-    # Create the record:
-    my $record = make_record($type, $id, $title, $author, $date,
-                             $tags, $url, $alt);
+		# Create the record:
+		my $record = make_record($type, $id, $title, $author, $date,
+					$tags, $url, $alt);
 
-    # Add the record to the beginning of the list:
-    push(@records, $record);
-  }
+		# Add the record to the beginning of the list:
+		push(@records, $record);
+	}
 
-  # Close the directory:
-  closedir(HEAD);
+	# Close the directory:
+	closedir(HEAD);
 
-  # Return the result:
-  return sort compare_records @records;
+	# Return the result:
+	return sort compare_records @records;
 }
 
 # Display a record:
 sub display_record {
-  my $record = shift || die 'Missing argument';
+	my $record = shift || die 'Missing argument';
 
-  # Check whether to use compact listing:
-  unless ($compact) {
-    # Check whether colors are enabled:
-    unless ($coloured) {
-      # Display plain record header:
-      print "ID: $record->{id} | $record->{date} | " .
-            "$record->{author}\n\n";
-    }
-    else {
-      # Display colored record header:
-      print colored ("ID: $record->{id} | $record->{date} | " .
-                     "$record->{author}", 'yellow');
-      print "\n\n";
-    }
+	# Check whether to use compact listing:
+	unless ($compact) {
+		# Check whether colors are enabled:
+		unless ($coloured) {
+			# Display plain record header:
+			print "ID: $record->{id} | $record->{date} | " .
+						"$record->{author}\n\n";
+		}
+		else {
+			# Display colored record header:
+			print colored ("ID: $record->{id} | $record->{date} | " .
+					"$record->{author}", 'yellow');
+			print "\n\n";
+		}
 
-    # Display the record body:
-    print wrap('    ', ' ' x 11, "Title: $record->{title}\n");
-    print wrap('    ', ' ' x 11, "Tags:  $record->{tags}\n")
-      if ($type eq 'post');
-    print "\n";
-  }
-  else {
-    # Display the short record:
-    print "ID: $record->{id} | $record->{date} | $record->{title}\n";
-  }
+		# Display the record body:
+		print wrap('    ', ' ' x 11, "Title: $record->{title}\n");
+		print wrap('    ', ' ' x 11, "Tags:  $record->{tags}\n")
+			if ($type eq 'post');
+		print "\n";
+	}
+	else {
+		# Display the short record:
+		print "ID: $record->{id} | $record->{date} | $record->{title}\n";
+	}
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 
 # Display a list of matching records:
 sub display_records {
-  my $type    = shift || 'post';
-  my $id      = shift || '.*';
-  my $author  = shift || '.*';
-  my $title   = shift || '';
-  my $tag     = shift || '.*';
-  my $year    = shift || '....';
-  my $month   = shift || '..';
-  my $day     = shift || '..';
+	my $type    = shift || 'post';
+	my $id      = shift || '.*';
+	my $author  = shift || '.*';
+	my $title   = shift || '';
+	my $tag     = shift || '.*';
+	my $year    = shift || '....';
+	my $month   = shift || '..';
+	my $day     = shift || '..';
 
-  # Initialize required variables:
-  my $count   = 0;
+	# Initialize required variables:
+	my $count   = 0;
 
-  # Collect blog post or page headers:
-  my @headers = collect_headers($type);
+	# Collect blog post or page headers:
+	my @headers = collect_headers($type);
 
-  # Process each header:
-  foreach my $record (@headers) {
-    # Check whether the record matches the pattern:
-    unless ($record->{date}   =~ /^$year-$month-$day$/i &&
-            $record->{title}  =~ /^.*$title.*$/i &&
-            $record->{tags}   =~ /^(|.*, *)$tag(,.*|)$/i &&
-            $record->{author} =~ /^$author$/i &&
-            $record->{id}     =~ /^$id$/i) {
-      # Skip the record:
-      next;
-    }
+	# Process each header:
+	foreach my $record (@headers) {
+		# Check whether the record matches the pattern:
+		unless ($record->{date}   =~ /^$year-$month-$day$/i &&
+						$record->{title}  =~ /^.*$title.*$/i &&
+						$record->{tags}   =~ /^(|.*, *)$tag(,.*|)$/i &&
+						$record->{author} =~ /^$author$/i &&
+						$record->{id}     =~ /^$id$/i) {
+			# Skip the record:
+			next;
+		}
 
-    # Display the record:
-    display_record($record);
+		# Display the record:
+		display_record($record);
 
-    # Check whether the limited number of displayed records is requested:
-    if ($number > 0) {
-      # Increase the displayed records counter:
-      $count++;
+		# Check whether the limited number of displayed records is requested:
+		if ($number > 0) {
+			# Increase the displayed records counter:
+			$count++;
 
-      # End loop when the counter reaches the limit:
-      last if $count == $number;
-    }
-  }
+			# End loop when the counter reaches the limit:
+			last if $count == $number;
+		}
+	}
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Display the repository statistics:
 sub display_statistics {
-  # Collect the necessary metadata:
-  my @pages = collect_headers('page');
-  my @posts = collect_headers('post');
+	# Collect the necessary metadata:
+	my @pages = collect_headers('page');
+	my @posts = collect_headers('post');
 
-  # Get desired values:
-  my $pages_count = scalar @pages;
-  my $posts_count = scalar @posts;
-  my $first_post  = ${posts[$#posts]}->{date} if @posts;
-  my $last_post   = ${posts[0]}->{date}       if @posts;
+	# Get desired values:
+	my $pages_count = scalar @pages;
+	my $posts_count = scalar @posts;
+	my $first_post  = ${posts[$#posts]}->{date} if @posts;
+	my $last_post   = ${posts[0]}->{date}       if @posts;
 
-  # Check whether to use compact listing:
-  unless ($compact) {
-    # Display full results:
-    print "Number of pages: $pages_count\n";
-    print "Number of posts: $posts_count\n";
-    print "Last post date:  $last_post\n"  if @posts;
-    print "First post date: $first_post\n" if @posts;
-  }
-  else {
-    # Display shortened results:
-    printf("There is a total number of $posts_count blog post%s " .
-           "and $pages_count page%s in the repository.\n",
-           (($posts_count != 1) ? 's' : ''),
-           (($pages_count != 1) ? 's' : ''));
-  }
+	# Check whether to use compact listing:
+	unless ($compact) {
+		# Display full results:
+		print "Number of pages: $pages_count\n";
+		print "Number of posts: $posts_count\n";
+		print "Last post date:  $last_post\n"  if @posts;
+		print "First post date: $first_post\n" if @posts;
+	}
+	else {
+		# Display shortened results:
+		printf("There is a total number of $posts_count blog post%s " .
+			"and $pages_count page%s in the repository.\n",
+			(($posts_count != 1) ? 's' : ''),
+			(($pages_count != 1) ? 's' : ''));
+	}
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Set up the option parser:
@@ -452,26 +453,26 @@ Getopt::Long::Configure('no_auto_abbrev', 'no_ignore_case', 'bundling');
 
 # Process command line options:
 GetOptions(
-  'help|h'               => sub { display_help();    exit 0; },
-  'version|v'            => sub { display_version(); exit 0; },
-  'page|pages|p'         => sub { $type     = 'page';  },
-  'post|posts|P'         => sub { $type     = 'post';  },
-  'stat|stats|S'         => sub { $type     = 'stats'; },
-  'number|n=i'           => sub { $number   = $_[1];   },
-  'id|I=i'               => sub { $id       = $_[1];   },
-  'author|a=s'           => sub { $author   = $_[1];   },
-  'title|t=s'            => sub { $title    = $_[1];   },
-  'tags|tag|T=s'         => sub { $tag      = $_[1];   },
-  'year|y=i'             => sub { $year     = sprintf("%04d", $_[1]); },
-  'month|m=i'            => sub { $month    = sprintf("%02d", $_[1]); },
-  'day|d=i'              => sub { $day      = sprintf("%02d", $_[1]); },
-  'reverse|r'            => sub { $reverse  = 1;       },
-  'short|s'              => sub { $compact  = 1;       },
-  'no-color|no-colour|C' => sub { $coloured = 0;       },
-  'color|colour|c'       => sub { $coloured = 1;       },
-  'quiet|q'              => sub { $verbose  = 0;       },
-  'verbose|V'            => sub { $verbose  = 1;       },
-  'blogdir|b=s'          => sub { $blogdir  = $_[1];   },
+	'help|h'               => sub { display_help();    exit 0; },
+	'version|v'            => sub { display_version(); exit 0; },
+	'page|pages|p'         => sub { $type     = 'page';  },
+	'post|posts|P'         => sub { $type     = 'post';  },
+	'stat|stats|S'         => sub { $type     = 'stats'; },
+	'number|n=i'           => sub { $number   = $_[1];   },
+	'id|I=i'               => sub { $id       = $_[1];   },
+	'author|a=s'           => sub { $author   = $_[1];   },
+	'title|t=s'            => sub { $title    = $_[1];   },
+	'tags|tag|T=s'         => sub { $tag      = $_[1];   },
+	'year|y=i'             => sub { $year     = sprintf("%04d", $_[1]); },
+	'month|m=i'            => sub { $month    = sprintf("%02d", $_[1]); },
+	'day|d=i'              => sub { $day      = sprintf("%02d", $_[1]); },
+	'reverse|r'            => sub { $reverse  = 1;       },
+	'short|s'              => sub { $compact  = 1;       },
+	'no-color|no-colour|C' => sub { $coloured = 0;       },
+	'color|colour|c'       => sub { $coloured = 1;       },
+	'quiet|q'              => sub { $verbose  = 0;       },
+	'verbose|V'            => sub { $verbose  = 1;       },
+	'blogdir|b=s'          => sub { $blogdir  = $_[1];   },
 );
 
 # Detect superfluous options:
@@ -480,7 +481,7 @@ exit_with_error("Invalid option `$ARGV[0]'.", 22) if (scalar(@ARGV) != 0);
 # Check whether the repository is present, no matter how naive this method
 # actually is:
 exit_with_error("Not a We-Blog repository! Try `we-blog-init' first.",1)
-  unless (-d catdir($blogdir, ));
+	unless (-d catdir($blogdir, ));
 
 # Read the configuration file:
 $conf = read_conf();
@@ -488,36 +489,36 @@ $conf = read_conf();
 # Unless specified on the command line, read the color setup from the
 # configuration file:
 unless (defined $coloured) {
-  # Read required data from the configuration:
-  my $temp  = $conf->{color}->{list} || 'false';
+	# Read required data from the configuration:
+	my $temp  = $conf->{color}->{list} || 'false';
 
-  # Set up the output mode:
-  $coloured = ($temp =~ /^(true|auto)\s*$/i) ? 1 : 0;
+	# Set up the output mode:
+	$coloured = ($temp =~ /^(true|auto)\s*$/i) ? 1 : 0;
 }
 
 # Check whether to list blog posts or pages, or display repository
 # statistics:
 unless ($type eq 'stats') {
-  # Prepare the list of reserved characters:
-  my $reserved  = '[\\\\\^\.\$\|\(\)\[\]\*\+\?\{\}]';
+	# Prepare the list of reserved characters:
+	my $reserved  = '[\\\\\^\.\$\|\(\)\[\]\*\+\?\{\}]';
 
-  # Escape all reserved characters:
-  $id     =~ s/($reserved)/\\$1/g if $id;
-  $author =~ s/($reserved)/\\$1/g if $author;
-  $title  =~ s/($reserved)/\\$1/g if $title;
-  $tag    =~ s/($reserved)/\\$1/g if $tag;
-  $year   =~ s/($reserved)/\\$1/g if $year;
-  $month  =~ s/($reserved)/\\$1/g if $month;
-  $day    =~ s/($reserved)/\\$1/g if $day;
+	# Escape all reserved characters:
+	$id     =~ s/($reserved)/\\$1/g if $id;
+	$author =~ s/($reserved)/\\$1/g if $author;
+	$title  =~ s/($reserved)/\\$1/g if $title;
+	$tag    =~ s/($reserved)/\\$1/g if $tag;
+	$year   =~ s/($reserved)/\\$1/g if $year;
+	$month  =~ s/($reserved)/\\$1/g if $month;
+	$day    =~ s/($reserved)/\\$1/g if $day;
 
-  # Display the list of matching records:
-  display_records($type, $id, $author, $title, $tag, $year, $month, $day)
-    or exit_with_error("Cannot read repository data.", 13);
+	# Display the list of matching records:
+	display_records($type, $id, $author, $title, $tag, $year, $month, $day)
+		or exit_with_error("Cannot read repository data.", 13);
 }
 else {
-  # Display the repository statistics:
-  display_statistics()
-    or exit_with_error("Cannot read repository data.", 13);
+	# Display the repository statistics:
+	display_statistics()
+		or exit_with_error("Cannot read repository data.", 13);
 }
 
 # Return success:
@@ -640,58 +641,58 @@ Displays version information and exits.
 
 List all blog post:
 
-  $ we-blog-list
-  ID: 11 | 2010-07-05 | Jaromir Hradilek
+	$ we-blog-list
+	ID: 11 | 2010-07-05 | Jaromir Hradilek
 
-      Title: Join #we-blog on IRC
-      Tags:  announcement
+			Title: Join #we-blog on IRC
+			Tags:  announcement
 
-  ID: 10 | 2009-12-16 | Jaromir Hradilek
+	ID: 10 | 2009-12-16 | Jaromir Hradilek
 
-      Title: Debian and Fedora Packages
-      Tags:  announcement
+			Title: Debian and Fedora Packages
+			Tags:  announcement
 
-  etc.
+	etc.
 
 List all blog post in reverse order:
 
-  $ we-blog-list -r
-  ID: 1 | 2009-02-10 | Jaromir Hradilek
+	$ we-blog-list -r
+	ID: 1 | 2009-02-10 | Jaromir Hradilek
 
-      Title: We-Blog 0.7.0
-      Tags:  release
+			Title: We-Blog 0.7.0
+			Tags:  release
 
-  ID: 2 | 2009-02-11 | Jaromir Hradilek
+	ID: 2 | 2009-02-11 | Jaromir Hradilek
 
-      Title: We-Blog 0.7.1
-      Tags:  release
+			Title: We-Blog 0.7.1
+			Tags:  release
 
-  etc.
+	etc.
 
 List all pages:
 
-  $ we-blog-list -p
-  ID: 5 | 2009-02-10 | Jaromir Hradilek
+	$ we-blog-list -p
+	ID: 5 | 2009-02-10 | Jaromir Hradilek
 
-      Title: Downloads
+			Title: Downloads
 
-  ID: 4 | 2009-02-10 | Jaromir Hradilek
+	ID: 4 | 2009-02-10 | Jaromir Hradilek
 
-      Title: Themes
+			Title: Themes
 
-  etc.
+	etc.
 
 List each blog post on a single line:
 
-  $ we-blog-list -s
-  ID: 11 | 2010-07-05 | Join #we-blog on IRC
-  ID: 10 | 2009-12-16 | Debian and Fedora Packages
-  etc.
+	$ we-blog-list -s
+	ID: 11 | 2010-07-05 | Join #we-blog on IRC
+	ID: 10 | 2009-12-16 | Debian and Fedora Packages
+	etc.
 
 Display a short version of blog statistics:
 
-  $ we-blog-list -Ss
-  There is a total number of 11 blog posts and 5 pages in the repository.
+	$ we-blog-list -Ss
+	There is a total number of 11 blog posts and 5 pages in the repository.
 
 =head1 SEE ALSO
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# vi: set sw=4 ts=4 ai:
 # $Id: we-blog-smilies.pl 3 2011-09-22 10:23:20 tonk $
 
 # we-blog-smilies - Convert all smiley (emoticon) text tags to pictures
@@ -43,64 +44,64 @@ our $weblog  = '.we-blog';                          # We-blog data and config di
 our $conf    = {};                                  # Configuration.
 
 sub read_ini {
-  my $file    = shift || die 'Missing argument';
+	my $file    = shift || die 'Missing argument';
 
-  # Initialize required variables:
-  my $hash    = {};
-  my $section = 'default';
+	# Initialize required variables:
+	my $hash    = {};
+	my $section = 'default';
 
-  # Open the file for reading:
-  open(INI, "$file") or return 0;
+	# Open the file for reading:
+	open(INI, "$file") or return 0;
 
-  # Process each line:
-  while (my $line = <INI>) {
-    # Parse the line:
-    if ($line =~ /^\s*\[([^\]]+)\]\s*$/) {
-      # Change the section:
-      $section = $1;
-    }
-    elsif ($line =~ /^\s*(\S+)\s*=\s*(\S.*)$/) {
-      # Add the option to the hash:
-      $hash->{$section}->{$1} = $2;
-    }
-  }
+	# Process each line:
+	while (my $line = <INI>) {
+		# Parse the line:
+		if ($line =~ /^\s*\[([^\]]+)\]\s*$/) {
+			# Change the section:
+			$section = $1;
+		}
+		elsif ($line =~ /^\s*(\S+)\s*=\s*(\S.*)$/) {
+			# Add the option to the hash:
+			$hash->{$section}->{$1} = $2;
+		}
+	}
 
-  # Close the file:
-  close(INI);
+	# Close the file:
+	close(INI);
 
-  # Return the result:
-  return $hash;
+	# Return the result:
+	return $hash;
 }
 
 
 # Read the configuration
 sub read_conf {
-  # Prepare the file name:
-  my $file = catfile($blogdir, $weblog, 'config');
+	# Prepare the file name:
+	my $file = catfile($blogdir, $weblog, 'config');
 
-  # Parse the file:
-  if (my $conf = read_ini($file)) {
-    # Return the result:
-    return $conf;
-  }
-  else {
-    # Report failure:
-    display_warning("Unable to read the configuration.");
+	# Parse the file:
+	if (my $conf = read_ini($file)) {
+		# Return the result:
+		return $conf;
+	}
+	else {
+		# Report failure:
+		display_warning("Unable to read the configuration.");
 
-    # Return an empty configuration:
-    return {};
-  }
+		# Return an empty configuration:
+		return {};
+	}
 }
 
 # Display a warning message:
 sub display_warning {
-  my $message = shift || 'A warning was requested.';
+	my $message = shift || 'A warning was requested.';
 
-  # Display the warning message:
-  print STDERR "$message\n";
+	# Display the warning message:
+	print STDERR "$message\n";
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 $conf = read_conf();

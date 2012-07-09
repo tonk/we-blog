@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# vi: set sw=4 ts=4 ai:
 # $Id: we-blog-add.pl 4 2012-05-16 16:00:17 tonk $
 
 # we-blog-add - adds a blog post or a page to the We-Blog repository
@@ -49,72 +50,72 @@ my  $data     = {};                                 # Post/page meta data.
 
 # Set up the __WARN__ signal handler:
 $SIG{__WARN__} = sub {
-  print STDERR NAME . ": " . (shift);
+	print STDERR NAME . ": " . (shift);
 };
 
 # Display an error message, and terminate the script:
 sub exit_with_error {
-  my $message      = shift || 'An error has occurred.';
-  my $return_value = shift || 1;
+	my $message      = shift || 'An error has occurred.';
+	my $return_value = shift || 1;
 
-  # Display the error message:
-  print STDERR NAME . ": $message\n";
+	# Display the error message:
+	print STDERR NAME . ": $message\n";
 
-  # Terminate the script:
-  exit $return_value;
+	# Terminate the script:
+	exit $return_value;
 }
 
 # Display a warning message:
 sub display_warning {
-  my $message = shift || 'A warning was requested.';
+	my $message = shift || 'A warning was requested.';
 
-  # Display the warning message:
-  print STDERR "$message\n";
+	# Display the warning message:
+	print STDERR "$message\n";
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Display usage information:
 sub display_help {
-  my $NAME = NAME;
+	my $NAME = NAME;
 
-  # Display the usage:
-  print << "END_HELP";
+	# Display the usage:
+	print << "END_HELP";
 Usage: $NAME [-pqCPV] [-b DIRECTORY] [-E EDITOR] [-a AUTHOR] [-d DATE]
-                 [-t TITLE] [-k KEYWORDS] [-T TAGS] [-u URL] [-A alt] [FILE...]
-       $NAME -h|-v
+	         [-t TITLE] [-k KEYWORDS] [-T TAGS] [-u URL] [-A alt] [FILE...]
+	   $NAME -h|-v
 
-  -b, --blogdir DIRECTORY     specify a directory in which the We-Blog
-                              repository is placed
-  -E, --editor EDITOR         specify an external text editor
-  -t, --title TITLE           specify a title
-  -a, --author AUTHOR         specify an author
-  -d, --date DATE             specify a date of publishing
-  -k, --keywords KEYWORDS     specify a comma-separated list of keywords
-  -T, --tags TAGS             specify a comma-separated list of tags
-  -u, --url URL               specify a URL
-  -A, --alt ALTTEXT           Alternative text for pages. Show on mouse-over
-  -p, --page                  add a page or pages
-  -P, --post                  add a blog post or blog posts
-  -C, --no-processor          disable processing the blog post or page with
-                              an external application
-  -q, --quiet                 do not display unnecessary messages
-  -V, --verbose               display all messages
-  -h, --help                  display this help and exit
-  -v, --version               display version information and exit
+	-b, --blogdir DIRECTORY         specify a directory in which the We-Blog
+	                                repository is placed
+	-E, --editor EDITOR             specify an external text editor
+	-t, --title TITLE               specify a title
+	-a, --author AUTHOR             specify an author
+	-d, --date DATE                 specify a date of publishing
+	-k, --keywords KEYWORDS         specify a comma-separated list of keywords
+	-T, --tags TAGS                 specify a comma-separated list of tags
+	-u, --url URL                   specify a URL
+	-A, --alt ALTTEXT               Alternative text for pages. Show on mouse-over
+	-p, --page                      add a page or pages
+	-P, --post                      add a blog post or blog posts
+	-C, --no-processor              disable processing the blog post or page with
+	                                an external application
+	-q, --quiet                     do not display unnecessary messages
+	-V, --verbose                   display all messages
+	-h, --help                      display this help and exit
+	-v, --version	                display version information and exit
 END_HELP
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Display version information:
 sub display_version {
-  my ($NAME, $VERSION) = (NAME, VERSION);
+	my ($NAME, $VERSION) = (NAME, VERSION);
 
-  # Display the version:
-  print << "END_VERSION";
+	# Display the version:
+	print << "END_VERSION";
 $NAME $VERSION
 
 Copyright (c) 2011-2012 Ton Kersten
@@ -126,401 +127,401 @@ without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PAR-
 TICULAR PURPOSE.
 END_VERSION
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Translate a date to the YYYY-MM-DD form:
 sub date_to_string {
-  my @date = localtime(shift);
-  return sprintf("%d-%02d-%02d", ($date[5] + 1900), ++$date[4], $date[3]);
+	my @date = localtime(shift);
+	return sprintf("%d-%02d-%02d", ($date[5] + 1900), ++$date[4], $date[3]);
 }
 
 # Read data from the INI file:
 sub read_ini {
-  my $file    = shift || die 'Missing argument';
+	my $file    = shift || die 'Missing argument';
 
-  # Initialize required variables:
-  my $hash    = {};
-  my $section = 'default';
+	# Initialize required variables:
+	my $hash    = {};
+	my $section = 'default';
 
-  # Open the file for reading:
-  open(INI, "$file") or return 0;
+	# Open the file for reading:
+	open(INI, "$file") or return 0;
 
-  # Process each line:
-  while (my $line = <INI>) {
-    # Parse the line:
-    if ($line =~ /^\s*\[([^\]]+)\]\s*$/) {
-      # Change the section:
-      $section = $1;
-    }
-    elsif ($line =~ /^\s*(\S+)\s*=\s*(\S.*)$/) {
-      # Add the option to the hash:
-      $hash->{$section}->{$1} = $2;
-    }
-  }
+	# Process each line:
+	while (my $line = <INI>) {
+		# Parse the line:
+		if ($line =~ /^\s*\[([^\]]+)\]\s*$/) {
+			# Change the section:
+			$section = $1;
+		}
+		elsif ($line =~ /^\s*(\S+)\s*=\s*(\S.*)$/) {
+			# Add the option to the hash:
+			$hash->{$section}->{$1} = $2;
+		}
+	}
 
-  # Close the file:
-  close(INI);
+	# Close the file:
+	close(INI);
 
-  # Return the result:
-  return $hash;
+	# Return the result:
+	return $hash;
 }
 
 # Write data to the INI file:
 sub write_ini {
-  my $file = shift || 'Missing argument';
-  my $hash = shift || 'Missing argument';
+	my $file = shift || 'Missing argument';
+	my $hash = shift || 'Missing argument';
 
-  # Open the file for writing:
-  open(INI, ">$file") or return 0;
+	# Open the file for writing:
+	open(INI, ">$file") or return 0;
 
-  # Process each section:
-  foreach my $section (sort(keys(%$hash))) {
-    # Write the section header to the file::
-    print INI "[$section]\n";
+	# Process each section:
+	foreach my $section (sort(keys(%$hash))) {
+		# Write the section header to the file::
+		print INI "[$section]\n";
 
-    # Process each option in the section:
-    foreach my $option (sort(keys(%{$hash->{$section}}))) {
-      # Write the option and its value to the file:
-      print INI "\t$option = $hash->{$section}->{$option}\n";
-    }
-  }
+		# Process each option in the section:
+		foreach my $option (sort(keys(%{$hash->{$section}}))) {
+			# Write the option and its value to the file:
+			print INI "\t$option = $hash->{$section}->{$option}\n";
+		}
+	}
 
-  # Close the file:
-  close(INI);
+	# Close the file:
+	close(INI);
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Read the content of the configuration file:
 sub read_conf {
-  # Prepare the file name:
-  my $file = catfile($blogdir, $weblog, 'config');
+	# Prepare the file name:
+	my $file = catfile($blogdir, $weblog, 'config');
 
-  # Parse the file:
-  if (my $conf = read_ini($file)) {
-    # Return the result:
-    return $conf;
-  }
-  else {
-    # Report failure:
-    display_warning("Unable to read the configuration.");
+	# Parse the file:
+	if (my $conf = read_ini($file)) {
+		# Return the result:
+		return $conf;
+	}
+	else {
+		# Report failure:
+		display_warning("Unable to read the configuration.");
 
-    # Return an empty configuration:
-    return {};
-  }
+		# Return an empty configuration:
+		return {};
+	}
 }
 
 # Make proper URL from the string while stripping all forbidden characters:
 sub make_url {
-  my $url = shift || return '';
+	my $url = shift || return '';
 
-  # Strip forbidden characters:
-  $url =~ s/[^\w\s\-]//g;
+	# Strip forbidden characters:
+	$url =~ s/[^\w\s\-]//g;
 
-  # Strip trailing spaces:
-  $url =~ s/\s+$//;
+	# Strip trailing spaces:
+	$url =~ s/\s+$//;
 
-  # Substitute spaces:
-  $url =~ s/\s+/-/g;
+	# Substitute spaces:
+	$url =~ s/\s+/-/g;
 
-  # Return the result:
-  return $url;
+	# Return the result:
+	return $url;
 }
 
 # Look for erroneous or missing header data:
 sub check_header {
-  my $data = shift || die 'Missing argument';
-  my $id   = shift || die 'Missing argument';
-  my $type = shift || die 'Missing argument';
+	my $data = shift || die 'Missing argument';
+	my $id   = shift || die 'Missing argument';
+	my $type = shift || die 'Missing argument';
 
-  # Check whether the title is specified:
-  unless ($data->{header}->{title}) {
-    # Display the appropriate warning:
-    display_warning("Missing title in the $type with ID $id.");
-  }
+	# Check whether the title is specified:
+	unless ($data->{header}->{title}) {
+		# Display the appropriate warning:
+		display_warning("Missing title in the $type with ID $id.");
+	}
 
-  # Check whether the author is specified:
-  unless ($data->{header}->{author} || $type eq 'page') {
-    # Report the missing author:
-    display_warning("Missing author in the $type with ID $id.");
-  }
+	# Check whether the author is specified:
+	unless ($data->{header}->{author} || $type eq 'page') {
+		# Report the missing author:
+		display_warning("Missing author in the $type with ID $id.");
+	}
 
-  # Check whether the date is specified:
-  if (my $date = $data->{header}->{date}) {
-    # Check whether the format is valid:
-    unless ($date =~ /\d{4}-[01]\d-[0-3]\d/) {
-      # Report the invalid date:
-      display_warning("Invalid date in the $type with ID $id.");
-    }
-  }
-  else {
-    # Report the missing date:
-    display_warning("Missing date in the $type with ID $id.");
-  }
+	# Check whether the date is specified:
+	if (my $date = $data->{header}->{date}) {
+		# Check whether the format is valid:
+		unless ($date =~ /\d{4}-[01]\d-[0-3]\d/) {
+			# Report the invalid date:
+			display_warning("Invalid date in the $type with ID $id.");
+		}
+	}
+	else {
+		# Report the missing date:
+		display_warning("Missing date in the $type with ID $id.");
+	}
 
-  # Check whether the tags are specified:
-  if (my $tags = $data->{header}->{tags}) {
-    # Make all tags lower case:
-    $tags = lc($tags);
+	# Check whether the tags are specified:
+	if (my $tags = $data->{header}->{tags}) {
+		# Make all tags lower case:
+		$tags = lc($tags);
 
-    # Strip superfluous characters:
-    $tags =~ s/\s{2,}/ /g;
-    $tags =~ s/\s+$//;
-    $tags =~ s/^,+|,+$//g;
+		# Strip superfluous characters:
+		$tags =~ s/\s{2,}/ /g;
+		$tags =~ s/\s+$//;
+		$tags =~ s/^,+|,+$//g;
 
-    # Remove duplicates:
-    my %temp = map { $_, 1 } split(/,+\s*/, $tags);
+		# Remove duplicates:
+		my %temp = map { $_, 1 } split(/,+\s*/, $tags);
 
-    # Make sure none of the tags will have an empty URL:
-    foreach my $tag (keys %temp) {
-      # Derive the URL from the tag name:
-      my $tag_url = make_url($tag);
+		# Make sure none of the tags will have an empty URL:
+		foreach my $tag (keys %temp) {
+			# Derive the URL from the tag name:
+			my $tag_url = make_url($tag);
 
-      # Make sure the result is not empty:
-      unless ($tag_url) {
-        # Report the missing tag URL:
-        display_warning("Unable to derive the URL from the tag `$tag'. " .
-                        "Please use ASCII characters only.");
-      }
-    }
-  }
+			# Make sure the result is not empty:
+			unless ($tag_url) {
+				# Report the missing tag URL:
+				display_warning("Unable to derive the URL from the tag `$tag'. " .
+						"Please use ASCII characters only.");
+			}
+		}
+	}
 
-  # Check whether the URL is specified:
-  if (my $url = $data->{header}->{url}) {
-    # Check whether it contains forbidden characters:
-    if ($url =~ /[^\w\-]/) {
-      # Report the invalid URL:
-      display_warning("Invalid URL in the $type with ID $id." .
-                      ($url ? "" : " It will be derived from the title."));
-    }
-  }
+	# Check whether the URL is specified:
+	if (my $url = $data->{header}->{url}) {
+		# Check whether it contains forbidden characters:
+		if ($url =~ /[^\w\-]/) {
+			# Report the invalid URL:
+			display_warning("Invalid URL in the $type with ID $id." .
+					($url ? "" : " It will be derived from the title."));
+		}
+	}
 
-  # Make sure the URL can be derived from the title if necessary:
-  unless ($data->{header}->{url}) {
-    # Derive the URL from the post or page title:
-    my $title = $data->{header}->{title} || '';
-    my $url   = make_url(lc($title));
+	# Make sure the URL can be derived from the title if necessary:
+	unless ($data->{header}->{url}) {
+		# Derive the URL from the post or page title:
+		my $title = $data->{header}->{title} || '';
+		my $url   = make_url(lc($title));
 
-    # Check whether the URL is not empty:
-    unless ($url) {
-      # Report the missing URL:
-      display_warning("Unable to derive the URL in the $type with ID $id. " .
-                      "Please specify it yourself.");
-    }
-  }
+		# Check whether the URL is not empty:
+		unless ($url) {
+			# Report the missing URL:
+			display_warning("Unable to derive the URL in the $type with ID $id. " .
+											"Please specify it yourself.");
+		}
+	}
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Create a record from a single file:
 sub save_record {
-  my $file = shift || die 'Missing argument';
-  my $id   = shift || die 'Missing argument';
-  my $type = shift || 'post';
-  my $data = shift || {};
+	my $file = shift || die 'Missing argument';
+	my $id   = shift || die 'Missing argument';
+	my $type = shift || 'post';
+	my $data = shift || {};
 
-  # Initialize required variables:
-  my $line = '';
+	# Initialize required variables:
+	my $line = '';
 
-  # Prepare the record directory names:
-  my $head_dir  = catdir($blogdir, $weblog, "${type}s", 'head');
-  my $body_dir  = catdir($blogdir, $weblog, "${type}s", 'body');
-  my $raw_dir   = catdir($blogdir, $weblog, "${type}s", 'raw');
+	# Prepare the record directory names:
+	my $head_dir  = catdir($blogdir, $weblog, "${type}s", 'head');
+	my $body_dir  = catdir($blogdir, $weblog, "${type}s", 'body');
+	my $raw_dir   = catdir($blogdir, $weblog, "${type}s", 'raw');
 
-  # Prepare the record file names:
-  my $head      = catfile($head_dir, $id);
-  my $body      = catfile($body_dir, $id);
-  my $raw       = catfile($raw_dir,  $id);
+	# Prepare the record file names:
+	my $head      = catfile($head_dir, $id);
+	my $body      = catfile($body_dir, $id);
+	my $raw       = catfile($raw_dir,  $id);
 
-  # Prepare the temporary file names:
-  my $temp_head = catfile($blogdir, $weblog, 'temp.head');
-  my $temp_body = catfile($blogdir, $weblog, 'temp.body');
-  my $temp_raw  = catfile($blogdir, $weblog, 'temp.raw');
+	# Prepare the temporary file names:
+	my $temp_head = catfile($blogdir, $weblog, 'temp.head');
+	my $temp_body = catfile($blogdir, $weblog, 'temp.body');
+	my $temp_raw  = catfile($blogdir, $weblog, 'temp.raw');
 
-  # Read required data from the configuration:
-  my $processor = $conf->{core}->{processor};
+	# Read required data from the configuration:
+	my $processor = $conf->{core}->{processor};
 
-  # Check whether the processor is enabled:
-  if ($process) {
-    # Substitute placeholders with actual file names:
-    $processor  =~ s/%in%/$temp_raw/ig;
-    $processor  =~ s/%out%/$temp_body/ig;
-  }
+	# Check whether the processor is enabled:
+	if ($process) {
+		# Substitute placeholders with actual file names:
+		$processor  =~ s/%in%/$temp_raw/ig;
+		$processor  =~ s/%out%/$temp_body/ig;
+	}
 
-  # Open the input file for reading:
-  open(FIN, "$file") or return 0;
+	# Open the input file for reading:
+	open(FIN, "$file") or return 0;
 
-  # Parse the file header:
-  while ($line = <FIN>) {
-    # The header ends with the first line not beginning with "#":
-    last unless $line =~ /^#/;
+	# Parse the file header:
+	while ($line = <FIN>) {
+		# The header ends with the first line not beginning with "#":
+		last unless $line =~ /^#/;
 
-    # Collect data for the record header:
-    if ($line =~ /(title|author|date|keywords|tags|url|alt):\s*(\S.*)$/) {
-      $data->{header}->{$1} = $2;
-    }
-  }
+		# Collect data for the record header:
+		if ($line =~ /(title|author|date|keywords|tags|url|alt):\s*(\S.*)$/) {
+			$data->{header}->{$1} = $2;
+		}
+	}
 
-  # Look for erroneous or missing header data:
-  check_header($data, $id, $type);
+	# Look for erroneous or missing header data:
+	check_header($data, $id, $type);
 
-  # Write the record header to the temporary file:
-  write_ini($temp_head, $data) or return 0;
+	# Write the record header to the temporary file:
+	write_ini($temp_head, $data) or return 0;
 
-  # Open the proper output file:
-  open(FOUT, '>' . ($process ? $temp_raw : $temp_body)) or return 0;
+	# Open the proper output file:
+	open(FOUT, '>' . ($process ? $temp_raw : $temp_body)) or return 0;
 
-  # Write the last read line to the output file:
-  print FOUT $line if $line;
+	# Write the last read line to the output file:
+	print FOUT $line if $line;
 
-  # Add the rest of the file content to the output file:
-  while ($line = <FIN>) {
-    print FOUT $line;
-  }
+	# Add the rest of the file content to the output file:
+	while ($line = <FIN>) {
+		print FOUT $line;
+	}
 
-  # Close all opened files:
-  close(FIN);
-  close(FOUT);
+	# Close all opened files:
+	close(FIN);
+	close(FOUT);
 
-  # Check whether the processor is enabled:
-  if ($process) {
-    # Process the raw input file:
-    unless (system("$processor") == 0) {
-      # Report failure and exit:
-      exit_with_error("Unable to run `$processor'.", 1);
-    }
+	# Check whether the processor is enabled:
+	if ($process) {
+		# Process the raw input file:
+		unless (system("$processor") == 0) {
+			# Report failure and exit:
+			exit_with_error("Unable to run `$processor'.", 1);
+		}
 
-    # Make sure the raw record directory exists:
-    unless (-d $raw_dir) {
-      # Create the target directory tree:
-      eval { mkpath($raw_dir, 0); };
+		# Make sure the raw record directory exists:
+		unless (-d $raw_dir) {
+			# Create the target directory tree:
+			eval { mkpath($raw_dir, 0); };
 
-      # Make sure the directory creation was successful:
-      exit_with_error("Creating the directory tree: $@", 13) if $@;
-    }
+			# Make sure the directory creation was successful:
+			exit_with_error("Creating the directory tree: $@", 13) if $@;
+		}
 
-    # Create the raw record file:
-    move($temp_raw, $raw) or return 0;
-  }
+		# Create the raw record file:
+		move($temp_raw, $raw) or return 0;
+	}
 
-  # Make sure the record body and header directories exist:
-  unless (-d $head_dir && -d $body_dir) {
-    # Create the target directory tree:
-    eval { mkpath([$head_dir, $body_dir], 0); };
+	# Make sure the record body and header directories exist:
+	unless (-d $head_dir && -d $body_dir) {
+		# Create the target directory tree:
+		eval { mkpath([$head_dir, $body_dir], 0); };
 
-    # Make sure the directory creation was successful:
-    exit_with_error("Creating the directory tree: $@", 13) if $@;
-  }
+		# Make sure the directory creation was successful:
+		exit_with_error("Creating the directory tree: $@", 13) if $@;
+	}
 
-  # Create the record body and header files:
-  move($temp_body, $body) or return 0;
-  move($temp_head, $head) or return 0;
+	# Create the record body and header files:
+	move($temp_body, $body) or return 0;
+	move($temp_head, $head) or return 0;
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Collect reserved post or page IDs:
 sub collect_ids {
-  my $type = shift || 'post';
+	my $type = shift || 'post';
 
-  # Prepare the post or page directory name:
-  my $head = catdir($blogdir, $weblog, "${type}s", 'head');
+	# Prepare the post or page directory name:
+	my $head = catdir($blogdir, $weblog, "${type}s", 'head');
 
-  # Open the header directory:
-  opendir(HEADS, $head) or return 0;
+	# Open the header directory:
+	opendir(HEADS, $head) or return 0;
 
-  # Build a list of used IDs:
-  my @used = grep {! /^\.\.?$/ } readdir(HEADS);
+	# Build a list of used IDs:
+	my @used = grep {! /^\.\.?$/ } readdir(HEADS);
 
-  # Close the directory:
-  closedir(HEADS);
+	# Close the directory:
+	closedir(HEADS);
 
-  # Return the sorted result:
-  return sort {$a <=> $b} @used;
+	# Return the sorted result:
+	return sort {$a <=> $b} @used;
 }
 
 # Return the first unused ID:
 sub choose_id {
-  my $type   = shift || 'post';
+	my $type   = shift || 'post';
 
-  # Get the list of reserved IDs unless already done:
-  @$reserved = collect_ids($type) unless defined $reserved;
+	# Get the list of reserved IDs unless already done:
+	@$reserved = collect_ids($type) unless defined $reserved;
 
-  # Iterate through the used IDs:
-  while (my $used = shift(@$reserved)) {
-    # Check whether the candidate ID is really free:
-    if ($chosen == $used) {
-      # Try the next ID:
-      $chosen++;
-    }
-    else {
-      # Push the last checked ID back to the list:
-      unshift(@$reserved, $used);
+	# Iterate through the used IDs:
+	while (my $used = shift(@$reserved)) {
+		# Check whether the candidate ID is really free:
+		if ($chosen == $used) {
+			# Try the next ID:
+			$chosen++;
+		}
+		else {
+			# Push the last checked ID back to the list:
+			unshift(@$reserved, $used);
 
-      # Exit the loop:
-      last;
-    }
-  }
+			# Exit the loop:
+			last;
+		}
+	}
 
-  # Return the result, and increase the next candidate number:
-  return $chosen++;
+	# Return the result, and increase the next candidate number:
+	return $chosen++;
 }
 
 # Add given files to the repository:
 sub add_files {
-  my $type  = shift || 'post';
-  my $data  = shift || {};
-  my $files = shift || die 'Missing argument';
+	my $type  = shift || 'post';
+	my $data  = shift || {};
+	my $files = shift || die 'Missing argument';
 
-  # Initialize required variables:
-  my @list  = ();
+	# Initialize required variables:
+	my @list  = ();
 
-  # Process each file:
-  foreach my $file (@{$files}) {
-    # Get the first available ID:
-    my $id = choose_id($type);
+	# Process each file:
+	foreach my $file (@{$files}) {
+		# Get the first available ID:
+		my $id = choose_id($type);
 
-    # Save the record:
-    save_record($file, $id, $type, $data)
-      and push(@list, $id)
-      or display_warning("Unable to add $file.");
-  }
+		# Save the record:
+		save_record($file, $id, $type, $data)
+			and push(@list, $id)
+			or display_warning("Unable to add $file.");
+	}
 
-  # Return the list of added IDs:
-  return @list;
+	# Return the list of added IDs:
+	return @list;
 }
 
 # Add a new record to the repository:
 sub add_new {
-  my $type = shift || 'post';
-  my $data = shift || {};
+	my $type = shift || 'post';
+	my $data = shift || {};
 
-  # Decide which editor to use:
-  my $edit = $editor || $conf->{core}->{editor} || $ENV{EDITOR} || 'vi';
+	# Decide which editor to use:
+	my $edit = $editor || $conf->{core}->{editor} || $ENV{EDITOR} || 'vi';
 
-  # Prepare the data for the temporary file header:
-  my $title    = $data->{header}->{title}    || '';
-  my $author   = $data->{header}->{author}   || $conf->{user}->{nickname}
-                                             || $conf->{user}->{name}
-                                             || 'admin';
-  my $date     = $data->{header}->{date}     || date_to_string(time);
-  my $keywords = $data->{header}->{keywords} || '';
-  my $tags     = $data->{header}->{tags}     || '';
-  my $url      = $data->{header}->{url}      || '';
-  my $alt      = $data->{header}->{alt}      || '';
+	# Prepare the data for the temporary file header:
+	my $title    = $data->{header}->{title}		|| '';
+	my $author   = $data->{header}->{author}	|| $conf->{user}->{nickname}
+							|| $conf->{user}->{name}
+							|| 'admin';
+	my $date     = $data->{header}->{date}		|| date_to_string(time);
+	my $keywords = $data->{header}->{keywords}	|| '';
+	my $tags     = $data->{header}->{tags}		|| '';
+	my $url      = $data->{header}->{url}		|| '';
+	my $alt      = $data->{header}->{alt}		|| '';
 
-  # Declare other necessary variables:
-  my $head;
+	# Declare other necessary variables:
+	my $head;
 
-  # Prepare the temporary file header:
-  if ($type eq 'post') {
-    # Use the variant for a blog post:
-    $head = << "END_POST_HEADER";
+	# Prepare the temporary file header:
+	if ($type eq 'post') {
+		# Use the variant for a blog post:
+		$head = << "END_POST_HEADER";
 # vi: set sw=4 ts=4 ai:
 #
 # This and the following lines beginning with '#' are the blog post header.
@@ -542,10 +543,10 @@ sub add_new {
 # The header ends here. The rest is the content of your blog post.
 
 END_POST_HEADER
-  }
-  else {
-    # Use the variant for a page:
-    $head = << "END_PAGE_HEADER";
+	}
+	else {
+		# Use the variant for a page:
+		$head = << "END_PAGE_HEADER";
 # vi: set sw=4 ts=4 ai:
 #
 # This and the following lines beginning with '#' are the page header. Ple-
@@ -565,83 +566,83 @@ END_POST_HEADER
 # The header ends here. The rest is the content of your page.
 
 END_PAGE_HEADER
-  }
+	}
 
-  # Prepare the temporary file name:
-  my $temp = catfile($blogdir, $weblog, 'temp');
+	# Prepare the temporary file name:
+	my $temp = catfile($blogdir, $weblog, 'temp');
 
-  # Open the file for writing:
-  if (open(FILE, ">$temp")) {
-    # Write the temporary file:
-    print FILE $head;
+	# Open the file for writing:
+	if (open(FILE, ">$temp")) {
+		# Write the temporary file:
+		print FILE $head;
 
-    # Close the file:
-    close(FILE);
-  }
-  else {
-    # Report failure:
-    display_warning("Unable to create the temporary file.");
+		# Close the file:
+		close(FILE);
+	}
+	else {
+		# Report failure:
+		display_warning("Unable to create the temporary file.");
 
-    # Return failure:
-    return 0;
-  }
+		# Return failure:
+		return 0;
+	}
 
-  # Open the temporary file in the external editor:
-  unless (system("$edit $temp") == 0) {
-    # Report failure and exit:
-    exit_with_error("Unable to run `$edit'.", 1);
-  }
+	# Open the temporary file in the external editor:
+	unless (system("$edit $temp") == 0) {
+		# Report failure and exit:
+		exit_with_error("Unable to run `$edit'.", 1);
+	}
 
-  # Open the file for reading:
-  if (open(FILE, "$temp")) {
-    # Set the input/output handler to "binmode":
-    binmode(FILE);
+	# Open the file for reading:
+	if (open(FILE, "$temp")) {
+		# Set the input/output handler to "binmode":
+		binmode(FILE);
 
-    # Count the checksums:
-    my $before = Digest::MD5->new->add($head)->hexdigest;
-    my $after  = Digest::MD5->new->addfile(*FILE)->hexdigest;
+		# Count the checksums:
+		my $before = Digest::MD5->new->add($head)->hexdigest;
+		my $after  = Digest::MD5->new->addfile(*FILE)->hexdigest;
 
-    # Close the file:
-    close(FILE);
+		# Close the file:
+		close(FILE);
 
-    # Compare the checksums:
-    if ($before eq $after) {
-      # Report abortion:
-      display_warning("The file has not been changed: aborting.");
+		# Compare the checksums:
+		if ($before eq $after) {
+			# Report abortion:
+			display_warning("The file has not been changed: aborting.");
 
-      # Return success:
-      exit 0;
-    }
-  }
+			# Return success:
+			exit 0;
+		}
+	}
 
-  # Add the file to the repository:
-  my @list = add_files($type, $data, [ $temp ]);
+	# Add the file to the repository:
+	my @list = add_files($type, $data, [ $temp ]);
 
-  # Remove the temporary file:
-  unlink $temp;
+	# Remove the temporary file:
+	unlink $temp;
 
-  # Return the record ID:
-  return shift(@list);
+	# Return the record ID:
+	return shift(@list);
 }
 
 # Add the event to the log:
 sub add_to_log {
-  my $text = shift || 'Something miraculous has just happened!';
+	my $text = shift || 'Something miraculous has just happened!';
 
-  # Prepare the log file name:
-  my $file = catfile($blogdir, $weblog, 'log');
+	# Prepare the log file name:
+	my $file = catfile($blogdir, $weblog, 'log');
 
-  # Open the log file for appending:
-  open(LOG, ">>$file") or return 0;
+	# Open the log file for appending:
+	open(LOG, ">>$file") or return 0;
 
-  # Write the event to the file:
-  print LOG localtime(time) . " - $text\n";
+	# Write the event to the file:
+	print LOG localtime(time) . " - $text\n";
 
-  # Close the file:
-  close(LOG);
+	# Close the file:
+	close(LOG);
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Set up the option parser:
@@ -649,62 +650,62 @@ Getopt::Long::Configure('no_auto_abbrev', 'no_ignore_case', 'bundling');
 
 # Process command line options:
 GetOptions(
-  'help|h'         => sub { display_help();    exit 0; },
-  'version|v'      => sub { display_version(); exit 0; },
-  'page|pages|p'   => sub { $type    = 'page'; },
-  'post|posts|P'   => sub { $type    = 'post'; },
-  'no-processor|C' => sub { $process = 0;      },
-  'quiet|q'        => sub { $verbose = 0;      },
-  'verbose|V'      => sub { $verbose = 1;      },
-  'blogdir|b=s'    => sub { $blogdir = $_[1];  },
-  'editor|E=s'     => sub { $editor  = $_[1];  },
-  'title|t=s'      => sub { $data->{header}->{title}    = $_[1]; },
-  'author|a=s'     => sub { $data->{header}->{author}   = $_[1]; },
-  'date|d=s'       => sub { $data->{header}->{date}     = $_[1]; },
-  'keywords|k=s'   => sub { $data->{header}->{keywords} = $_[1]; },
-  'tags|tag|T=s'   => sub { $data->{header}->{tags}     = $_[1]; },
-  'url|u=s'        => sub { $data->{header}->{url}      = $_[1]; },
-  'alt|A=s'        => sub { $data->{header}->{alt}      = $_[1]; },
+	'help|h'         => sub { display_help();    exit 0; },
+	'version|v'      => sub { display_version(); exit 0; },
+	'page|pages|p'   => sub { $type    = 'page'; },
+	'post|posts|P'   => sub { $type    = 'post'; },
+	'no-processor|C' => sub { $process = 0;      },
+	'quiet|q'        => sub { $verbose = 0;      },
+	'verbose|V'      => sub { $verbose = 1;      },
+	'blogdir|b=s'    => sub { $blogdir = $_[1];  },
+	'editor|E=s'     => sub { $editor  = $_[1];  },
+	'title|t=s'      => sub { $data->{header}->{title}    = $_[1]; },
+	'author|a=s'     => sub { $data->{header}->{author}   = $_[1]; },
+	'date|d=s'       => sub { $data->{header}->{date}     = $_[1]; },
+	'keywords|k=s'   => sub { $data->{header}->{keywords} = $_[1]; },
+	'tags|tag|T=s'   => sub { $data->{header}->{tags}     = $_[1]; },
+	'url|u=s'        => sub { $data->{header}->{url}      = $_[1]; },
+	'alt|A=s'        => sub { $data->{header}->{alt}      = $_[1]; },
 );
 
 # Check whether the repository is present, no matter how naive this method
 # actually is:
 exit_with_error("Not a We-Blog repository! Try `we-blog-init' first.",1)
-  unless (-d catdir($blogdir, ));
+	unless (-d catdir($blogdir, ));
 
 # Read the configuration file:
 $conf = read_conf();
 
 # Check whether the processor is enabled in the configuration:
 if ($process && (my $processor = $conf->{core}->{processor})) {
-  # Make sure the processor specification is valid:
-  exit_with_error("Invalid core.processor option.", 1)
-    unless ($processor =~ /%in%/i && $processor =~ /%out%/i);
+	# Make sure the processor specification is valid:
+	exit_with_error("Invalid core.processor option.", 1)
+		unless ($processor =~ /%in%/i && $processor =~ /%out%/i);
 }
 else {
-  # Disable the processor:
-  $process = 0;
+	# Disable the processor:
+	$process = 0;
 }
 
 # Check whether a file is supplied:
 if (scalar(@ARGV) == 0) {
-  # Add a new record to the repository:
-  $added   = add_new($type, $data)
-    or exit_with_error("Cannot add the $type to the repository.", 13);
+	# Add a new record to the repository:
+	$added   = add_new($type, $data)
+		or exit_with_error("Cannot add the $type to the repository.", 13);
 }
 else {
-  # Add given files to the repository:
-  my @list = add_files($type, $data, \@ARGV)
-    or exit_with_error("Cannot add the ${type}s to the repository.", 13);
+	# Add given files to the repository:
+	my @list = add_files($type, $data, \@ARGV)
+		or exit_with_error("Cannot add the ${type}s to the repository.", 13);
 
-  # Prepare the list of successfully added IDs:
-  $added   =  join(', ', sort(@list));
-  $added   =~ s/, ([^,]+)$/ and $1/;
+	# Prepare the list of successfully added IDs:
+	$added   =  join(', ', sort(@list));
+	$added   =~ s/, ([^,]+)$/ and $1/;
 }
 
 # Log the event:
 add_to_log("Added the $type with ID $added.")
-  or display_warning("Unable to log the event.");
+	or display_warning("Unable to log the event.");
 
 # Report success:
 print "Successfully added the $type with ID $added.\n" if $verbose;
@@ -860,20 +861,20 @@ system-wide settings to decide which editor to use.
 
 Write a new blog post in an external text editor:
 
-  $ we-blog-add
+	$ we-blog-add
 
 Add a new blog post from a file:
 
-  $ we-blog-add new_packages.txt
-  Successfully added the post with ID 10.
+	$ we-blog-add new_packages.txt
+	Successfully added the post with ID 10.
 
 Write a new page in an external text editor:
 
-  $ we-blog-add -p
+	$ we-blog-add -p
 
 Write a new page in B<nano>:
 
-  $ we-blog-add -p -E nano
+	$ we-blog-add -p -E nano
 
 =head1 SEE ALSO
 

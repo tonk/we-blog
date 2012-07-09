@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# vi: set sw=4 ts=4 ai:
 # $Id: we-blog-config.pl 3 2011-09-22 08:56:52 tonk $
 
 # we-blog-config - displays or sets We-Blog configuration options
@@ -25,115 +26,115 @@ use Getopt::Long;
 use Digest::MD5;
 
 # General script information:
-use constant NAME    => basename($0, '.pl');        # Script name.
-use constant VERSION => '0.8';                      # Script version.
+use constant NAME    => basename($0, '.pl');			# Script name.
+use constant VERSION => '0.8';							# Script version.
 
 # General script settings:
-our $blogdir = '.';                                 # Repository location.
-our $weblog   = '.we-blog';                         # We-blog data and config directory
-our $editor  = '';                                  # Editor to use.
-our $verbose = 1;                                   # Verbosity level.
+our $blogdir = '.';										# Repository location.
+our $weblog   = '.we-blog';								# We-blog data and config directory
+our $editor  = '';										# Editor to use.
+our $verbose = 1;										# Verbosity level.
 
 # A list of valid options, and their default values:
 our %opt = (
-  # Blog related settings:
-  'blog.title'       => 'Blog Title',               # Blog title.
-  'blog.subtitle'    => 'blog subtitle',            # Blog subtitle.
-  'blog.description' => 'blog description',         # Blog description.
-  'blog.keywords'    => 'blog keywords',            # Blog keywords.
-  'blog.theme'       => 'default.html',             # Blog theme.
-  'blog.style'       => 'default.css',              # Blog style sheet.
-  'blog.lang'        => 'en_US',                    # Blog localization.
-  'blog.posts'       => '10',                       # Number of posts.
+	# Blog related settings:
+	'blog.title'       => 'Blog Title',					# Blog title.
+	'blog.subtitle'    => 'blog subtitle',				# Blog subtitle.
+	'blog.description' => 'blog description',			# Blog description.
+	'blog.keywords'    => 'blog keywords',				# Blog keywords.
+	'blog.theme'       => 'default.html',				# Blog theme.
+	'blog.style'       => 'default.css',				# Blog style sheet.
+	'blog.lang'        => 'en_US',						# Blog localization.
+	'blog.posts'       => '10',							# Number of posts.
 
-  # Colour related settings:
-  'color.list'       => 'false',                    # Colored listing?
-  'color.log'        => 'false',                    # Colored log?
+	# Colour related settings:
+	'color.list'       => 'false',						# Colored listing?
+	'color.log'        => 'false',						# Colored log?
 
-  # Core settings:
-  'core.encoding'    => 'UTF-8',                    # Character encoding.
-  'core.extension'   => 'html',                     # File extension.
-  'core.doctype'     => 'html',                     # Document type.
-  'core.editor'      => '',                         # External text editor.
-  'core.processor'   => '',                         # External processor.
+	# Core settings:
+	'core.encoding'    => 'UTF-8',						# Character encoding.
+	'core.extension'   => 'html',						# File extension.
+	'core.doctype'     => 'html',						# Document type.
+	'core.editor'      => '',							# External text editor.
+	'core.processor'   => '',							# External processor.
 
-  # Feed related settings:
-  'feed.baseurl'     => '',                         # Base URL.
-  'feed.posts'       => '10',                       # Number of posts.
-  'feed.fullposts'   => 'false',                    # List full posts?
+	# Feed related settings:
+	'feed.baseurl'     => '',							# Base URL.
+	'feed.posts'       => '10',							# Number of posts.
+	'feed.fullposts'   => 'false',						# List full posts?
 
-  # Post related settings:
-  'post.author'      => 'top',                      # Post author location.
-  'post.date'        => 'top',                      # Post date location.
-  'post.tags'        => 'top',                      # Post tags location.
+	# Post related settings:
+	'post.author'      => 'top',						# Post author location.
+	'post.date'        => 'top',						# Post date location.
+	'post.tags'        => 'top',						# Post tags location.
 
-  # User related settings:
-  'user.name'        => 'admin',                    # User's name.
-  'user.nickname'    => '',                         # User's nickname.
-  'user.email'       => 'admin@localhost',          # User's email.
+	# User related settings:
+	'user.name'        => 'admin',						# User's name.
+	'user.nickname'    => '',							# User's nickname.
+	'user.email'       => 'admin@localhost',			# User's email.
 );
 
 # Command line options:
-my  $edit = 0;                                      # Open in text editor?
+my  $edit = 0;											# Open in text editor?
 
 # Set up the __WARN__ signal handler:
 $SIG{__WARN__} = sub {
-  print STDERR NAME . ": " . (shift);
+	print STDERR NAME . ": " . (shift);
 };
 
 # Display an error message, and terminate the script:
 sub exit_with_error {
-  my $message      = shift || 'An error has occurred.';
-  my $return_value = shift || 1;
+	my $message      = shift || 'An error has occurred.';
+	my $return_value = shift || 1;
 
-  # Display the error message:
-  print STDERR NAME . ": $message\n";
+	# Display the error message:
+	print STDERR NAME . ": $message\n";
 
-  # Terminate the script:
-  exit $return_value;
+	# Terminate the script:
+	exit $return_value;
 }
 
 # Display a warning message:
 sub display_warning {
-  my $message = shift || 'A warning was requested.';
+	my $message = shift || 'A warning was requested.';
 
-  # Display the warning message:
-  print STDERR "$message\n";
+	# Display the warning message:
+	print STDERR "$message\n";
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Display usage information:
 sub display_help {
-  my $NAME = NAME;
+	my $NAME = NAME;
 
-  # Display the usage:
-  print << "END_HELP";
-Usage: $NAME [-qV] [-b DIRECTORY] [-E EDITOR] OPTION [VALUE...]
-       $NAME -e [-b DIRECTORY]
-       $NAME -h|-v
+	# Display the usage:
+	print << "END_HELP";
+Usage:	$NAME [-qV] [-b DIRECTORY] [-E EDITOR] OPTION [VALUE...]
+	$NAME -e [-b DIRECTORY]
+	$NAME -h|-v
 
-  -b, --blogdir DIRECTORY     specify a directory in which the We-Blog
-                              repository is placed
-  -E, --editor EDITOR         specify an external text editor
-  -e, --edit                  edit the configuration in a text editor
-  -q, --quiet                 do not display unnecessary messages
-  -V, --verbose               display all messages
-  -h, --help                  display this help and exit
-  -v, --version               display version information and exit
+	-b, --blogdir DIRECTORY     specify a directory in which the We-Blog
+	                            repository is placed
+	-E, --editor EDITOR         specify an external text editor
+	-e, --edit                  edit the configuration in a text editor
+	-q, --quiet                 do not display unnecessary messages
+	-V, --verbose               display all messages
+	-h, --help                  display this help and exit
+	-v, --version               display version information and exit
 END_HELP
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Display version information:
 sub display_version {
-  my ($NAME, $VERSION) = (NAME, VERSION);
+	my ($NAME, $VERSION) = (NAME, VERSION);
 
-  # Display the version:
-  print << "END_VERSION";
+	# Display the version:
+	print << "END_VERSION";
 $NAME $VERSION
 
 Copyright (c) 2011-2012 Ton Kersten
@@ -145,159 +146,159 @@ without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PAR-
 TICULAR PURPOSE.
 END_VERSION
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Read data from the INI file:
 sub read_ini {
-  my $file    = shift || die 'Missing argument';
+	my $file    = shift || die 'Missing argument';
 
-  # Initialize required variables:
-  my $hash    = {};
-  my $section = 'default';
+	# Initialize required variables:
+	my $hash    = {};
+	my $section = 'default';
 
-  # Open the file for reading:
-  open(INI, "$file") or return 0;
+	# Open the file for reading:
+	open(INI, "$file") or return 0;
 
-  # Process each line:
-  while (my $line = <INI>) {
-    # Parse the line:
-    if ($line =~ /^\s*\[([^\]]+)\]\s*$/) {
-      # Change the section:
-      $section = $1;
-    }
-    elsif ($line =~ /^\s*(\S+)\s*=\s*(\S.*)$/) {
-      # Add the option to the hash:
-      $hash->{$section}->{$1} = $2;
-    }
-  }
+	# Process each line:
+	while (my $line = <INI>) {
+		# Parse the line:
+		if ($line =~ /^\s*\[([^\]]+)\]\s*$/) {
+			# Change the section:
+			$section = $1;
+		}
+		elsif ($line =~ /^\s*(\S+)\s*=\s*(\S.*)$/) {
+			# Add the option to the hash:
+			$hash->{$section}->{$1} = $2;
+		}
+	}
 
-  # Close the file:
-  close(INI);
+	# Close the file:
+	close(INI);
 
-  # Return the result:
-  return $hash;
+	# Return the result:
+	return $hash;
 }
 
 # Write data to the INI file:
 sub write_ini {
-  my $file = shift || 'Missing argument';
-  my $hash = shift || 'Missing argument';
+	my $file = shift || 'Missing argument';
+	my $hash = shift || 'Missing argument';
 
-  # Open the file for writing:
-  open(INI, ">$file") or return 0;
+	# Open the file for writing:
+	open(INI, ">$file") or return 0;
 
-  # Process each section:
-  foreach my $section (sort(keys(%$hash))) {
-    # Write the section header to the file:
-    print INI "[$section]\n";
+	# Process each section:
+	foreach my $section (sort(keys(%$hash))) {
+		# Write the section header to the file:
+		print INI "[$section]\n";
 
-    # Process each option in the section:
-    foreach my $option (sort(keys(%{$hash->{$section}}))) {
-      # Write the option and its value to the file:
-      print INI "  $option = $hash->{$section}->{$option}\n";
-    }
-  }
+		# Process each option in the section:
+		foreach my $option (sort(keys(%{$hash->{$section}}))) {
+			# Write the option and its value to the file:
+			print INI "  $option = $hash->{$section}->{$option}\n";
+		}
+	}
 
-  # Close the file:
-  close(INI);
+	# Close the file:
+	close(INI);
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Read the content of the configuration file:
 sub read_conf {
-  # Prepare the file name:
-  my $file = catfile($blogdir, $weblog, 'config');
+	# Prepare the file name:
+	my $file = catfile($blogdir, $weblog, 'config');
 
-  # Parse the file:
-  if (my $conf = read_ini($file)) {
-    # Return the result:
-    return $conf;
-  }
-  else {
-    # Report failure:
-    display_warning("Unable to read the configuration.");
+	# Parse the file:
+	if (my $conf = read_ini($file)) {
+		# Return the result:
+		return $conf;
+	}
+	else {
+		# Report failure:
+		display_warning("Unable to read the configuration.");
 
-    # Return an empty configuration:
-    return {};
-  }
+		# Return an empty configuration:
+		return {};
+	}
 }
 
 # Read configuration from the temporary file, and save it:
 sub write_conf {
-  my $conf = shift || die 'Missing argument';
+	my $conf = shift || die 'Missing argument';
 
-  # Prepare the file name:
-  my $file = catfile($blogdir, $weblog, 'config');
+	# Prepare the file name:
+	my $file = catfile($blogdir, $weblog, 'config');
 
-  # Save the configuration file:
-  unless (write_ini($file, $conf)) {
-    # Report failure:
-    display_warning("Unable to write the configuration.");
+	# Save the configuration file:
+	unless (write_ini($file, $conf)) {
+		# Report failure:
+		display_warning("Unable to write the configuration.");
 
-    # Return failure:
-    return 0;
-  }
+		# Return failure:
+		return 0;
+	}
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Create a human readable version of the configuration file:
 sub create_temp {
-  my $conf = shift || die 'Missing argument';
-  my $file = shift || catfile($blogdir, $weblog, 'temp');
+	my $conf = shift || die 'Missing argument';
+	my $file = shift || catfile($blogdir, $weblog, 'temp');
 
-  # Prepare the general blog settings:
-  my $blog_title     = $conf->{blog}->{title}     || $opt{'blog.title'};
-  my $blog_subtitle  = $conf->{blog}->{subtitle}  || $opt{'blog.subtitle'};
-  my $blog_desc      = $conf->{blog}->{description}||$opt{'blog.description'};
-  my $blog_keywords  = $conf->{blog}->{keywords}  || $opt{'blog.keywords'};
-  my $blog_theme     = $conf->{blog}->{theme}     || $opt{'blog.theme'};
-  my $blog_style     = $conf->{blog}->{style}     || $opt{'blog.style'};
-  my $blog_lang      = $conf->{blog}->{lang}      || $opt{'blog.lang'};
-  my $blog_posts     = $conf->{blog}->{posts}     || $opt{'blog.posts'};
+	# Prepare the general blog settings:
+	my $blog_title     = $conf->{blog}->{title}     || $opt{'blog.title'};
+	my $blog_subtitle  = $conf->{blog}->{subtitle}  || $opt{'blog.subtitle'};
+	my $blog_desc      = $conf->{blog}->{description}||$opt{'blog.description'};
+	my $blog_keywords  = $conf->{blog}->{keywords}  || $opt{'blog.keywords'};
+	my $blog_theme     = $conf->{blog}->{theme}     || $opt{'blog.theme'};
+	my $blog_style     = $conf->{blog}->{style}     || $opt{'blog.style'};
+	my $blog_lang      = $conf->{blog}->{lang}      || $opt{'blog.lang'};
+	my $blog_posts     = $conf->{blog}->{posts}     || $opt{'blog.posts'};
 
-  # Prepare the color settings:
-  my $color_list     = $conf->{color}->{list}     || $opt{'color.list'};
-  my $color_log      = $conf->{color}->{log}      || $opt{'color.log'};
+	# Prepare the color settings:
+	my $color_list     = $conf->{color}->{list}     || $opt{'color.list'};
+	my $color_log      = $conf->{color}->{log}      || $opt{'color.log'};
 
-  # Prepare the advanced We-Blog settings:
-  my $core_doctype   = $conf->{core}->{doctype}   || $opt{'core.doctype'};
-  my $core_editor    = $conf->{core}->{editor}    || $opt{'core.editor'};
-  my $core_encoding  = $conf->{core}->{encoding}  || $opt{'core.encoding'};
-  my $core_extension = $conf->{core}->{extension} || $opt{'core.extension'};
-  my $core_processor = $conf->{core}->{processor} || $opt{'core.processor'};
+	# Prepare the advanced We-Blog settings:
+	my $core_doctype   = $conf->{core}->{doctype}   || $opt{'core.doctype'};
+	my $core_editor    = $conf->{core}->{editor}    || $opt{'core.editor'};
+	my $core_encoding  = $conf->{core}->{encoding}  || $opt{'core.encoding'};
+	my $core_extension = $conf->{core}->{extension} || $opt{'core.extension'};
+	my $core_processor = $conf->{core}->{processor} || $opt{'core.processor'};
 
-  # Prepare the RSS feed settings:
-  my $feed_baseurl   = $conf->{feed}->{baseurl}   || $opt{'feed.baseurl'};
-  my $feed_posts     = $conf->{feed}->{posts}     || $opt{'feed.posts'};
-  my $feed_fullposts = $conf->{feed}->{fullposts} || $opt{'feed.fullposts'};
+	# Prepare the RSS feed settings:
+	my $feed_baseurl   = $conf->{feed}->{baseurl}   || $opt{'feed.baseurl'};
+	my $feed_posts     = $conf->{feed}->{posts}     || $opt{'feed.posts'};
+	my $feed_fullposts = $conf->{feed}->{fullposts} || $opt{'feed.fullposts'};
 
-  # Prepare the advanced post settings:
-  my $post_author    = $conf->{post}->{author}    || $opt{'post.author'};
-  my $post_date      = $conf->{post}->{date}      || $opt{'post.date'};
-  my $post_tags      = $conf->{post}->{tags}      || $opt{'post.tags'};
+	# Prepare the advanced post settings:
+	my $post_author    = $conf->{post}->{author}    || $opt{'post.author'};
+	my $post_date      = $conf->{post}->{date}      || $opt{'post.date'};
+	my $post_tags      = $conf->{post}->{tags}      || $opt{'post.tags'};
 
-  # Prepare the user settings:
-  my $user_name      = $conf->{user}->{name}      || $opt{'user.name'};
-  my $user_nickname  = $conf->{user}->{nickname}  || $opt{'user.nickname'};
-  my $user_email     = $conf->{user}->{email}     || $opt{'user.email'};
+	# Prepare the user settings:
+	my $user_name      = $conf->{user}->{name}      || $opt{'user.name'};
+	my $user_nickname  = $conf->{user}->{nickname}  || $opt{'user.nickname'};
+	my $user_email     = $conf->{user}->{email}     || $opt{'user.email'};
 
-  # Handle the deprecated settings. This is for backward compatibility
-  # reasons only, and to be removed in the near future:
-  if ((defined $conf->{blog}->{url}) && (not $feed_baseurl)) {
-    # Assign the value to the proper option:
-    $feed_baseurl    = $conf->{blog}->{url};
-  }
+	# Handle the deprecated settings. This is for backward compatibility
+	# reasons only, and to be removed in the near future:
+	if ((defined $conf->{blog}->{url}) && (not $feed_baseurl)) {
+		# Assign the value to the proper option:
+		$feed_baseurl    = $conf->{blog}->{url};
+	}
 
-  # Open the temporary file for writing:
-  if(open(FILE, ">$file")) {
-    # Write the configuration to the file:
-    print FILE << "END_TEMP";
+	# Open the temporary file for writing:
+	if(open(FILE, ">$file")) {
+		# Write the configuration to the file:
+		print FILE << "END_TEMP";
 ## General blog settings. Available options are:
 ##
 ##   title         A title of your blog.
@@ -398,177 +399,177 @@ email=$user_email
 
 END_TEMP
 
-    # Close the file:
-    close(FILE);
+		# Close the file:
+		close(FILE);
 
-    # Return success:
-    return 1;
-  }
-  else {
-    # Report failure:
-    display_warning("Unable to create the temporary file.");
+		# Return success:
+		return 1;
+	}
+	else {
+		# Report failure:
+		display_warning("Unable to create the temporary file.");
 
-    # Return failure:
-    return 0;
-  }
+		# Return failure:
+		return 0;
+	}
 }
 
 # Edit the configuration file in a text editor:
 sub edit_options {
-  # Initialize required variables:
-  my ($before, $after);
+	# Initialize required variables:
+	my ($before, $after);
 
-  # Prepare the temporary file name:
-  my $temp = catfile($blogdir, $weblog, 'temp');
+	# Prepare the temporary file name:
+	my $temp = catfile($blogdir, $weblog, 'temp');
 
-  # Read the configuration file:
-  my $conf = read_conf();
+	# Read the configuration file:
+	my $conf = read_conf();
 
-  # Make sure the configuration was read successfully:
-  return 0 if (scalar(keys %$conf) == 0);
+	# Make sure the configuration was read successfully:
+	return 0 if (scalar(keys %$conf) == 0);
 
-  # Decide which editor to use:
-  my $edit = $editor || $conf->{core}->{editor} || $ENV{EDITOR} || 'vi';
+	# Decide which editor to use:
+	my $edit = $editor || $conf->{core}->{editor} || $ENV{EDITOR} || 'vi';
 
-  # Create the temporary file:
-  create_temp($conf, $temp) or return 0;
+	# Create the temporary file:
+	create_temp($conf, $temp) or return 0;
 
-  # Open the file for reading:
-  if (open(FILE, "$temp")) {
-    # Set the input/output handler to "binmode":
-    binmode(FILE);
+	# Open the file for reading:
+	if (open(FILE, "$temp")) {
+		# Set the input/output handler to "binmode":
+		binmode(FILE);
 
-    # Count the checksum:
-    $before = Digest::MD5->new->addfile(*FILE)->hexdigest;
+		# Count the checksum:
+		$before = Digest::MD5->new->addfile(*FILE)->hexdigest;
 
-    # Close the file:
-    close(FILE);
-  }
+		# Close the file:
+		close(FILE);
+	}
 
-  # Open the temporary file in the text editor:
-  unless (system("$edit $temp") == 0) {
-    # Report failure:
-    display_warning("Unable to run `$edit'.");
+	# Open the temporary file in the text editor:
+	unless (system("$edit $temp") == 0) {
+		# Report failure:
+		display_warning("Unable to run `$edit'.");
 
-    # Remove the temporary file:
-    unlink $temp;
+		# Remove the temporary file:
+		unlink $temp;
 
-    # Return failure:
-    return 0;
-  }
+		# Return failure:
+		return 0;
+	}
 
-  # Open the file for reading:
-  if (open(FILE, "$temp")) {
-    # Set the input/output handler to "binmode":
-    binmode(FILE);
+	# Open the file for reading:
+	if (open(FILE, "$temp")) {
+		# Set the input/output handler to "binmode":
+		binmode(FILE);
 
-    # Count the checksum:
-    $after = Digest::MD5->new->addfile(*FILE)->hexdigest;
+		# Count the checksum:
+		$after = Digest::MD5->new->addfile(*FILE)->hexdigest;
 
-    # Close the file:
-    close(FILE);
+		# Close the file:
+		close(FILE);
 
-    # Compare the checksums:
-    if ($before eq $after) {
-      # Report the abortion:
-      display_warning("The file has not been changed: aborting.");
+		# Compare the checksums:
+		if ($before eq $after) {
+			# Report the abortion:
+			display_warning("The file has not been changed: aborting.");
 
-      # Remove the temporary file:
-      unlink $temp;
+			# Remove the temporary file:
+			unlink $temp;
 
-      # Return success:
-      exit 0;
-    }
-  }
+			# Return success:
+			exit 0;
+		}
+	}
 
-  # Read the configuration from the temporary file:
-  if ($conf = read_ini($temp)) {
-    # Save the configuration file:
-    write_conf($conf) or return 0;
+	# Read the configuration from the temporary file:
+	if ($conf = read_ini($temp)) {
+		# Save the configuration file:
+		write_conf($conf) or return 0;
 
-    # Remove the temporary file:
-    unlink $temp;
+		# Remove the temporary file:
+		unlink $temp;
 
-    # Return success:
-    return 1;
-  }
-  else {
-    # Report failure:
-    display_warning("Unable to read the temporary file.");
+		# Return success:
+		return 1;
+	}
+	else {
+		# Report failure:
+		display_warning("Unable to read the temporary file.");
 
-    # Remove the temporary file:
-    unlink $temp;
+		# Remove the temporary file:
+		unlink $temp;
 
-    # Return failure:
-    return 0;
-  }
+		# Return failure:
+		return 0;
+	}
 }
 
 # Set a configuration option:
 sub set_option {
-  my $option = shift || die 'Missing argument';
-  my $value  = shift;
+	my $option = shift || die 'Missing argument';
+	my $value  = shift;
 
-  # Make sure the value is supplied, but accept empty strings and zero:
-  die 'Missing argument' unless defined $value;
+	# Make sure the value is supplied, but accept empty strings and zero:
+	die 'Missing argument' unless defined $value;
 
-  # Get the option pair:
-  my ($section, $key) = split(/\./, $option);
+	# Get the option pair:
+	my ($section, $key) = split(/\./, $option);
 
-  # Read the configuration file:
-  my $conf = read_conf();
+	# Read the configuration file:
+	my $conf = read_conf();
 
-  # Make sure the configuration was read successfully:
-  return 0 if (scalar(keys %$conf) == 0);
+	# Make sure the configuration was read successfully:
+	return 0 if (scalar(keys %$conf) == 0);
 
-  # Set up the option:
-  $conf->{$section}->{$key} = $value;
+	# Set up the option:
+	$conf->{$section}->{$key} = $value;
 
-  # Handle deprecated settings. This is for backward compatibility reasons
-  # only, and to be removed in the near future:
-  if (defined $conf->{blog}->{url}) {
-    # Check whether the current option is the affected one:
-    if ($option ne 'feed.baseurl') {
-      # Assign the value to the proper option:
-      $conf->{feed}->{baseurl} = $conf->{blog}->{url};
-    }
+	# Handle deprecated settings. This is for backward compatibility reasons
+	# only, and to be removed in the near future:
+	if (defined $conf->{blog}->{url}) {
+		# Check whether the current option is the affected one:
+		if ($option ne 'feed.baseurl') {
+			# Assign the value to the proper option:
+			$conf->{feed}->{baseurl} = $conf->{blog}->{url};
+		}
 
-    # Remove the deprecated option from the configuration:
-    delete $conf->{blog}->{url};
-  }
+		# Remove the deprecated option from the configuration:
+		delete $conf->{blog}->{url};
+	}
 
-  # Save the configuration file:
-  write_conf($conf) or return 0;
+	# Save the configuration file:
+	write_conf($conf) or return 0;
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Display an option:
 sub display_option {
-  my $option = shift || die 'Missing argument';
+	my $option = shift || die 'Missing argument';
 
-  # Get the option pair:
-  my ($section, $key) = split(/\./, $option);
+	# Get the option pair:
+	my ($section, $key) = split(/\./, $option);
 
-  # Read the configuration file:
-  my $conf = read_conf();
+	# Read the configuration file:
+	my $conf = read_conf();
 
-  # Make sure the configuration was read successfully:
-  return 0 if (scalar(keys %$conf) == 0);
+	# Make sure the configuration was read successfully:
+	return 0 if (scalar(keys %$conf) == 0);
 
-  # Check whether the option is set:
-  if (my $value = $conf->{$section}->{$key}) {
-    # Display the value:
-    print "$value\n";
-  }
-  else {
-    # Display the default value:
-    print $opt{"$section.$key"}, "\n";
-  }
+	# Check whether the option is set:
+	if (my $value = $conf->{$section}->{$key}) {
+		# Display the value:
+		print "$value\n";
+	}
+	else {
+		# Display the default value:
+		print $opt{"$section.$key"}, "\n";
+	}
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Set up the option parser:
@@ -576,53 +577,53 @@ Getopt::Long::Configure('no_auto_abbrev', 'no_ignore_case', 'bundling');
 
 # Process command line options:
 GetOptions(
-  'help|h'        => sub { display_help();    exit 0; },
-  'version|v'     => sub { display_version(); exit 0; },
-  'edit|e'        => sub { $edit    = 1;     },
-  'quiet|q'       => sub { $verbose = 0;     },
-  'verbose|V'     => sub { $verbose = 1;     },
-  'blogdir|b=s'   => sub { $blogdir = $_[1]; },
-  'editor|E=s'    => sub { $editor  = $_[1]; },
+	'help|h'        => sub { display_help();    exit 0; },
+	'version|v'     => sub { display_version(); exit 0; },
+	'edit|e'        => sub { $edit    = 1;     },
+	'quiet|q'       => sub { $verbose = 0;     },
+	'verbose|V'     => sub { $verbose = 1;     },
+	'blogdir|b=s'   => sub { $blogdir = $_[1]; },
+	'editor|E=s'    => sub { $editor  = $_[1]; },
 );
 
 # Check whether the repository is present, no matter how naive this method
 # actually is:
 exit_with_error("Not a We-Blog repository! Try `we-blog-init' first.",1)
-  unless (-d catdir($blogdir, ));
+	unless (-d catdir($blogdir, ));
 
 # Decide which action to perform:
 if ($edit) {
-  # Check superfluous options:
-  exit_with_error("Wrong number of options.", 22) if (scalar(@ARGV) != 0);
+	# Check superfluous options:
+	exit_with_error("Wrong number of options.", 22) if (scalar(@ARGV) != 0);
 
-  # Edit the configuration file:
-  edit_options() or exit_with_error("Cannot edit the configuration.", 13);
+	# Edit the configuration file:
+	edit_options() or exit_with_error("Cannot edit the configuration.", 13);
 
-  # Report success:
-  print "Your changes have been successfully saved.\n" if $verbose;
+	# Report success:
+	print "Your changes have been successfully saved.\n" if $verbose;
 }
 else {
-  # Check missing options:
-  exit_with_error("Missing option.", 22) if (scalar(@ARGV) == 0);
+	# Check missing options:
+	exit_with_error("Missing option.", 22) if (scalar(@ARGV) == 0);
 
-  # Check whether the option is valid:
-  exit_with_error("Invalid option `$ARGV[0]'.", 22)
-    unless (exists $opt{$ARGV[0]});
+	# Check whether the option is valid:
+	exit_with_error("Invalid option `$ARGV[0]'.", 22)
+		unless (exists $opt{$ARGV[0]});
 
-  # Decide whether to set or display the option:
-  if (scalar(@ARGV) > 1) {
-    # Set the option:
-    set_option(shift(@ARGV), join(' ', @ARGV))
-      or exit_with_error("Cannot set the option.", 13);
+	# Decide whether to set or display the option:
+	if (scalar(@ARGV) > 1) {
+		# Set the option:
+		set_option(shift(@ARGV), join(' ', @ARGV))
+			or exit_with_error("Cannot set the option.", 13);
 
-    # Report success:
-    print "The option has been successfully saved.\n" if $verbose;
-  }
-  else {
-    # Display the option:
-    display_option(shift(@ARGV))
-      or exit_with_error("Cannot display the option.", 13);
-  }
+		# Report success:
+		print "The option has been successfully saved.\n" if $verbose;
+	}
+	else {
+		# Display the option:
+		display_option(shift(@ARGV))
+			or exit_with_error("Cannot display the option.", 13);
+	}
 }
 
 # Return success:
@@ -849,44 +850,44 @@ A directory containing language files.
 
 Configure the default text editor:
 
-  $ we-blog-config core.editor nano
-  The option has been successfully saved.
+	$ we-blog-config core.editor nano
+	The option has been successfully saved.
 
 Configure the user information:
 
-  $ we-blog-config user.name Jaromir Hradilek
-  The option has been successfully saved.
-  $ we-blog-config user.email jhradilek@gmail.com
-  The option has been successfully saved.
+	$ we-blog-config user.name Jaromir Hradilek
+	The option has been successfully saved.
+	$ we-blog-config user.email jhradilek@gmail.com
+	The option has been successfully saved.
 
 Configure the blog appearance:
 
-  $ we-blog-config blog.title We-Blog
-  The option has been successfully saved.
-  $ we-blog-config blog.subtitle We Blog our hearts out
-  The option has been successfully saved.
-  $ we-blog-config blog.theme keepitsimple.html
-  The option has been successfully saved.
-  $ we-blog-config blog.style keepitsimple.css
-  The option has been successfully saved.
+	$ we-blog-config blog.title We-Blog
+	The option has been successfully saved.
+	$ we-blog-config blog.subtitle We Blog our hearts out
+	The option has been successfully saved.
+	$ we-blog-config blog.theme keepitsimple.html
+	The option has been successfully saved.
+	$ we-blog-config blog.style keepitsimple.css
+	The option has been successfully saved.
 
 Configure the RSS feed:
 
-  $ we-blog-config feed.fullposts true
-  The option has been successfully saved.
-  $ we-blog-config feed.posts 10
-  The option has been successfully saved.
-  $ we-blog-config feed.baseurl http://tonkersten.com/we-blog
-  The option has been successfully saved.
+	$ we-blog-config feed.fullposts true
+	The option has been successfully saved.
+	$ we-blog-config feed.posts 10
+	The option has been successfully saved.
+	$ we-blog-config feed.baseurl http://tonkersten.com/we-blog
+	The option has been successfully saved.
 
 Enable the use of the Markdown markup language:
 
-  $ we-blog-config core.processor 'markdown %in% > %out%'
-  The option has been successfully saved.
+	$ we-blog-config core.processor 'markdown %in% > %out%'
+	The option has been successfully saved.
 
 Open the configuration in a text editor:
 
-  $ we-blog-config -e
+	$ we-blog-config -e
 
 =head1 SEE ALSO
 

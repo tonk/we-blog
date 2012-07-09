@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# vi: set sw=4 ts=4 ai:
 # $Id: we-blog-init.pl 2 2011-09-21 15:34:18 tonk $
 
 # we-blog-init - creates or recovers a We-Blog repository
@@ -36,62 +37,62 @@ our $verbose = 1;                                   # Verbosity level.
 
 # Set up the __WARN__ signal handler:
 $SIG{__WARN__} = sub {
-  print STDERR NAME . ": " . (shift);
+	print STDERR NAME . ": " . (shift);
 };
 
 # Display an error message, and terminate the script:
 sub exit_with_error {
-  my $message      = shift || 'An error has occurred.';
-  my $return_value = shift || 1;
+	my $message      = shift || 'An error has occurred.';
+	my $return_value = shift || 1;
 
-  # Display the error message:
-  print STDERR NAME . ": $message\n";
+	# Display the error message:
+	print STDERR NAME . ": $message\n";
 
-  # Terminate the script:
-  exit $return_value;
+	# Terminate the script:
+	exit $return_value;
 }
 
 # Display a warning message:
 sub display_warning {
-  my $message = shift || 'A warning was requested.';
+	my $message = shift || 'A warning was requested.';
 
-  # Display the warning message:
-  print STDERR "$message\n";
+	# Display the warning message:
+	print STDERR "$message\n";
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Display usage information:
 sub display_help {
-  my $NAME = NAME;
+	my $NAME = NAME;
 
-  # Display the usage:
-  print << "END_HELP";
+	# Display the usage:
+	print << "END_HELP";
 Usage: $NAME [-fqV] [-b DIRECTORY]
-       $NAME -h|-v
+			 $NAME -h|-v
 
-  -b, --blogdir DIRECTORY     specify a directory in which the We-Blog
-                              repository is to be placed
-  -f, --force                 revert existing configuration, theme, and
-                              language files to their initial state
-  -q, --quiet                 do not display unnecessary messages
-  -V, --verbose               display all messages, including a list of
-                              created files
-  -h, --help                  display this help and exit
-  -v, --version               display version information and exit
+	-b, --blogdir DIRECTORY     specify a directory in which the We-Blog
+	                            repository is to be placed
+	-f, --force                 revert existing configuration, theme, and
+	                            language files to their initial state
+	-q, --quiet                 do not display unnecessary messages
+	-V, --verbose               display all messages, including a list of
+	                            created files
+	-h, --help                  display this help and exit
+	-v, --version               display version information and exit
 END_HELP
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Display version information:
 sub display_version {
-  my ($NAME, $VERSION) = (NAME, VERSION);
+	my ($NAME, $VERSION) = (NAME, VERSION);
 
-  # Display the version:
-  print << "END_VERSION";
+	# Display the version:
+	print << "END_VERSION";
 $NAME $VERSION
 
 Copyright (c) 2011-2012 Ton Kersten
@@ -103,23 +104,23 @@ without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PAR-
 TICULAR PURPOSE.
 END_VERSION
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Create the default configuration file:
 sub create_conf {
-  # Prepare the configuration file name:
-  my $file = catfile($blogdir, $weblog, 'config');
+	# Prepare the configuration file name:
+	my $file = catfile($blogdir, $weblog, 'config');
 
-  # Unless explicitly requested, do not overwrite the existing file:
-  return 1 if (-e $file && !$force);
+	# Unless explicitly requested, do not overwrite the existing file:
+	return 1 if (-e $file && !$force);
 
-  # Open the file for writing:
-  open(FILE, ">$file") or return 0;
+	# Open the file for writing:
+	open(FILE, ">$file") or return 0;
 
-  # Write the default configuration to the file:
-  print FILE << 'END_CONFIG';
+	# Write the default configuration to the file:
+	print FILE << 'END_CONFIG';
 ## This is the default We-Blog configuration file. The recommended way
 ## to set up your blog is to leave  this file intact,  and use we-blog-config
 ## instead.  However, if you prefer to configure We-Blog by hand, read
@@ -239,29 +240,29 @@ single=
 
 END_CONFIG
 
-  # Close the file:
-  close(FILE);
+	# Close the file:
+	close(FILE);
 
-  # Report success:
-  print "Created $file\n" if $verbose > 1;
+	# Report success:
+	print "Created $file\n" if $verbose > 1;
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Create the default theme file:
 sub create_theme {
-  # Prepare the theme file name:
-  my $file = catfile($blogdir, $weblog, 'theme', 'default.html');
+	# Prepare the theme file name:
+	my $file = catfile($blogdir, $weblog, 'theme', 'default.html');
 
-  # Unless explicitly requested, do not overwrite the existing file:
-  return 1 if (-e $file && !$force);
+	# Unless explicitly requested, do not overwrite the existing file:
+	return 1 if (-e $file && !$force);
 
-  # Open the file for writing:
-  open(FILE, ">$file") or return 0;
+	# Open the file for writing:
+	open(FILE, ">$file") or return 0;
 
-  # Write the default theme to the file:
-  print FILE << 'END_THEME';
+	# Write the default theme to the file:
+	print FILE << 'END_THEME';
 <!-- START-DOCUMENT -->
 <head>
 	<!-- content-type -->
@@ -324,29 +325,29 @@ sub create_theme {
 <!-- END-DOCUMENT -->
 END_THEME
 
-  # Close the file:
-  close(FILE);
+	# Close the file:
+	close(FILE);
 
-  # Report success:
-  print "Created $file\n" if $verbose > 1;
+	# Report success:
+	print "Created $file\n" if $verbose > 1;
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Create the default style sheet:
 sub create_style {
-  # Prepare the style sheet file name:
-  my $file = catfile($blogdir, $weblog, 'style', 'default.css');
+	# Prepare the style sheet file name:
+	my $file = catfile($blogdir, $weblog, 'style', 'default.css');
 
-  # Unless explicitly requested, do not overwrite the existing file:
-  return 1 if (-e $file && !$force);
+	# Unless explicitly requested, do not overwrite the existing file:
+	return 1 if (-e $file && !$force);
 
-  # Open the file for writing:
-  open(FILE, ">$file") or return 0;
+	# Open the file for writing:
+	open(FILE, ">$file") or return 0;
 
-  # Write the default style style sheet to the file:
-  print FILE << 'END_STYLE';
+	# Write the default style style sheet to the file:
+	print FILE << 'END_STYLE';
 /* default.css, the default theme for We-Blog
  *
  * Copyright (c) 2011, Ton Kersten
@@ -581,29 +582,29 @@ body {
 }
 END_STYLE
 
-  # Close the file:
-  close(FILE);
+	# Close the file:
+	close(FILE);
 
-  # Report success:
-  print "Created $file\n" if $verbose > 1;
+	# Report success:
+	print "Created $file\n" if $verbose > 1;
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Create the default localization file:
 sub create_lang {
-  # Prepare the localization file name:
-  my $file = catfile($blogdir, $weblog, 'lang', 'en_US');
+	# Prepare the localization file name:
+	my $file = catfile($blogdir, $weblog, 'lang', 'en_US');
 
-  # Unless explicitly requested, do not overwrite the existing file:
-  return 1 if (-e $file && !$force);
+	# Unless explicitly requested, do not overwrite the existing file:
+	return 1 if (-e $file && !$force);
 
-  # Open the file for writing:
-  open(FILE, ">$file") or return 0;
+	# Open the file for writing:
+	open(FILE, ">$file") or return 0;
 
-  # Write the default localization to the file:
-  print FILE << 'END_LANG';
+	# Write the default localization to the file:
+	print FILE << 'END_LANG';
 [lang]
 archive=Archive for
 tags=Posts tagged as
@@ -628,34 +629,34 @@ november=November
 december=December
 END_LANG
 
-  # Close the file:
-  close(FILE);
+	# Close the file:
+	close(FILE);
 
-  # Report success:
-  print "Created $file\n" if $verbose > 1;
+	# Report success:
+	print "Created $file\n" if $verbose > 1;
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Add the event to the log:
 sub add_to_log {
-  my $text = shift || 'Something miraculous has just happened!';
+	my $text = shift || 'Something miraculous has just happened!';
 
-  # Prepare the log file name:
-  my $file = catfile($blogdir, $weblog, 'log');
+	# Prepare the log file name:
+	my $file = catfile($blogdir, $weblog, 'log');
 
-  # Open the log file for appending:
-  open(LOG, ">>$file") or return 0;
+	# Open the log file for appending:
+	open(LOG, ">>$file") or return 0;
 
-  # Write the event to the file:
-  print LOG localtime(time) . " - $text\n";
+	# Write the event to the file:
+	print LOG localtime(time) . " - $text\n";
 
-  # Close the file:
-  close(LOG);
+	# Close the file:
+	close(LOG);
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Set up the option parser:
@@ -663,12 +664,12 @@ Getopt::Long::Configure('no_auto_abbrev', 'no_ignore_case', 'bundling');
 
 # Process command line options:
 GetOptions(
-  'help|h'        => sub { display_help();    exit 0; },
-  'version|v'     => sub { display_version(); exit 0; },
-  'force|f'       => sub { $force   = 1;     },
-  'quiet|q'       => sub { $verbose = 0;     },
-  'verbose|V'     => sub { $verbose = 2;     },
-  'blogdir|b=s'   => sub { $blogdir = $_[1]; },
+	'help|h'        => sub { display_help();    exit 0; },
+	'version|v'     => sub { display_version(); exit 0; },
+	'force|f'       => sub { $force   = 1;     },
+	'quiet|q'       => sub { $verbose = 0;     },
+	'verbose|V'     => sub { $verbose = 2;     },
+	'blogdir|b=s'   => sub { $blogdir = $_[1]; },
 );
 
 # Detect superfluous options:
@@ -679,20 +680,20 @@ my $action = (-d catdir($blogdir, )) ? 'Recovered' : 'Created';
 
 # Create the directory tree:
 eval {
-  mkpath(
-    [
-      catdir($blogdir, $weblog, 'lang'),
-      catdir($blogdir, $weblog, 'theme'),
-      catdir($blogdir, $weblog, 'style'),
-      catdir($blogdir, $weblog, 'pages', 'head'),
-      catdir($blogdir, $weblog, 'pages', 'body'),
-      catdir($blogdir, $weblog, 'pages', 'raw'),
-      catdir($blogdir, $weblog, 'posts', 'head'),
-      catdir($blogdir, $weblog, 'posts', 'body'),
-      catdir($blogdir, $weblog, 'posts', 'raw'),
-    ],
-    0 # Do not be verbose.
-  );
+	mkpath(
+		[
+			catdir($blogdir, $weblog, 'lang'),
+			catdir($blogdir, $weblog, 'theme'),
+			catdir($blogdir, $weblog, 'style'),
+			catdir($blogdir, $weblog, 'pages', 'head'),
+			catdir($blogdir, $weblog, 'pages', 'body'),
+			catdir($blogdir, $weblog, 'pages', 'raw'),
+			catdir($blogdir, $weblog, 'posts', 'head'),
+			catdir($blogdir, $weblog, 'posts', 'body'),
+			catdir($blogdir, $weblog, 'posts', 'raw'),
+		],
+		0 # Do not be verbose.
+	);
 };
 
 # Make sure the directory tree creation was successful:
@@ -700,27 +701,27 @@ exit_with_error("Creating directory tree: $@", 13) if $@;
 
 # Create the default configuration file:
 create_conf()
-  or display_warning("Unable to create the default configuration file.");
+	or display_warning("Unable to create the default configuration file.");
 
 # Create the default theme:
 create_theme()
-  or display_warning("Unable to create the default theme.");
+	or display_warning("Unable to create the default theme.");
 
 # Create the default style sheet:
 create_style()
-  or display_warning("Unable to create the default style sheet.");
+	or display_warning("Unable to create the default style sheet.");
 
 # Create the default localization:
 create_lang()
-  or display_warning("Unable to create the default localization.");
+	or display_warning("Unable to create the default localization.");
 
 # Create the default log file:
 add_to_log("$action a We-Blog repository.")
-  or display_warning("Unable to log the event.");
+	or display_warning("Unable to log the event.");
 
 # Report success:
 print "$action a We-Blog repository in " .
-      catdir($blogdir, ) . ".\n" if $verbose;
+			catdir($blogdir, ) . ".\n" if $verbose;
 
 # Return success:
 exit 0;
@@ -780,27 +781,27 @@ Displays version information and exits.
 
 Create a new blog in a current directory:
 
-  $ we-blog-init
-  Created a We-Blog repository in .we-blog.
+	$ we-blog-init
+	Created a We-Blog repository in .we-blog.
 
 Create a new blog in ~/public_html:
 
-  $ we-blog-init -b ~/public_html
-  Created a We-Blog repository in /home/joe/public_html/.we-blog.
+	$ we-blog-init -b ~/public_html
+	Created a We-Blog repository in /home/joe/public_html/.we-blog.
 
 Revert a configuration file and default templates to their initial state:
 
-  $ we-blog-init -f
-  Recovered a We-Blog repository in .we-blog.
+	$ we-blog-init -f
+	Recovered a We-Blog repository in .we-blog.
 
 Or if you want to see what files have been reverted:
 
-  $ we-blog-init -fV
-  Created .we-blog/config
-  Created .we-blog/theme/default.html
-  Created .we-blog/style/default.css
-  Created .we-blog/lang/en_US
-  Recovered a We-Blog repository in .we-blog.
+	$ we-blog-init -fV
+	Created .we-blog/config
+	Created .we-blog/theme/default.html
+	Created .we-blog/style/default.css
+	Created .we-blog/lang/en_US
+	Recovered a We-Blog repository in .we-blog.
 
 =head1 SEE ALSO
 

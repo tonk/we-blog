@@ -1,3 +1,7 @@
+2012-07-09  Ton Kersten <we-blog@tonkersten.com>
+  * Changed a lot of things, but they all boil down to
+    bugfixes and code reshuffeling
+
 2011-10-07  Ton Kersten <we-blog@tonkersten.com>
   * Added 'alt' text for pages to show on mouse-over.
 

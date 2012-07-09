@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# vi: set sw=4 ts=4 ai:
 # $Id: we-blog-remove.pl 2 2011-09-21 15:34:50 tonk $
 
 # we-blog-remove - removes a post or page from the We-Blog repository
@@ -39,63 +40,63 @@ my  $removed = '';                                  # List of removed IDs.
 
 # Set up the __WARN__ signal handler:
 $SIG{__WARN__} = sub {
-  print STDERR NAME . ": " . (shift);
+	print STDERR NAME . ": " . (shift);
 };
 
 # Display an error message, and terminate the script:
 sub exit_with_error {
-  my $message      = shift || 'An error has occurred.';
-  my $return_value = shift || 1;
+	my $message      = shift || 'An error has occurred.';
+	my $return_value = shift || 1;
 
-  # Display the error message:
-  print STDERR NAME . ": $message\n";
+	# Display the error message:
+	print STDERR NAME . ": $message\n";
 
-  # Terminate the script:
-  exit $return_value;
+	# Terminate the script:
+	exit $return_value;
 }
 
 # Display a warning message:
 sub display_warning {
-  my $message = shift || 'A warning was requested.';
+	my $message = shift || 'A warning was requested.';
 
-  # Display the warning message:
-  print STDERR "$message\n";
+	# Display the warning message:
+	print STDERR "$message\n";
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Display usage information:
 sub display_help {
-  my $NAME = NAME;
+	my $NAME = NAME;
 
-  # Display the usage:
-  print << "END_HELP";
+	# Display the usage:
+	print << "END_HELP";
 Usage: $NAME [-fipqPV] [-b DIRECTORY] ID...
-       $NAME -h|-v
+			 $NAME -h|-v
 
-  -b, --blogdir directory     specify a directory in which the We-Blog
-                              repository is placed
-  -p, --page                  remove a page or pages
-  -P, --post                  remove a blog post or blog posts
-  -i, --interactive           require manual confirmation of each removal
-  -f, --force                 do not require manual confirmation
-  -q, --quiet                 do not display unnecessary messages
-  -V, --verbose               display all messages
-  -h, --help                  display this help and exit
-  -v, --version               display version information and exit
+	-b, --blogdir directory     specify a directory in which the We-Blog
+	                            repository is placed
+	-p, --page                  remove a page or pages
+	-P, --post                  remove a blog post or blog posts
+	-i, --interactive           require manual confirmation of each removal
+	-f, --force                 do not require manual confirmation
+	-q, --quiet                 do not display unnecessary messages
+	-V, --verbose               display all messages
+	-h, --help                  display this help and exit
+	-v, --version               display version information and exit
 END_HELP
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Display version information:
 sub display_version {
-  my ($NAME, $VERSION) = (NAME, VERSION);
+	my ($NAME, $VERSION) = (NAME, VERSION);
 
-  # Display the version:
-  print << "END_VERSION";
+	# Display the version:
+	print << "END_VERSION";
 $NAME $VERSION
 
 Copyright (c) 2011-2012 Ton Kersten
@@ -107,114 +108,114 @@ without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PAR-
 TICULAR PURPOSE.
 END_VERSION
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Read data from the INI file:
 sub read_ini {
-  my $file    = shift || die 'Missing argument';
+	my $file    = shift || die 'Missing argument';
 
-  # Initialize required variables:
-  my $hash    = {};
-  my $section = 'default';
+	# Initialize required variables:
+	my $hash    = {};
+	my $section = 'default';
 
-  # Open the file for reading:
-  open(INI, "$file") or return 0;
+	# Open the file for reading:
+	open(INI, "$file") or return 0;
 
-  # Process each line:
-  while (my $line = <INI>) {
-    # Parse the line:
-    if ($line =~ /^\s*\[([^\]]+)\]\s*$/) {
-      # Change the section:
-      $section = $1;
-    }
-    elsif ($line =~ /^\s*(\S+)\s*=\s*(\S.*)$/) {
-      # Add the option to the hash:
-      $hash->{$section}->{$1} = $2;
-    }
-  }
+	# Process each line:
+	while (my $line = <INI>) {
+		# Parse the line:
+		if ($line =~ /^\s*\[([^\]]+)\]\s*$/) {
+			# Change the section:
+			$section = $1;
+		}
+		elsif ($line =~ /^\s*(\S+)\s*=\s*(\S.*)$/) {
+			# Add the option to the hash:
+			$hash->{$section}->{$1} = $2;
+		}
+	}
 
-  # Close the file:
-  close(INI);
+	# Close the file:
+	close(INI);
 
-  # Return the result:
-  return $hash;
+	# Return the result:
+	return $hash;
 }
 
 # Remove a record or records from the repository:
 sub remove_records {
-  my $type = shift || 'post';
-  my $ids  = shift || die 'Missing argument';
+	my $type = shift || 'post';
+	my $ids  = shift || die 'Missing argument';
 
-  # Initialize required variables:
-  my @list = ();
+	# Initialize required variables:
+	my @list = ();
 
-  # Process each record:
-  foreach my $id (@$ids) {
-    # Prepare the file names:
-    my $head = catfile($blogdir, $weblog, "${type}s", 'head', $id);
-    my $body = catfile($blogdir, $weblog, "${type}s", 'body', $id);
-    my $raw  = catfile($blogdir, $weblog, "${type}s", 'raw', $id);
+	# Process each record:
+	foreach my $id (@$ids) {
+		# Prepare the file names:
+		my $head = catfile($blogdir, $weblog, "${type}s", 'head', $id);
+		my $body = catfile($blogdir, $weblog, "${type}s", 'body', $id);
+		my $raw  = catfile($blogdir, $weblog, "${type}s", 'raw', $id);
 
-    # Enter the interactive mode if requested:
-    if ($prompt) {
-      # Parse header data:
-      my $data = read_ini($head);
+		# Enter the interactive mode if requested:
+		if ($prompt) {
+			# Parse header data:
+			my $data = read_ini($head);
 
-      # Check whether the ID exists:
-      unless ($data) {
-        # Display the appropriate warning:
-        display_warning("Unable to read the $type with ID $id.");
+			# Check whether the ID exists:
+			unless ($data) {
+				# Display the appropriate warning:
+				display_warning("Unable to read the $type with ID $id.");
 
-        # Move on to the next ID:
-        next;
-      }
+				# Move on to the next ID:
+				next;
+			}
 
-      # Display the prompt:
-      print "Remove $type with ID $id titled `" .
-            ($data->{header}->{title} || '') . "'? ";
+			# Display the prompt:
+			print "Remove $type with ID $id titled `" .
+						($data->{header}->{title} || '') . "'? ";
 
-      # Skip removal unless confirmed:
-      next unless (readline(*STDIN) =~ /^(y|yes)$/i);
-    }
+			# Skip removal unless confirmed:
+			next unless (readline(*STDIN) =~ /^(y|yes)$/i);
+		}
 
-    # Try to remove the record header:
-    if (unlink $head) {
-      # Remove the remaining record data:
-      unlink($body, $raw);
+		# Try to remove the record header:
+		if (unlink $head) {
+			# Remove the remaining record data:
+			unlink($body, $raw);
 
-      # Add the record to the list of successfully removed IDs:
-      push(@list, $id);
-    }
-    else {
-      # Report failure:
-      display_warning("Unable to remove the $type with ID $id.");
-    }
-  }
+			# Add the record to the list of successfully removed IDs:
+			push(@list, $id);
+		}
+		else {
+			# Report failure:
+			display_warning("Unable to remove the $type with ID $id.");
+		}
+	}
 
-  # Return the list of removed IDs:
-  return @list;
+	# Return the list of removed IDs:
+	return @list;
 }
 
 # Add the event to the log:
 sub add_to_log {
-  my $text = shift || 'Something miraculous has just happened!';
+	my $text = shift || 'Something miraculous has just happened!';
 
-  # Prepare the log file name:
-  my $file = catfile($blogdir, $weblog, 'log');
+	# Prepare the log file name:
+	my $file = catfile($blogdir, $weblog, 'log');
 
-  # Open the log file for appending:
-  open(LOG, ">>$file") or return 0;
+	# Open the log file for appending:
+	open(LOG, ">>$file") or return 0;
 
-  # Write the event to the file:
-  print LOG localtime(time) . " - $text\n";
+	# Write the event to the file:
+	print LOG localtime(time) . " - $text\n";
 
-  # Close the file:
-  close(LOG);
+	# Close the file:
+	close(LOG);
 
-  # Return success:
-  return 1;
+	# Return success:
+	return 1;
 }
 
 # Set up the option parser:
@@ -222,15 +223,15 @@ Getopt::Long::Configure('no_auto_abbrev', 'no_ignore_case', 'bundling');
 
 # Process command line options:
 GetOptions(
-  'help|h'        => sub { display_help();    exit 0; },
-  'version|v'     => sub { display_version(); exit 0; },
-  'page|pages|p'  => sub { $type    = 'page'; },
-  'post|posts|P'  => sub { $type    = 'post'; },
-  'force|f'       => sub { $prompt  = 0;      },
-  'interactive|i' => sub { $prompt  = 1;      },
-  'quiet|q'       => sub { $verbose = 0;      },
-  'verbose|V'     => sub { $verbose = 1;      },
-  'blogdir|b=s'   => sub { $blogdir = $_[1];  },
+	'help|h'        => sub { display_help();    exit 0; },
+	'version|v'     => sub { display_version(); exit 0; },
+	'page|pages|p'  => sub { $type    = 'page'; },
+	'post|posts|P'  => sub { $type    = 'post'; },
+	'force|f'       => sub { $prompt  = 0;      },
+	'interactive|i' => sub { $prompt  = 1;      },
+	'quiet|q'       => sub { $verbose = 0;      },
+	'verbose|V'     => sub { $verbose = 1;      },
+	'blogdir|b=s'   => sub { $blogdir = $_[1];  },
 );
 
 # Check missing options:
@@ -239,18 +240,18 @@ exit_with_error("Wrong number of options.", 22) if (scalar(@ARGV) < 1);
 # Check whether the repository is present, no matter how naive this method
 # actually is:
 exit_with_error("Not a We-Blog repository! Try `we-blog-init' first.",1)
-  unless (-d catdir($blogdir, ));
+	unless (-d catdir($blogdir, ));
 
 # Remove the records from the repository:
 my @list = remove_records($type, \@ARGV);
 
 # End here unless at least one record was actually removed:
 unless (@list) {
-  # Report abortion:
-  print "Aborted.\n" if $verbose;
+	# Report abortion:
+	print "Aborted.\n" if $verbose;
 
-  # Return failure or success:
-  exit (($prompt) ? 0 : 13);
+	# Return failure or success:
+	exit (($prompt) ? 0 : 13);
 }
 
 # Prepare the list of successfully removed IDs:
@@ -259,7 +260,7 @@ $removed =~ s/, ([^,]+)$/ and $1/;
 
 # Log the event:
 add_to_log("Removed the $type with ID $removed.")
-  or display_warning("Unable to log the event.");
+	or display_warning("Unable to log the event.");
 
 # Report success:
 print "Successfully removed the $type with ID $removed.\n" if $verbose;
@@ -333,26 +334,26 @@ Displays version information and exits.
 
 Remove a blog post:
 
-  $ we-blog-remove 10
-  Successfully removed the post with ID 10.
+	$ we-blog-remove 10
+	Successfully removed the post with ID 10.
 
 Remove a page:
 
-  $ we-blog-remove -p 4
-  Successfully removed the page with ID 4.
+	$ we-blog-remove -p 4
+	Successfully removed the page with ID 4.
 
 Remove multiple blog posts:
 
-  $ we-blog-remove 10 4 6
-  Successfully removed the post with ID 10, 4 and 6.
+	$ we-blog-remove 10 4 6
+	Successfully removed the post with ID 10, 4 and 6.
 
 Remove multiple blog posts safely:
 
-  $ we-blog-remove -i 10 4 6
-  Remove the post with ID 10 titled `Debian and Fedora Packages'? y
-  Remove the post with ID 4 titled `We-Blog 0.8.0 RC2'? y
-  Remove the post with ID 6 titled `We-Blog 0.8.1'? y
-  Successfully removed the post with ID 10, 4 and 6.
+	$ we-blog-remove -i 10 4 6
+	Remove the post with ID 10 titled `Debian and Fedora Packages'? y
+	Remove the post with ID 4 titled `We-Blog 0.8.0 RC2'? y
+	Remove the post with ID 6 titled `We-Blog 0.8.1'? y
+	Successfully removed the post with ID 10, 4 and 6.
 
 =head1 SEE ALSO
 
