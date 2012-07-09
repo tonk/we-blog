@@ -6,16 +6,16 @@
 # Copyright (c) 2011-2012 Ton Kersten
 # Copyright (c) 2008-2011 Jaromir Hradilek
 
-# This program is  free software:  you can redistribute it and/or modify it
-# under  the terms  of the  GNU General Public License  as published by the
+# This program is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the
 # Free Software Foundation, version 3 of the License.
 #
-# This program  is  distributed  in the hope  that it will  be useful,  but
-# WITHOUT  ANY WARRANTY;  without  even the implied  warranty of MERCHANTA-
-# BILITY  or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTA-
+# BILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public
 # License for more details.
 #
-# You should have received a copy of the  GNU General Public License  along
+# You should have received a copy of the GNU General Public License along
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 
 use strict;
@@ -28,25 +28,25 @@ use File::Spec::Functions;
 use Getopt::Long;
 
 # General script information:
-use constant NAME    => basename($0, '.pl');        # Script name.
-use constant VERSION => '0.8';                      # Script version.
+use constant NAME		=> basename($0, '.pl');		# Script name.
+use constant VERSION	=> '0.8';					# Script version.
 
 # General script settings:
-our $blogdir  = '.';                                # Repository location.
-our $weblog   = '.we-blog';                         # We-blog data and config directory
-our $editor   = '';                                 # Editor to use.
-our $process  = 1;                                  # Use processor?
-our $verbose  = 1;                                  # Verbosity level.
+our $blogdir	= '.';								# Repository location.
+our $weblog		= '.we-blog';						# We-blog data and config directory
+our $editor		= '';								# Editor to use.
+our $process	= 1;								# Use processor?
+our $verbose	= 1;								# Verbosity level.
 
 # Global variables:
-our $chosen   = 1;                                  # Available ID guess.
-our $reserved = undef;                              # Reserved ID list.
-our $conf     = {};                                 # Configuration.
+our $chosen		= 1;								# Available ID guess.
+our $reserved	= undef;							# Reserved ID list.
+our $conf		= {};								# Configuration.
 
 # Command line options:
-my  $type     = 'post';                             # Type: post or page.
-my  $added    = '';                                 # List of added IDs.
-my  $data     = {};                                 # Post/page meta data.
+my  $type		= 'post';							# Type: post or page.
+my  $added		= '';								# List of added IDs.
+my  $data		= {};								# Post/page meta data.
 
 # Set up the __WARN__ signal handler:
 $SIG{__WARN__} = sub {
@@ -122,8 +122,8 @@ Copyright (c) 2011-2012 Ton Kersten
 Copyright (c) 2008-2011 Jaromir Hradilek
 
 This program is free software; see the source for copying conditions. It is
-distributed in the hope  that it will be useful,  but WITHOUT ANY WARRANTY;
-without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PAR-
+distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PAR-
 TICULAR PURPOSE.
 END_VERSION
 
@@ -139,11 +139,11 @@ sub date_to_string {
 
 # Read data from the INI file:
 sub read_ini {
-	my $file    = shift || die 'Missing argument';
+	my $file	= shift || die 'Missing argument';
 
 	# Initialize required variables:
-	my $hash    = {};
-	my $section = 'default';
+	my $hash	= {};
+	my $section	= 'default';
 
 	# Open the file for reading:
 	open(INI, "$file") or return 0;
@@ -233,9 +233,9 @@ sub make_url {
 
 # Look for erroneous or missing header data:
 sub check_header {
-	my $data = shift || die 'Missing argument';
-	my $id   = shift || die 'Missing argument';
-	my $type = shift || die 'Missing argument';
+	my $data	= shift || die 'Missing argument';
+	my $id		= shift || die 'Missing argument';
+	my $type	= shift || die 'Missing argument';
 
 	# Check whether the title is specified:
 	unless ($data->{header}->{title}) {
@@ -447,7 +447,7 @@ sub collect_ids {
 
 # Return the first unused ID:
 sub choose_id {
-	my $type   = shift || 'post';
+	my $type = shift || 'post';
 
 	# Get the list of reserved IDs unless already done:
 	@$reserved = collect_ids($type) unless defined $reserved;
@@ -528,8 +528,8 @@ sub add_new {
 # Please take your time and replace these options with desired values. Just
 # remember that the date has to be in the YYYY-MM-DD form, tags are a comma
 # separated list of categories the post (pages ignore these) belong to, and
-# the url,  if provided, should consist of alphanumeric characters, hyphens
-# and underscores only.  Specifying your own url  is especially recommended
+# the url, if provided, should consist of alphanumeric characters, hyphens
+# and underscores only. Specifying your own url is especially recommended
 # in case you use non-ASCII characters in your blog post title.
 #
 #   title:    $title
@@ -550,10 +550,10 @@ END_POST_HEADER
 # vi: set sw=4 ts=4 ai:
 #
 # This and the following lines beginning with '#' are the page header. Ple-
-# ase take your time and replace these  options with  desired  values. Just
-# remember that the date has to be in the YYYY-MM-DD form, and the  url, if
-# provided, should  consist of alphanumeric characters,  hyphens and under-
-# scores only. Specifying your own url  is especially  recommended  in case
+# ase take your time and replace these options with desired values. Just
+# remember that the date has to be in the YYYY-MM-DD form, and the url, if
+# provided, should consist of alphanumeric characters, hyphens and under-
+# scores only. Specifying your own url is especially recommended in case
 # you use non-ASCII characters in your page title.
 #
 #   title:    $title
@@ -650,8 +650,8 @@ Getopt::Long::Configure('no_auto_abbrev', 'no_ignore_case', 'bundling');
 
 # Process command line options:
 GetOptions(
-	'help|h'         => sub { display_help();    exit 0; },
-	'version|v'      => sub { display_version(); exit 0; },
+	'help|h'         => sub { display_help();		exit 0;	},
+	'version|v'      => sub { display_version();	exit 0;	},
 	'page|pages|p'   => sub { $type    = 'page'; },
 	'post|posts|P'   => sub { $type    = 'post'; },
 	'no-processor|C' => sub { $process = 0;      },

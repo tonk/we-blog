@@ -301,13 +301,13 @@ sub create_temp {
 		print FILE << "END_TEMP";
 ## General blog settings. Available options are:
 ##
-##   title         A title of your blog.
-##   subtitle      A subtitle of your blog.
+##   title         The title of your blog.
+##   subtitle      The subtitle of your blog.
 ##   description   A brief description of your blog.
 ##   keywords      A comma-separated list of keywords.
 ##   theme         A theme for your blog. It must point to an existing file
 ##                 in the .we-blog/theme/ directory.
-##   style         A style sheet for your blog.  It must point to  an exis-
+##   style         A style sheet for your blog. It must point to an exis-
 ##                 ting file in the .we-blog/style/ directory.
 ##   lang          A translation of your blog. It must point to an existing
 ##                 file in the .we-blog/lang/ directory.
@@ -325,9 +325,9 @@ posts=$blog_posts
 
 ## Color settings. Available options are:
 ##
-##   list          A boolean  to enable (true) or disable (false) colors in
+##   list          A boolean to enable (true) or disable (false) colors in
 ##                 the we-blog-list output.
-##   log           A boolean  to enable (true) or disable (false) colors in
+##   log           A boolean to enable (true) or disable (false) colors in
 ##                 the we-blog-log output.
 ##
 [color]
@@ -336,14 +336,14 @@ log=$color_log
 
 ## Advanced We-Blog settings. Available options are:
 ##
-##   doctype       A document type.  It can be  either  html  for HTML,  or
+##   doctype       A document type. It can be either html for HTML, or
 ##                 xhtml for the XHTML standard.
 ##   extension     A file extension.
 ##   encoding      A character encoding. It has to be in a form that is re-
 ##                 cognized by W3C standards.
-##   editor        An external  text  editor.  When  supplied, this  option
+##   editor        An external text editor. When supplied, this option
 ##                 overrides the system-wide settings.
-##   processor     An external application  to be used to process newly ad-
+##   processor     An external application to be used to process newly ad-
 ##                 ded or edited blog posts and pages. You must supply %in%
 ##                 and %out% in place of an input and output file name res-
 ##                 pectively.
@@ -359,7 +359,7 @@ processor=$core_processor
 ##
 ##  baseurl        A URL of your blog, for example "http://example.com/".
 ##  posts          A number of blog posts to be listed in the feed.
-##  fullposts      A boolean to enable (true)  or disable (false) inclusion
+##  fullposts      A boolean to enable (true) or disable (false) inclusion
 ##                 of the whole content of a blog post in the feed.
 ##
 [feed]
@@ -369,14 +369,14 @@ fullposts=$feed_fullposts
 
 ## Advanced post settings. Available options are:
 ##
-##  author         A location of a blog post author name.  It can either be
-##                 placed above the post (top),  below it (bottom),  or no-
+##  author         A location of a blog post author name. It can either be
+##                 placed above the post (top), below it (bottom), or no-
 ##                 where on the page (none).
-##  date           A location  of a date  of publishing.  It can  either be
-##                 placed above the post (top),  below it (bottom),  or no-
+##  date           A location of a date of publishing. It can either be
+##                 placed above the post (top), below it (bottom), or no-
 ##                 where on the page (none).
 ##  tags           A location of post tags. They can either be placed above
-##                 the post (top),  below it (bottom),  or  nowhere  on the
+##                 the post (top), below it (bottom), or nowhere on the
 ##                 page (none).
 ##
 [post]
@@ -386,10 +386,10 @@ tags=$post_tags
 
 ## User settings. Available options are:
 ##
-##   name          Your full name to be used in the copyright notice,  and
+##   name          Your full name to be used in the copyright notice, and
 ##                 as the default post author.
-##   nickname      Your nickname  to be used  as the  default  post author.
-##                 When supplied, this option overrides the  above setting.
+##   nickname      Your nickname to be used as the default post author.
+##                 When supplied, this option overrides the above setting.
 ##   email         Your email address.
 ##
 [user]
@@ -577,13 +577,13 @@ Getopt::Long::Configure('no_auto_abbrev', 'no_ignore_case', 'bundling');
 
 # Process command line options:
 GetOptions(
-	'help|h'        => sub { display_help();    exit 0; },
-	'version|v'     => sub { display_version(); exit 0; },
-	'edit|e'        => sub { $edit    = 1;     },
-	'quiet|q'       => sub { $verbose = 0;     },
-	'verbose|V'     => sub { $verbose = 1;     },
-	'blogdir|b=s'   => sub { $blogdir = $_[1]; },
-	'editor|E=s'    => sub { $editor  = $_[1]; },
+	'help|h'        => sub { display_help();	exit 0;	},
+	'version|v'     => sub { display_version();	exit 0;	},
+	'edit|e'        => sub { $edit    = 1;				},
+	'quiet|q'       => sub { $verbose = 0;				},
+	'verbose|V'     => sub { $verbose = 1;				},
+	'blogdir|b=s'   => sub { $blogdir = $_[1];			},
+	'editor|E=s'    => sub { $editor  = $_[1];			},
 );
 
 # Check whether the repository is present, no matter how naive this method
