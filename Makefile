@@ -1,5 +1,5 @@
 # makefile for We-Blog, We Blog our hearts out
-# $Id: Makefile 4 2012-07-09 13:54:17 tonk $
+# $Id: Makefile 5 2012-07-09 21:10:02 tonk $
 
 # Copyright (c) 2011-2012 Ton Kersten
 # Copyright (c) 2009-2011 Jaromir Hradilek
@@ -31,7 +31,7 @@ MAN1    = src/we-blog-add.1 src/we-blog-config.1 src/we-blog-edit.1	\
 SRCS    = src/we-blog-add.pl src/we-blog-config.pl src/we-blog-edit.pl	\
           src/we-blog-init.pl src/we-blog-list.pl src/we-blog-log.pl	\
           src/we-blog-make.pl src/we-blog-remove.pl			\
-          src/we-blog-smilies.pl we.pm
+          src/we-blog-smilies.pl src/we.pm
 SMLS	= smilies
 
 # Installation directories:
