@@ -350,8 +350,8 @@ sub create_style {
 	print FILE << 'END_STYLE';
 /* default.css, the default theme for We-Blog
  *
- * Copyright (c) 2011, Ton Kersten
- * Copyright (c) 2009, 2010 Jaromir Hradilek
+ * Copyright (c) 2011-2012 Ton Kersten
+ * Copyright (c) 2009-2010 Jaromir Hradilek
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
