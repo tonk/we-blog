@@ -1,5 +1,5 @@
 # makefile for We-Blog, We Blog our hearts out
-# $Id: Makefile 3 2012-07-09 13:51:16 tonk $
+# $Id: Makefile 4 2012-07-09 13:54:17 tonk $
 
 # Copyright (c) 2011-2012 Ton Kersten
 # Copyright (c) 2009-2011 Jaromir Hradilek
@@ -46,7 +46,7 @@ compdir = $(config)/bash_completion.d
 # Make rules;  please do not edit these unless you really know what you are
 # doing:
 .PHONY: all install_bin install_conf install_data install_docs \
-        install_man install uninstall clean
+        install_man install_smilies install uninstall clean
 
 all: $(MAN1)
 
