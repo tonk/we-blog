@@ -42,7 +42,7 @@ use vars qw(
 
 # General script information:
 $NAME		= basename($0, '.pl');	# Script name.
-$VERSION	= '0.8';				# Script version.
+$VERSION	= '0.9';				# Script version.
 
 # General script settings:
 $blogdir	= '.';					# Repository location.
