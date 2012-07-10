@@ -27,7 +27,7 @@ use Digest::MD5;
 
 # Set the library path and use our own module
 use lib dirname($0);
-use we;
+use We;
 
 # A list of valid options, and their default values:
 our %opt = (

@@ -29,7 +29,7 @@ use Getopt::Long;
 
 # Set the library path and use our own module
 use lib dirname($0);
-use we;
+use We;
 
 # Global variables:
 our $chosen		= 1;								# Available ID guess.

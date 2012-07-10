@@ -20,7 +20,8 @@
 
 use strict;
 use warnings;
-use Exporter;
+use File::Basename;
+require Exporter;
 
 use vars qw(
 			$NAME

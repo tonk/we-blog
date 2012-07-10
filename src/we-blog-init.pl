@@ -27,7 +27,7 @@ use Getopt::Long;
 
 # Set the library path and use our own module
 use lib dirname($0);
-use we;
+use We;
 
 # Display usage information:
 sub display_help {

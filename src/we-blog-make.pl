@@ -31,7 +31,7 @@ use Time::Local 'timelocal_nocheck';
 
 # Set the library path and use our own module
 use lib dirname($0);
-use we;
+use We;
 
 # General script settings:
 our $with_index  = 1;                               # Generate index page?
