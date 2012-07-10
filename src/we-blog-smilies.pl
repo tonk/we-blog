@@ -127,7 +127,7 @@ B<we-blog-smilies> converts all smiley (emoticon) text tags to pictures
 
 To report a bug or to send a patch, please, add a new issue to the bug
 tracker at <http://code.google.com/p/we-blog/issues/>, or visit the
-discussion group at <http://groups.google.com/group/we-blog/>.
+discussion group at <https://groups.google.com/d/forum/tonk-we-blog>.
 
 =head1 COPYRIGHT
 
