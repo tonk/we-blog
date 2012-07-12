@@ -129,7 +129,7 @@
 .\" ========================================================================
 .\"
 .IX Title "WE-BLOG-CONFIG 1"
-.TH WE-BLOG-CONFIG 1 "2012-07-10" "Version 0.9" "We-Blog Documentation"
+.TH WE-BLOG-CONFIG 1 "2012-07-12" "Version 0.9" "We-Blog Documentation"
 .SH "NAME"
 we\-blog\-config \- displays or sets We\-Blog configuration options
 .SH "SYNOPSIS"
@@ -243,6 +243,33 @@ A number of blog posts to be listed in the feed. The default option is
 A boolean to enable (\f(CW\*(C`true\*(C'\fR) or disable (\f(CW\*(C`false\*(C'\fR) inclusion of the whole
 content of a blog post in the feed, even though the \fB<!\-\- break \-\->\fR
 form is used. The default option is \f(CW\*(C`false\*(C'\fR.
+.IP "\fBsocial.social\fR=\fIboolean\fR" 4
+.IX Item "social.social=boolean"
+Display a social media bar
+.IP "\fBsocial.twitter\fR=\fIstring\fR" 4
+.IX Item "social.twitter=string"
+Twitter id. Results in: http://twitter.com/%twitter%
+.IP "\fBsocial.googleplus\fR=\fIstring\fR" 4
+.IX Item "social.googleplus=string"
+Google Plus \s-1ID\s0. Results in: https://plus.google.com/%googleplus%/posts
+.IP "\fBsocial.linkedin\fR=\fIstring\fR" 4
+.IX Item "social.linkedin=string"
+Linked In short \s-1ID\s0. Results in: http://www.linkedin.com/in/%linkedin%
+.IP "\fBsocial.skype\fR=\fIstring\fR" 4
+.IX Item "social.skype=string"
+Skype \s-1ID\s0. Results in: skype:%skype%?add
+.IP "\fBsocial.github\fR=\fIstring\fR" 4
+.IX Item "social.github=string"
+GitHub \s-1ID\s0. Results in: https://github.com/%github%
+.IP "\fBstats.analytics\fR=\fIstring\fR" 4
+.IX Item "stats.analytics=string"
+The Google Analytics \s-1ID\s0
+.IP "\fBstats.piwik\fR=\fIstring\fR" 4
+.IX Item "stats.piwik=string"
+PiWik base \s-1URL\s0, without the http(s):// part. E.g. example.com/pi/piwik
+.IP "\fBstats.piwiksite\fR=\fIstring\fR" 4
+.IX Item "stats.piwiksite=string"
+PiWik site \s-1ID\s0
 .IP "\fBpost.author\fR=\fIstring\fR" 4
 .IX Item "post.author=string"
 A location of a blog post author name. It can be placed above the post
@@ -269,6 +296,12 @@ overrides the \fBuser.name\fR setting. This option is disabled by default.
 .IP "\fBuser.email\fR=\fIstring\fR" 4
 .IX Item "user.email=string"
 Your email address. The default option is \f(CW\*(C`admin@localhost\*(C'\fR.
+.IP "\fBappends.index\fR=\fIstring\fR" 4
+.IX Item "appends.index=string"
+Appends on index page, for instance the Disqus scripts
+.IP "\fBappends.single\fR=\fIstring\fR" 4
+.IX Item "appends.single=string"
+Appends on a single page, for instance the Disqus scripts
 .SH "ENVIRONMENT"
 .IX Header "ENVIRONMENT"
 .IP "\fB\s-1EDITOR\s0\fR" 4
