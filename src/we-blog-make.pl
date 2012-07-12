@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-make.pl 2 2011-09-21 15:34:42 tonk $
+# $Id: we-blog-make.pl 3 2012-07-12 11:20:37 tonk $
 
 # we-blog-make - generates a blog from the We-Blog repository
 # Copyright (c) 2011-2012 Ton Kersten
@@ -564,8 +564,8 @@ sub read_entry {
 	my $file    = catfile($blogdir, $weblog, "${type}s", 'body', $id);
 
 	# Get the index append for posts
-	my $append_index = $conf->{appends}->{index} || '';
-	$append_index =~ s/%n%/\n/ig;
+	my $appends_index = $conf->{appends}->{index} || '';
+	$appends_index =~ s/%n%/\n/ig;
 
 	# Initialize required variables:
 	my $result  = '';
@@ -596,7 +596,7 @@ sub read_entry {
 	}
 
 	# Add the append to the post
-	$result .= '<!-- start-append-index -->' . $append_index . '<!-- end-append-index -->';
+	$result .= '<!-- start-append-index -->' . $appends_index . '<!-- end-append-index -->';
 
 	# Add the 'End Post' tag
 	$result .= "\n<!-- End of We-Blog Post ID %id% -->\n";
@@ -788,14 +788,28 @@ sub format_template {
 	return $cache_theme if $cache_theme;
 
 	# Read required data from the documentation:
-	my $conf_doctype  = $conf->{core}->{doctype}     || 'html';
-	my $conf_encoding = $conf->{core}->{encoding}    || 'UTF-8';
-	my $conf_title    = $conf->{blog}->{title}       || 'Blog Title';
-	my $conf_subtitle = $conf->{blog}->{subtitle}    || 'blog subtitle';
-	my $conf_desc     = $conf->{blog}->{description} || 'blog description';
-	my $conf_name     = $conf->{user}->{name}        || 'admin';
-	my $conf_email    = $conf->{user}->{email}       || 'admin@localhost';
-	my $conf_nickname = $conf->{user}->{nickname}    || $conf_name;
+	my $conf_doctype  = $conf->{core}->{doctype}		|| 'html';
+	my $conf_encoding = $conf->{core}->{encoding}		|| 'UTF-8';
+	my $conf_title    = $conf->{blog}->{title}			|| 'Blog Title';
+	my $conf_subtitle = $conf->{blog}->{subtitle}		|| 'blog subtitle';
+	my $conf_desc     = $conf->{blog}->{description}	|| 'blog description';
+	my $conf_name     = $conf->{user}->{name}			|| 'admin';
+	my $conf_email    = $conf->{user}->{email}			|| 'admin@localhost';
+	my $conf_nickname = $conf->{user}->{nickname}		|| $conf_name;
+
+	# Social network settings
+	my $conf_social     = $conf->{social}->{social}		|| undef;
+	my $conf_twitter    = $conf->{social}->{twitter}	|| undef;
+	my $conf_googleplus = $conf->{social}->{googleplus}	|| undef;
+	my $conf_linkedin   = $conf->{social}->{linkedin}	|| undef;
+	my $conf_skype      = $conf->{social}->{skype}		|| undef;
+	my $conf_github     = $conf->{social}->{github}		|| undef;
+
+	# Statistics settings:
+	my $conf_analytics	= $conf->{stats}->{analytics}	|| undef;
+	my $conf_piwik		= $conf->{stats}->{piwik}		|| undef;
+	my $conf_piwiksite	= $conf->{stats}->{piwiksite}	|| undef;
+
 
 	# Prepare a list of blog posts, pages, tags, and months:
 	my $list_pages    = list_of_pages($data->{headers}->{pages});
@@ -890,6 +904,64 @@ sub format_template {
 	$template =~ s/<!--\s*nickname\s*-->/$conf_nickname/ig;
 	$template =~ s/<!--\s*e-mail\s*-->/$conf_email/ig;
 	$template =~ s/<!--\s*year\s*-->/$current_year/ig;
+
+	# Substitute social media placeholders
+	if ( defined $conf_social ) {
+		# Twitter
+		if ( defined $conf_twitter ) {
+			$template =~ s/%twitter%/$conf_twitter/ig;
+		} else {
+			$template =~ s/<!--\s*ifdef\s+twitter\s*-->.*<!--\s*endif\s+twitter\s*-->/<!-- Twitter -->/igs;
+		}
+
+		# Google Plus
+		if ( defined $conf_googleplus ) {
+			$template =~ s/%googleplus%/$conf_googleplus/ig;
+		} else {
+			$template =~ s/<!--\s*ifdef\s+googleplus\s*-->.*<!--\s*endif\s+googleplus\s*-->/<!-- Google Plus -->/igs;
+		}
+
+		# LinkedIn
+		if ( defined $conf_linkedin ) {
+			$template =~ s/%linkedin%/$conf_linkedin/ig;
+		} else {
+			$template =~ s/<!--\s*ifdef\s+linkedin\s*-->.*<!--\s*endif\s+linkedin\s*-->/<!-- LinkedIn -->/igs;
+		}
+
+		# Skype
+		if ( defined $conf_skype ) {
+			$template =~ s/%skype%/$conf_skype/ig;
+		} else {
+			$template =~ s/<!--\s*ifdef\s+skype\s*-->.*<!--\s*endif\s+skype\s*-->/<!-- Skype -->/igs;
+		}
+
+		# Github
+		if ( defined $conf_github ) {
+			$template =~ s/%github%/$conf_github/ig;
+		} else {
+			$template =~ s/<!--\s*ifdef\s+github\s*-->.*<!--\s*endif\s+github\s*-->/<!-- Github -->/igs;
+		}
+	} else {
+		# No social media bar wanted. Remove it completely
+		$template =~ s/<!--\s*ifdef\s+social\s*-->.*<!--\s*endif\s+social\s*-->//igs;
+	}
+
+	# Google Analytics
+	if ( defined $conf_analytics ) {
+		$template =~ s/%analytics%/$conf_analytics/ig;
+	} else {
+		$template =~ s/<!--\s*ifdef\s+analytics\s*-->.*<!--\s*endif\s+analytics\s*-->/<!-- Google Analytics -->/igs;
+	}
+
+	# PiWik
+	if ( defined $conf_piwik ) {
+		$template =~ s/%piwik%/$conf_piwik/ig;
+		if ( defined $conf_piwiksite ) {
+			$template =~ s/%piwiksite%/$conf_piwiksite/ig;
+		}
+	} else {
+		$template =~ s/<!--\s*ifdef\s+piwik\s*-->.*<!--\s*endif\s+piwik\s*-->/<!-- Google Piwik -->/igs;
+	}
 
 	# Store the template to the cache:
 	$cache_theme = $template;
@@ -1250,8 +1322,8 @@ sub generate_posts {
 
 	# Read required data from the configuration:
 	my $blog_posts    = $conf->{blog}->{posts}      || 10;
-	my $append_single = $conf->{appends}->{single}  || '';
-	$append_single =~ s/%n%/\n/ig;
+	my $appends_single = $conf->{appends}->{single}  || '';
+	$appends_single =~ s/%n%/\n/ig;
 
 	# Read required data from the localization:
 	my $title_string = $locale->{lang}->{archive}  || 'Archive for';
@@ -1305,7 +1377,7 @@ sub generate_posts {
 				: catdir($destdir, $year, $month, $record->{url});
 
 		# Add the append code for each individual page/post
-		$post_body .= '<!-- start-append-single -->' . $append_single . '<!-- end-append-single -->';
+		$post_body .= '<!-- start-append-single -->' . $appends_single . '<!-- end-append-single -->';
 
 		# Substitute the %id% tag with the id of the current post/page/etc:
 		$post_body =~ s/%id%/$id/ig;
