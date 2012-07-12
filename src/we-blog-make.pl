@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-make.pl 3 2012-07-12 11:20:37 tonk $
+# $Id: we-blog-make.pl 4 2012-07-12 12:01:38 tonk $
 
 # we-blog-make - generates a blog from the We-Blog repository
 # Copyright (c) 2011-2012 Ton Kersten
@@ -778,6 +778,18 @@ sub format_navigation {
 		}
 }
 
+# Remove strings from the $template
+sub remove_string {
+	my $string = shift;
+	my $remove = shift;
+	my $repl   = shift;
+
+	$string =~ s/<!--\s*ifdef\s+$remove\s*-->.*<!--\s*endif\s+$remove\s*-->/<!-- $repl -->/igs;
+
+	# Return the result:
+	return $string;
+}
+
 # Prepare a template:
 sub format_template {
 	my $data          = shift || die 'Missing argument';
@@ -809,7 +821,6 @@ sub format_template {
 	my $conf_analytics	= $conf->{stats}->{analytics}	|| undef;
 	my $conf_piwik		= $conf->{stats}->{piwik}		|| undef;
 	my $conf_piwiksite	= $conf->{stats}->{piwiksite}	|| undef;
-
 
 	# Prepare a list of blog posts, pages, tags, and months:
 	my $list_pages    = list_of_pages($data->{headers}->{pages});
@@ -906,51 +917,51 @@ sub format_template {
 	$template =~ s/<!--\s*year\s*-->/$current_year/ig;
 
 	# Substitute social media placeholders
-	if ( defined $conf_social ) {
+	if ( ( defined $conf_social ) && ( $conf_social eq 1 ) ) {
 		# Twitter
 		if ( defined $conf_twitter ) {
 			$template =~ s/%twitter%/$conf_twitter/ig;
 		} else {
-			$template =~ s/<!--\s*ifdef\s+twitter\s*-->.*<!--\s*endif\s+twitter\s*-->/<!-- Twitter -->/igs;
+			$template = remove_string $template, 'twitter', 'Twitter';
 		}
 
 		# Google Plus
 		if ( defined $conf_googleplus ) {
 			$template =~ s/%googleplus%/$conf_googleplus/ig;
 		} else {
-			$template =~ s/<!--\s*ifdef\s+googleplus\s*-->.*<!--\s*endif\s+googleplus\s*-->/<!-- Google Plus -->/igs;
+			$template = remove_string $template, 'googleplus', 'Google Plus';
 		}
 
 		# LinkedIn
 		if ( defined $conf_linkedin ) {
 			$template =~ s/%linkedin%/$conf_linkedin/ig;
 		} else {
-			$template =~ s/<!--\s*ifdef\s+linkedin\s*-->.*<!--\s*endif\s+linkedin\s*-->/<!-- LinkedIn -->/igs;
+			$template = remove_string $template, 'linkedin', 'Linked In';
 		}
 
 		# Skype
 		if ( defined $conf_skype ) {
 			$template =~ s/%skype%/$conf_skype/ig;
 		} else {
-			$template =~ s/<!--\s*ifdef\s+skype\s*-->.*<!--\s*endif\s+skype\s*-->/<!-- Skype -->/igs;
+			$template = remove_string $template, 'skype', 'Skype';
 		}
 
 		# Github
 		if ( defined $conf_github ) {
 			$template =~ s/%github%/$conf_github/ig;
 		} else {
-			$template =~ s/<!--\s*ifdef\s+github\s*-->.*<!--\s*endif\s+github\s*-->/<!-- Github -->/igs;
+			$template = remove_string $template, 'github', 'Github';
 		}
 	} else {
 		# No social media bar wanted. Remove it completely
-		$template =~ s/<!--\s*ifdef\s+social\s*-->.*<!--\s*endif\s+social\s*-->//igs;
+		$template = remove_string $template, 'social', 'Social media section';
 	}
 
 	# Google Analytics
 	if ( defined $conf_analytics ) {
 		$template =~ s/%analytics%/$conf_analytics/ig;
 	} else {
-		$template =~ s/<!--\s*ifdef\s+analytics\s*-->.*<!--\s*endif\s+analytics\s*-->/<!-- Google Analytics -->/igs;
+		$template = remove_string $template, 'analytics', 'Google Analytics';
 	}
 
 	# PiWik
@@ -960,7 +971,7 @@ sub format_template {
 			$template =~ s/%piwiksite%/$conf_piwiksite/ig;
 		}
 	} else {
-		$template =~ s/<!--\s*ifdef\s+piwik\s*-->.*<!--\s*endif\s+piwik\s*-->/<!-- Google Piwik -->/igs;
+		$template = remove_string $template, 'piwik', 'Piwik';
 	}
 
 	# Store the template to the cache:
