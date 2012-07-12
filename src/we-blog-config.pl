@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-config.pl 3 2011-09-22 08:56:52 tonk $
+# $Id: we-blog-config.pl 4 2012-07-12 11:27:24 tonk $
 
 # we-blog-config - displays or sets We-Blog configuration options
 # Copyright (c) 2011-2012 Ton Kersten
@@ -32,44 +32,61 @@ use We;
 # A list of valid options, and their default values:
 our %opt = (
 	# Blog related settings:
-	'blog.title'       => 'Blog Title',					# Blog title.
-	'blog.subtitle'    => 'blog subtitle',				# Blog subtitle.
-	'blog.description' => 'blog description',			# Blog description.
-	'blog.keywords'    => 'blog keywords',				# Blog keywords.
-	'blog.theme'       => 'default.html',				# Blog theme.
-	'blog.style'       => 'default.css',				# Blog style sheet.
-	'blog.lang'        => 'en_US',						# Blog localization.
-	'blog.posts'       => '10',							# Number of posts.
+	'blog.title'		=> 'Blog Title',				# Blog title.
+	'blog.subtitle'		=> 'blog subtitle',				# Blog subtitle.
+	'blog.description'	=> 'blog description',			# Blog description.
+	'blog.keywords'		=> 'blog keywords',				# Blog keywords.
+	'blog.theme'		=> 'default.html',				# Blog theme.
+	'blog.style'		=> 'default.css',				# Blog style sheet.
+	'blog.lang'			=> 'en_US',						# Blog localization.
+	'blog.posts'		=> '10',						# Number of posts.
 
 	# Colour related settings:
-	'color.list'       => 'false',						# Colored listing?
-	'color.log'        => 'false',						# Colored log?
+	'color.list'		=> 'false',						# Colored listing?
+	'color.log'			=> 'false',						# Colored log?
 
 	# Core settings:
-	'core.encoding'    => 'UTF-8',						# Character encoding.
-	'core.extension'   => 'html',						# File extension.
-	'core.doctype'     => 'html',						# Document type.
-	'core.editor'      => '',							# External text editor.
-	'core.processor'   => '',							# External processor.
+	'core.encoding'		=> 'UTF-8',						# Character encoding.
+	'core.extension'	=> 'html',						# File extension.
+	'core.doctype'		=> 'html',						# Document type.
+	'core.editor'		=> '',							# External text editor.
+	'core.processor'	=> '',							# External processor.
 
 	# Feed related settings:
-	'feed.baseurl'     => '',							# Base URL.
-	'feed.posts'       => '10',							# Number of posts.
-	'feed.fullposts'   => 'false',						# List full posts?
+	'feed.baseurl'		=> '',							# Base URL.
+	'feed.posts'		=> '10',						# Number of posts.
+	'feed.fullposts'	=> 'false',						# List full posts?
+
+	# Social network settings:
+	'social.social'		=> '1',							# Social network bar??
+	'social.twitter'	=> '',							# Twitter ID
+	'social.googleplus'	=> '',							# GooglePlus ID
+	'social.linkedin'	=> '',							# Linkedin ID
+	'social.skype'		=> '',							# Skype ID
+	'social.github'		=> '',							# Github ID
+
+	# Statistics settings:
+	'stats.analytics'	=> '',							# Google Analytics ID
+	'stats.piwik'		=> '',							# PiWik base URL
+	'stats.piwiksite'	=> '',							# PiWik Site ID
 
 	# Post related settings:
-	'post.author'      => 'top',						# Post author location.
-	'post.date'        => 'top',						# Post date location.
-	'post.tags'        => 'top',						# Post tags location.
+	'post.author'		=> 'top',						# Post author location.
+	'post.date'			=> 'top',						# Post date location.
+	'post.tags'			=> 'top',						# Post tags location.
 
 	# User related settings:
-	'user.name'        => 'admin',						# User's name.
-	'user.nickname'    => '',							# User's nickname.
-	'user.email'       => 'admin@localhost',			# User's email.
+	'user.name'			=> 'admin',						# User's name.
+	'user.nickname'		=> '',							# User's nickname.
+	'user.email'		=> 'admin@localhost',			# User's email.
+
+	# Page and post append settings:
+	'appends.index'		=> '',							# Appends on index page
+	'appends.single'	=> '',							# Appends on a single page
 );
 
 # Command line options:
-my  $edit = 0;											# Open in text editor?
+my $edit = 0;											# Open in text editor?
 
 
 # Display usage information:
@@ -100,40 +117,56 @@ sub create_temp {
 	my $file = shift || catfile($blogdir, $weblog, 'temp');
 
 	# Prepare the general blog settings:
-	my $blog_title     = $conf->{blog}->{title}     || $opt{'blog.title'};
-	my $blog_subtitle  = $conf->{blog}->{subtitle}  || $opt{'blog.subtitle'};
-	my $blog_desc      = $conf->{blog}->{description}||$opt{'blog.description'};
-	my $blog_keywords  = $conf->{blog}->{keywords}  || $opt{'blog.keywords'};
-	my $blog_theme     = $conf->{blog}->{theme}     || $opt{'blog.theme'};
-	my $blog_style     = $conf->{blog}->{style}     || $opt{'blog.style'};
-	my $blog_lang      = $conf->{blog}->{lang}      || $opt{'blog.lang'};
-	my $blog_posts     = $conf->{blog}->{posts}     || $opt{'blog.posts'};
+	my $blog_title			= $conf->{blog}->{title}		|| $opt{'blog.title'};
+	my $blog_subtitle		= $conf->{blog}->{subtitle}		|| $opt{'blog.subtitle'};
+	my $blog_desc			= $conf->{blog}->{description}	||$opt{'blog.description'};
+	my $blog_keywords		= $conf->{blog}->{keywords}		|| $opt{'blog.keywords'};
+	my $blog_theme			= $conf->{blog}->{theme}		|| $opt{'blog.theme'};
+	my $blog_style			= $conf->{blog}->{style}		|| $opt{'blog.style'};
+	my $blog_lang			= $conf->{blog}->{lang}			|| $opt{'blog.lang'};
+	my $blog_posts			= $conf->{blog}->{posts}		|| $opt{'blog.posts'};
 
 	# Prepare the color settings:
-	my $color_list     = $conf->{color}->{list}     || $opt{'color.list'};
-	my $color_log      = $conf->{color}->{log}      || $opt{'color.log'};
+	my $color_list			= $conf->{color}->{list}		|| $opt{'color.list'};
+	my $color_log			= $conf->{color}->{log}			|| $opt{'color.log'};
 
 	# Prepare the advanced We-Blog settings:
-	my $core_doctype   = $conf->{core}->{doctype}   || $opt{'core.doctype'};
-	my $core_editor    = $conf->{core}->{editor}    || $opt{'core.editor'};
-	my $core_encoding  = $conf->{core}->{encoding}  || $opt{'core.encoding'};
-	my $core_extension = $conf->{core}->{extension} || $opt{'core.extension'};
-	my $core_processor = $conf->{core}->{processor} || $opt{'core.processor'};
+	my $core_doctype		= $conf->{core}->{doctype}		|| $opt{'core.doctype'};
+	my $core_editor			= $conf->{core}->{editor}		|| $opt{'core.editor'};
+	my $core_encoding		= $conf->{core}->{encoding}		|| $opt{'core.encoding'};
+	my $core_extension		= $conf->{core}->{extension}	|| $opt{'core.extension'};
+	my $core_processor		= $conf->{core}->{processor}	|| $opt{'core.processor'};
 
 	# Prepare the RSS feed settings:
-	my $feed_baseurl   = $conf->{feed}->{baseurl}   || $opt{'feed.baseurl'};
-	my $feed_posts     = $conf->{feed}->{posts}     || $opt{'feed.posts'};
-	my $feed_fullposts = $conf->{feed}->{fullposts} || $opt{'feed.fullposts'};
+	my $feed_baseurl		= $conf->{feed}->{baseurl}		|| $opt{'feed.baseurl'};
+	my $feed_posts			= $conf->{feed}->{posts}		|| $opt{'feed.posts'};
+	my $feed_fullposts		= $conf->{feed}->{fullposts}	|| $opt{'feed.fullposts'};
+
+	# Prepare social network settings:
+	my $social_social		= $conf->{social}->{social}		|| $opt{'social.social'};
+	my $social_twitter		= $conf->{social}->{twitter}	|| $opt{'social.twitter'};
+	my $social_googleplus	= $conf->{social}->{googleplus}	|| $opt{'social.googleplus'};
+	my $social_linkedin		= $conf->{social}->{linkedin}	|| $opt{'social.linkedin'};
+	my $social_skype		= $conf->{social}->{skype}		|| $opt{'social.skype'};
+	my $social_github		= $conf->{social}->{github}		|| $opt{'social.github'};
+
+	# Statistics settings:
+	my $stats_analytics		= $conf->{stats}->{analytics}	|| $opt{'stats.analytics'};
+	my $stats_piwik			= $conf->{stats}->{piwik}		|| $opt{'stats.piwik'};
+	my $stats_piwiksite		= $conf->{stats}->{piwiksite}	|| $opt{'stats.piwiksite'};
 
 	# Prepare the advanced post settings:
-	my $post_author    = $conf->{post}->{author}    || $opt{'post.author'};
-	my $post_date      = $conf->{post}->{date}      || $opt{'post.date'};
-	my $post_tags      = $conf->{post}->{tags}      || $opt{'post.tags'};
+	my $post_author			= $conf->{post}->{author}		|| $opt{'post.author'};
+	my $post_date			= $conf->{post}->{date}			|| $opt{'post.date'};
+	my $post_tags			= $conf->{post}->{tags}			|| $opt{'post.tags'};
 
 	# Prepare the user settings:
-	my $user_name      = $conf->{user}->{name}      || $opt{'user.name'};
-	my $user_nickname  = $conf->{user}->{nickname}  || $opt{'user.nickname'};
-	my $user_email     = $conf->{user}->{email}     || $opt{'user.email'};
+	my $user_name			= $conf->{user}->{name}			|| $opt{'user.name'};
+	my $user_nickname		= $conf->{user}->{nickname}		|| $opt{'user.nickname'};
+	my $user_email			= $conf->{user}->{email}		|| $opt{'user.email'};
+
+	my $appends_index		= $conf->{appends}->{index}		|| $opt{'appends.index'};
+	my $appends_single		= $conf->{appends}->{single}	|| $opt{'appends.single'};
 
 	# Handle the deprecated settings. This is for backward compatibility
 	# reasons only, and to be removed in the near future:
@@ -214,6 +247,34 @@ baseurl=$feed_baseurl
 posts=$feed_posts
 fullposts=$feed_fullposts
 
+## Social network settings. Available options are:
+## (If not defined it will NOT be shown)
+##
+##  social        1 -> defined and a social "bar" is shown
+##  twitter       Twitter id.         Results in: http://twitter.com/%twitter%
+##  googleplus    Google Plus ID.     Results in: https://plus.google.com/%googleplus%/posts
+##  linkedin      Linked In short ID. Results in: http://www.linkedin.com/in/%linkedin%
+##  skype         Skype ID.           Results in: skype:%skype%?add
+##  github        GitHub ID.          Results in: https://github.com/%github%
+[social]
+social=$social_social
+twitter=$social_twitter
+googleplus=$social_googleplus
+linkedin=$social_linkedin
+skype=$social_skype
+github=$social_github
+
+## Website statics settings. Available options are:
+##
+##  analytics     Google Analytics ID
+##  piwik         PiWik baseurl (e.g. example.com/pi/piwik)
+##  piwiksite     PiWik site id
+##
+[stats]
+analytics=$stats_analytics
+piwik=$stats_piwik
+piwiksite=$stats_piwiksite
+
 ## Advanced post settings. Available options are:
 ##
 ##  author         A location of a blog post author name. It can either be
@@ -243,6 +304,16 @@ tags=$post_tags
 name=$user_name
 nickname=$user_nickname
 email=$user_email
+
+## Post appends
+##
+## These should be on a single line and all '%n%' will be replaced with a newline
+##
+##   index         Things to append for each post on the index page(s)
+##   single        Things to append for each post when 'zoomed in'
+[appends]
+index=$appends_index
+single=$appends_single
 
 END_TEMP
 
@@ -424,13 +495,13 @@ Getopt::Long::Configure('no_auto_abbrev', 'no_ignore_case', 'bundling');
 
 # Process command line options:
 GetOptions(
-	'help|h'        => sub { display_help();	exit 0;	},
-	'version|v'     => sub { display_version();	exit 0;	},
-	'edit|e'        => sub { $edit    = 1;				},
-	'quiet|q'       => sub { $verbose = 0;				},
-	'verbose|V'     => sub { $verbose = 1;				},
-	'blogdir|b=s'   => sub { $blogdir = $_[1];			},
-	'editor|E=s'    => sub { $editor  = $_[1];			},
+	'help|h'		=> sub { display_help();	exit 0;	},
+	'version|v'		=> sub { display_version();	exit 0;	},
+	'edit|e'		=> sub { $edit		= 1;			},
+	'quiet|q'		=> sub { $verbose	= 0;			},
+	'verbose|V'		=> sub { $verbose	= 1;			},
+	'blogdir|b=s'	=> sub { $blogdir	= $_[1];		},
+	'editor|E=s'	=> sub { $editor	= $_[1];		},
 );
 
 # Check whether the repository is present, no matter how naive this method
@@ -626,6 +697,42 @@ A boolean to enable (C<true>) or disable (C<false>) inclusion of the whole
 content of a blog post in the feed, even though the B<< <!-- break --> >>
 form is used. The default option is C<false>.
 
+=item B<social.social>=I<boolean>
+
+Display a social media bar
+
+=item B<social.twitter>=I<string>
+
+Twitter id. Results in: http://twitter.com/%twitter%
+
+=item B<social.googleplus>=I<string>
+
+Google Plus ID. Results in: https://plus.google.com/%googleplus%/posts
+
+=item B<social.linkedin>=I<string>
+
+Linked In short ID. Results in: http://www.linkedin.com/in/%linkedin%
+
+=item B<social.skype>=I<string>
+
+Skype ID. Results in: skype:%skype%?add
+
+=item B<social.github>=I<string>
+
+GitHub ID. Results in: https://github.com/%github%
+
+=item B<stats.analytics>=I<string>
+
+The Google Analytics ID
+
+=item B<stats.piwik>=I<string>
+
+PiWik base URL, without the http(s):// part. E.g. example.com/pi/piwik
+
+=item B<stats.piwiksite>=I<string>
+
+PiWik site ID
+
 =item B<post.author>=I<string>
 
 A location of a blog post author name. It can be placed above the post
@@ -657,6 +764,14 @@ overrides the B<user.name> setting. This option is disabled by default.
 =item B<user.email>=I<string>
 
 Your email address. The default option is C<admin@localhost>.
+
+=item B<appends.index>=I<string>
+
+Appends on index page, for instance the Disqus scripts
+
+=item B<appends.single>=I<string>
+
+Appends on a single page, for instance the Disqus scripts
 
 =back
 
