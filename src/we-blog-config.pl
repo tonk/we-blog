@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-config.pl 5 2012-07-12 11:43:55 tonk $
+# $Id: we-blog-config.pl 6 2012-07-12 13:22:10 tonk $
 
 # we-blog-config - displays or sets We-Blog configuration options
 # Copyright (c) 2011-2012 Ton Kersten
@@ -86,8 +86,9 @@ our %opt = (
 );
 
 # Command line options:
-my $edit = 0;											# Open in text editor?
-
+my $edit    = 0;										# Open in text editor?
+my $list    = 0;										# List all options
+my $verbose = 0;										# Default verbose off
 
 # Display usage information:
 sub display_help {
@@ -101,6 +102,7 @@ Usage:	$NAME [-qV] [-b DIRECTORY] [-E EDITOR] OPTION [VALUE...]
 	                            repository is placed
 	-E, --editor EDITOR         specify an external text editor
 	-e, --edit                  edit the configuration in a text editor
+	-l, --list                  list all options in the configuration
 	-q, --quiet                 do not display unnecessary messages
 	-V, --verbose               display all messages
 	-h, --help                  display this help and exit
@@ -490,6 +492,31 @@ sub display_option {
 	return 1;
 }
 
+# Display all options
+sub display_options {
+	my $verbose = shift;
+
+	# Read the configuration file:
+	my $conf = read_conf();
+
+	print "verb -> $verbose\n";
+	# Process each section:
+	foreach my $section (sort(keys(%$conf))) {
+		# Write the section header
+		print "\n[$section]\n" if ($verbose eq 1);
+
+		# Process each option in the section:
+		foreach my $option (sort(keys(%{$conf->{$section}}))) {
+			# Write the option and its value
+			if ($verbose eq 1) {
+				print "    $option = $conf->{$section}->{$option}\n";
+			} else {
+				printf("%-18s => %s\n", $section . "." . $option, $conf->{$section}->{$option});
+			}
+		}
+	}
+}
+
 # Set up the option parser:
 Getopt::Long::Configure('no_auto_abbrev', 'no_ignore_case', 'bundling');
 
@@ -497,6 +524,7 @@ Getopt::Long::Configure('no_auto_abbrev', 'no_ignore_case', 'bundling');
 GetOptions(
 	'help|h'		=> sub { display_help();	exit 0;	},
 	'version|v'		=> sub { display_version();	exit 0;	},
+	'list|l'		=> sub { $list      = 1;            },
 	'edit|e'		=> sub { $edit		= 1;			},
 	'quiet|q'		=> sub { $verbose	= 0;			},
 	'verbose|V'		=> sub { $verbose	= 1;			},
@@ -504,10 +532,16 @@ GetOptions(
 	'editor|E=s'	=> sub { $editor	= $_[1];		},
 );
 
+
 # Check whether the repository is present, no matter how naive this method
 # actually is:
 exit_with_error("Not a We-Blog repository! Try `we-blog-init' first.",1)
 	unless (-d catdir($blogdir, ));
+
+if ($list eq 1) {
+	display_options($verbose);
+	exit 0;
+}
 
 # Decide which action to perform:
 if ($edit) {
@@ -560,7 +594,7 @@ B<we-blog-config> [B<-qV>] [B<-b> I<directory>] [B<-E> I<editor>] I<option>
 
 B<we-blog-config> B<-e> [B<-b> I<directory>]
 
-B<we-blog-config> B<-h>|B<-v>
+B<we-blog-config> B<-h>|B<-v>|B<-l>
 
 =head1 DESCRIPTION
 
@@ -603,6 +637,10 @@ Displays usage information and exits.
 =item B<-v>, B<--version>
 
 Displays version information and exits.
+
+=item B<-l>, B<--list>
+
+Lists all configuration settings and exits.
 
 =back
 
