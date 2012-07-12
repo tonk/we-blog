@@ -1,5 +1,5 @@
-# makefile for We-Blog, We Blog our hearts out
-# $Id: Makefile 5 2012-07-09 21:10:02 tonk $
+# Makefile for We-Blog, We Blog our hearts out
+# $Id: Makefile 6 2012-07-12 12:19:47 tonk $
 
 # Copyright (c) 2011-2012 Ton Kersten
 # Copyright (c) 2009-2011 Jaromir Hradilek
@@ -64,6 +64,7 @@ install_bin:
 	$(INSTALL) -m 755 src/we-blog-smilies.pl	$(bindir)/we-blog-smilies
 	$(INSTALL) -m 755 src/We.pm			$(bindir)/We.pm
 	$(INSTALL) -m 755 unix/we-blog.sh		$(bindir)/we-blog
+	(cd $(bindir); ln -fs we-blog wb)
 
 install_conf:
 	@echo "Copying bash completion..."
@@ -131,6 +132,7 @@ uninstall:
 	-rm -f $(bindir)/we-blog-smilies
 	-rm -f $(bindir)/We.pm
 	-rm -f $(bindir)/we-blog
+	-rm -f $(bindir)/wb
 	-rmdir $(bindir)
 	@echo "Removing bash completion..."
 	-rm -f $(compdir)/we-blog
