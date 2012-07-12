@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we.pm 5 2012-07-09 15:43:02 tonk $
+# $Id: We.pm 6 2012-07-12 13:06:51 tonk $
 
 # we-blog.pm - Perl Module for We-Blog.
 # This module contains all generic things
@@ -169,6 +169,11 @@ sub read_ini {
 
 	# Process each line:
 	while (my $line = <INI>) {
+		# Skip comment lines
+		if ($line =~ /^\s*\#/) {
+			next;
+		}
+
 		# Parse the line:
 		if ($line =~ /^\s*\[([^\]]+)\]\s*$/) {
 			# Change the section:
