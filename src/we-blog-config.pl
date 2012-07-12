@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-config.pl 4 2012-07-12 11:27:24 tonk $
+# $Id: we-blog-config.pl 5 2012-07-12 11:43:55 tonk $
 
 # we-blog-config - displays or sets We-Blog configuration options
 # Copyright (c) 2011-2012 Ton Kersten
@@ -119,7 +119,7 @@ sub create_temp {
 	# Prepare the general blog settings:
 	my $blog_title			= $conf->{blog}->{title}		|| $opt{'blog.title'};
 	my $blog_subtitle		= $conf->{blog}->{subtitle}		|| $opt{'blog.subtitle'};
-	my $blog_desc			= $conf->{blog}->{description}	||$opt{'blog.description'};
+	my $blog_desc			= $conf->{blog}->{description}	|| $opt{'blog.description'};
 	my $blog_keywords		= $conf->{blog}->{keywords}		|| $opt{'blog.keywords'};
 	my $blog_theme			= $conf->{blog}->{theme}		|| $opt{'blog.theme'};
 	my $blog_style			= $conf->{blog}->{style}		|| $opt{'blog.style'};
