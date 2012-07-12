@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-init.pl 2 2011-09-21 15:34:18 tonk $
+# $Id: we-blog-init.pl 3 2012-07-12 10:25:52 tonk $
 
 # we-blog-init - creates or recovers a We-Blog repository
 # Copyright (c) 2011-2012 Ton Kersten
@@ -138,6 +138,35 @@ processor=
 baseurl=
 posts=10
 fullposts=false
+
+## Social network settings. Available options are:
+## (If not defined it will NOT be shown)
+##
+##  social        1 -> defined and a social "bar" is shown
+##  twitter       Twitter id.         Results in: http://twitter.com/%twitter%
+##  googleplus    Google Plus ID.     Results in: https://plus.google.com/%googleplus%/posts
+##  linkedin      Linked In short ID. Results in: http://www.linkedin.com/in/%linkedin%
+##  skype         Skype ID.           Results in: skype:%skype%?add
+##  github        GitHub ID.          Results in: https://github.com/%github%
+##
+[social]
+social=1
+twitter=
+googleplus=
+linkedin=
+skype=
+github=
+
+## Website statics settings. Available options are:
+##
+##  analytics     Google Analytics ID
+##  piwik         PiWik baseurl (e.g. example.com/pi/piwik)
+##  piwiksite     PiWik site id
+##
+[stats]
+analytics=
+piwik=
+piwiksite=
 
 ## Advanced post settings. Available options are:
 ##
