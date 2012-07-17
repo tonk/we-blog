@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-edit.pl 3 2012-05-16 16:00:33 tonk $
+# $Id: we-blog-edit.pl 4 2012-07-17 16:39:23 tonk $
 
 # we-blog-edit - edits a blog post or a page in the We-Blog repository
 # Copyright (c) 2011-2012 Ton Kersten
@@ -32,7 +32,9 @@ use lib dirname($0);
 use We;
 
 # Global variables:
-our $conf = {};					# Configuration.
+our $chosen   = 1;				# Available ID guess.
+our $reserved = undef;			# Reserved ID list.
+our $conf     = {};				# Configuration.
 
 # Command-line options:
 my  $type = 'post';				# Type: post or page.
@@ -164,6 +166,25 @@ sub check_header {
 
 	# Return success:
 	return 1;
+}
+
+# Return the last used ID:
+sub last_id {
+	my $type = shift || 'post';
+
+	# Get the list of reserved IDs unless already done:
+	@$reserved = collect_ids($type) unless defined $reserved;
+
+	# Iterate through the used IDs:
+	while (my $used = shift(@$reserved)) {
+		# Check whether the candidate ID is really free:
+		if ($used > $chosen) {
+			$chosen = $used;
+		}
+	}
+
+	# Return the result, and increase the next candidate number:
+	return $chosen;
 }
 
 # Create a single file from a record:
@@ -509,12 +530,16 @@ else {
 	$process = 0;
 }
 
+# If keyword last is given, the last entry (post or page) is edited.
+my $id = last_id($type);
+$id = $ARGV[0] if ( $ARGV[0] ne "last" );
+
 # Edit the record:
-edit_record($ARGV[0], $type)
+edit_record($id, $type)
 	or exit_with_error("Cannot edit the $type in the repository.", 13);
 
 # Log the event:
-add_to_log("Edited the $type with ID $ARGV[0].")
+add_to_log("Edited the $type with ID $id.")
 	or display_warning("Unable to log the event.");
 
 # Report success:
@@ -531,7 +556,7 @@ we-blog-edit - edits a blog post or a page in the We-Blog repository
 
 =head1 SYNOPSIS
 
-B<we-blog-edit> [B<-fpqCPV>] [B<-b> I<directory>] [B<-E> I<editor>] I<id>
+B<we-blog-edit> [B<-fpqCPV>] [B<-b> I<directory>] [B<-E> I<editor>] I<id>|I<last>
 
 B<we-blog-edit> B<-h>|B<-v>
 
@@ -645,6 +670,10 @@ system-wide settings to decide which editor to use.
 Edit a blog post in an external text editor:
 
 	$ we-blog-edit 10
+
+Edit the last entered blog post in an external text editor:
+
+	$ we-blog-edit last
 
 Edit a page in an external text editor:
 
