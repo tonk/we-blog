@@ -129,12 +129,12 @@
 .\" ========================================================================
 .\"
 .IX Title "WE-BLOG-EDIT 1"
-.TH WE-BLOG-EDIT 1 "2012-07-10" "Version 0.9" "We-Blog Documentation"
+.TH WE-BLOG-EDIT 1 "2012-07-17" "Version 0.9" "We-Blog Documentation"
 .SH "NAME"
 we\-blog\-edit \- edits a blog post or a page in the We\-Blog repository
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
-\&\fBwe-blog-edit\fR [\fB\-fpqCPV\fR] [\fB\-b\fR \fIdirectory\fR] [\fB\-E\fR \fIeditor\fR] \fIid\fR
+\&\fBwe-blog-edit\fR [\fB\-fpqCPV\fR] [\fB\-b\fR \fIdirectory\fR] [\fB\-E\fR \fIeditor\fR] \fIid\fR|\fIlast\fR
 .PP
 \&\fBwe-blog-edit\fR \fB\-h\fR|\fB\-v\fR
 .SH "DESCRIPTION"
@@ -214,6 +214,12 @@ Edit a blog post in an external text editor:
 .PP
 .Vb 1
 \&        $ we-blog-edit 10
+.Ve
+.PP
+Edit the last entered blog post in an external text editor:
+.PP
+.Vb 1
+\&        $ we-blog-edit last
 .Ve
 .PP
 Edit a page in an external text editor:
