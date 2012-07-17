@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: We.pm 6 2012-07-12 13:06:51 tonk $
+# $Id: We.pm 7 2012-07-17 16:38:53 tonk $
 
 # we-blog.pm - Perl Module for We-Blog.
 # This module contains all generic things
@@ -256,6 +256,26 @@ sub write_conf {
 
 	# Return success:
 	return 1;
+}
+
+# Collect reserved post or page IDs:
+sub collect_ids {
+	my $type = shift || 'post';
+
+	# Prepare the post or page directory name:
+	my $head = catdir($blogdir, $weblog, "${type}s", 'head');
+
+	# Open the header directory:
+	opendir(HEADS, $head) or return 0;
+
+	# Build a list of used IDs:
+	my @used = grep {! /^\.\.?$/ } readdir(HEADS);
+
+	# Close the directory:
+	closedir(HEADS);
+
+	# Return the sorted result:
+	return sort {$a <=> $b} @used;
 }
 
 1;
