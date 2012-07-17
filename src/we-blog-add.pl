@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-add.pl 4 2012-05-16 16:00:17 tonk $
+# $Id: we-blog-add.pl 5 2012-07-17 16:39:34 tonk $
 
 # we-blog-add - adds a blog post or a page to the We-Blog repository
 # Copyright (c) 2011-2012 Ton Kersten
@@ -282,26 +282,6 @@ sub save_record {
 
 	# Return success:
 	return 1;
-}
-
-# Collect reserved post or page IDs:
-sub collect_ids {
-	my $type = shift || 'post';
-
-	# Prepare the post or page directory name:
-	my $head = catdir($blogdir, $weblog, "${type}s", 'head');
-
-	# Open the header directory:
-	opendir(HEADS, $head) or return 0;
-
-	# Build a list of used IDs:
-	my @used = grep {! /^\.\.?$/ } readdir(HEADS);
-
-	# Close the directory:
-	closedir(HEADS);
-
-	# Return the sorted result:
-	return sort {$a <=> $b} @used;
 }
 
 # Return the first unused ID:
