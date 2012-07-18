@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-edit.pl 4 2012-07-17 16:39:23 tonk $
+# $Id: we-blog-edit.pl 5 2012-07-18 10:33:25 tonk $
 
 # we-blog-edit - edits a blog post or a page in the We-Blog repository
 # Copyright (c) 2011-2012 Ton Kersten
@@ -32,8 +32,6 @@ use lib dirname($0);
 use We;
 
 # Global variables:
-our $chosen   = 1;				# Available ID guess.
-our $reserved = undef;			# Reserved ID list.
 our $conf     = {};				# Configuration.
 
 # Command-line options:
@@ -166,25 +164,6 @@ sub check_header {
 
 	# Return success:
 	return 1;
-}
-
-# Return the last used ID:
-sub last_id {
-	my $type = shift || 'post';
-
-	# Get the list of reserved IDs unless already done:
-	@$reserved = collect_ids($type) unless defined $reserved;
-
-	# Iterate through the used IDs:
-	while (my $used = shift(@$reserved)) {
-		# Check whether the candidate ID is really free:
-		if ($used > $chosen) {
-			$chosen = $used;
-		}
-	}
-
-	# Return the result, and increase the next candidate number:
-	return $chosen;
 }
 
 # Create a single file from a record:
@@ -509,7 +488,7 @@ GetOptions(
 );
 
 # Check superfluous options:
-exit_with_error("Wrong number of options.", 22) if (scalar(@ARGV) != 1);
+exit_with_error("Wrong number of options.", 22) if (scalar(@ARGV) > 1);
 
 # Check whether the repository is present, no matter how naive this method
 # actually is:
@@ -530,9 +509,9 @@ else {
 	$process = 0;
 }
 
-# If keyword last is given, the last entry (post or page) is edited.
-my $id = last_id($type);
-$id = $ARGV[0] if ( $ARGV[0] ne "last" );
+# If keyword last (or nothing) is given, the last entry (post or page) is edited.
+my $id = last_used_id($type);
+$id = $ARGV[0] if ((scalar(@ARGV) != 0) && ($ARGV[0] ne "last"));
 
 # Edit the record:
 edit_record($id, $type)
@@ -556,7 +535,7 @@ we-blog-edit - edits a blog post or a page in the We-Blog repository
 
 =head1 SYNOPSIS
 
-B<we-blog-edit> [B<-fpqCPV>] [B<-b> I<directory>] [B<-E> I<editor>] I<id>|I<last>
+B<we-blog-edit> [B<-fpqCPV>] [B<-b> I<directory>] [B<-E> I<editor>] [I<id>|I<last>]
 
 B<we-blog-edit> B<-h>|B<-v>
 
