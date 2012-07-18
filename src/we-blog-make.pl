@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-make.pl 4 2012-07-12 12:01:38 tonk $
+# $Id: we-blog-make.pl 5 2012-07-18 12:23:57 tonk $
 
 # we-blog-make - generates a blog from the We-Blog repository
 # Copyright (c) 2011-2012 Ton Kersten
@@ -563,13 +563,13 @@ sub read_entry {
 	# Prepare the file name:
 	my $file    = catfile($blogdir, $weblog, "${type}s", 'body', $id);
 
-	# Get the index append for posts
+	# Get the index append for posts/pages
 	my $appends_index = $conf->{appends}->{index} || '';
 	$appends_index =~ s/%n%/\n/ig;
 
 	# Initialize required variables:
 	my $result  = '';
-	$result .= "\n<!-- Start of We-Blog Post ID %id% -->\n";
+	$result .= "\n<!-- Start of We-Blog $type ID %id% -->\n";
 
 	# Open the file for reading:
 	open (FILE, $file) or return '';
@@ -598,8 +598,8 @@ sub read_entry {
 	# Add the append to the post
 	$result .= '<!-- start-append-index -->' . $appends_index . '<!-- end-append-index -->';
 
-	# Add the 'End Post' tag
-	$result .= "\n<!-- End of We-Blog Post ID %id% -->\n";
+	# Add the 'End Post/Page' tag
+	$result .= "\n<!-- End of We-Blog $type ID %id% -->\n";
 
 	# Substitute the %id% tag with the id of the current post/page/etc:
 	$result =~ s/%id%/$id/ig;
