@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-add.pl 5 2012-07-17 16:39:34 tonk $
+# $Id: we-blog-add.pl 6 2012-07-18 10:26:27 tonk $
 
 # we-blog-add - adds a blog post or a page to the We-Blog repository
 # Copyright (c) 2011-2012 Ton Kersten
@@ -32,8 +32,6 @@ use lib dirname($0);
 use We;
 
 # Global variables:
-our $chosen		= 1;								# Available ID guess.
-our $reserved	= undef;							# Reserved ID list.
 our $conf		= {};								# Configuration.
 
 # Command line options:
@@ -284,33 +282,6 @@ sub save_record {
 	return 1;
 }
 
-# Return the first unused ID:
-sub choose_id {
-	my $type = shift || 'post';
-
-	# Get the list of reserved IDs unless already done:
-	@$reserved = collect_ids($type) unless defined $reserved;
-
-	# Iterate through the used IDs:
-	while (my $used = shift(@$reserved)) {
-		# Check whether the candidate ID is really free:
-		if ($chosen == $used) {
-			# Try the next ID:
-			$chosen++;
-		}
-		else {
-			# Push the last checked ID back to the list:
-			unshift(@$reserved, $used);
-
-			# Exit the loop:
-			last;
-		}
-	}
-
-	# Return the result, and increase the next candidate number:
-	return $chosen++;
-}
-
 # Add given files to the repository:
 sub add_files {
 	my $type  = shift || 'post';
@@ -323,7 +294,7 @@ sub add_files {
 	# Process each file:
 	foreach my $file (@{$files}) {
 		# Get the first available ID:
-		my $id = choose_id($type);
+		my $id = first_free_id($type);
 
 		# Save the record:
 		save_record($file, $id, $type, $data)
