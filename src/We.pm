@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: We.pm 7 2012-07-17 16:38:53 tonk $
+# $Id: We.pm 8 2012-07-18 10:26:59 tonk $
 
 # we-blog.pm - Perl Module for We-Blog.
 # This module contains all generic things
@@ -57,6 +57,8 @@ $prompt		= 0;					# Ask for confirmation?
 $reverse	= 0;					# Use reverse order?
 $verbose	= 1;					# Verbosity level.
 $weblog		= '.we-blog';			# We-blog data and config directory
+
+our $reserved = undef;				# Reserved ID list.
 
 # Set up the __WARN__ signal handler:
 $SIG{__WARN__} = sub {
@@ -276,6 +278,34 @@ sub collect_ids {
 
 	# Return the sorted result:
 	return sort {$a <=> $b} @used;
+}
+
+# Return the last used ID:
+sub last_used_id {
+	my $chosen = 1;
+	my $type = shift || 'post';
+
+	# Get the list of reserved IDs unless already done:
+	@$reserved = collect_ids($type) unless defined $reserved;
+
+	# Iterate through the used IDs:
+	while (my $used = shift(@$reserved)) {
+		# Check whether the candidate ID is really free:
+		if ($used > $chosen) {
+			$chosen = $used;
+		}
+	}
+
+	# Return the result, and increase the next candidate number:
+	return $chosen;
+}
+
+# Return the first unused ID:
+sub first_free_id {
+	my $type = shift || 'post';
+
+	# Return the result, and increase the next candidate number:
+	return last_used_id($type) + 1;
 }
 
 1;
