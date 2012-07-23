@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-edit.pl 5 2012-07-18 10:33:25 tonk $
+# $Id: we-blog-edit.pl 6 2012-07-18 14:18:57 tonk $
 
 # we-blog-edit - edits a blog post or a page in the We-Blog repository
 # Copyright (c) 2011-2012 Ton Kersten
@@ -41,7 +41,7 @@ my  $type = 'post';				# Type: post or page.
 sub display_help {
 	# Display the usage:
 	print << "END_HELP";
-Usage: $NAME [-fpqCPV] [-b DIRECTORY] [-E EDITOR] ID
+Usage: $NAME [-fpqCPV] [-b DIRECTORY] [-E EDITOR] [ID|last]
        $NAME -h|-v
 
 	-b, --blogdir DIRECTORY     specify a directory in which the We-Blog
@@ -57,6 +57,10 @@ Usage: $NAME [-fpqCPV] [-b DIRECTORY] [-E EDITOR] ID
 	-V, --verbose               display all messages
 	-h, --help                  display this help and exit
 	-v, --version               display version information and exit
+
+	The ID is optional. When it's not supplied the last added post or page
+	will be opened for editing. When "last" is given as the ID, this will
+	result in the same action.
 END_HELP
 
 	# Return success:
