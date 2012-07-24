@@ -71,7 +71,7 @@ $smurl = '<img class="smiley" alt="smiley" src="' . $smurl;
 my %smilies = (
 	':-{0,1}\)'		=> 'regular_smile.gif',		':-{0,1}D'	=> 'teeth_smile.gif',
 	':-{0,1}O'		=> 'omg_smile.gif',			':-{0,1}P'	=> 'tongue_smile.gif',
-	';-{0,1}\)'		=> 'wink_smile.gif',		':-{0,1}\('	=> 'sad_smile.gif',
+	'\s+;-{0,1}\)'	=> 'wink_smile.gif',		':-{0,1}\('	=> 'sad_smile.gif',
 	':-{0,1}S'		=> 'confused_smile.gif',	':-{0,1}\|'	=> 'what_smile.gif',
 	':\'\('			=> 'cry_smile.gif',			':-{0,1}\$'	=> 'red_smile.gif',
 	'\(H\)'			=> 'shades_smile.gif',		':-{0,1}\@'	=> 'angry_smile.gif',
