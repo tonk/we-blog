@@ -83,6 +83,9 @@ sub create_conf {
 ##   lang          A translation of your blog. It must point to an existing
 ##                 file in the .we-blog/lang/ directory.
 ##   posts         A number of blog posts to be listed on a single page.
+##   baseurl       The base URL of the webblog (should end with '/')
+##   smilies       The directory where the smilies are
+##   cloud=1       When set to '1' the category list is displayed as a cloud
 ##
 [blog]
 title=Blog Title
@@ -94,6 +97,8 @@ style=default.css
 lang=en_US
 posts=10
 baseurl=http://blog.example.org
+smilies=/images/smilies
+cloud=1
 
 ## Color settings. Available options are:
 ##

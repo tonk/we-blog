@@ -28,7 +28,6 @@ use File::Path;
 use File::Spec::Functions;
 use Getopt::Long;
 use Time::Local 'timelocal_nocheck';
-use HTML::TagCloud;
 
 # Set the library path and use our own module
 use lib dirname($0);
@@ -452,21 +451,24 @@ sub list_of_tags {
 
 	# Check whether the list is not empty:
 	if (my %tags = %$tags) {
-		## # Return the list of tags:
-		## return join("\n", map {
-		## 	"<li><a href=\"" . fix_link("%root%tags/$tags{$_}->{url}") .
-		## 	"\">$_ (" . $tags{$_}->{count} . ")</a></li>"
-		## } sort(keys(%tags)));
+		my $style_cloud = $conf->{blog}->{cloud} || undef;
 
-		### ADDED begin ###
-		# Create tag cloud
-		my $cloud = HTML::TagCloud->new;
+		if ($style_cloud && $style_cloud == 1) {
+			# Return the list of tags in a cloud:
+			use HTML::TagCloud;
+			my $cloud = HTML::TagCloud->new;
 
-		map {
-			$cloud->add( $_, fix_link("%root%tags/$tags{$_}->{url}" ), $tags{$_}->{count} );
-		} sort(keys(%tags));
-		return $cloud->html_and_css(50);
-		### ADDED end ###
+			map {
+				$cloud->add( $_, fix_link("%root%tags/$tags{$_}->{url}" ), $tags{$_}->{count} );
+			} sort(keys(%tags));
+			return $cloud->html_and_css(50);
+		} else {
+			# Return the list of tags:
+			return join("\n", map {
+				"<li><a href=\"" . fix_link("%root%tags/$tags{$_}->{url}") .
+				"\">$_ (" . $tags{$_}->{count} . ")</a></li>"
+			} sort(keys(%tags)));
+		}
 	}
 	else {
 		# Return an empty string:
