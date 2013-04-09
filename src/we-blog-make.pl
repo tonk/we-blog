@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-make.pl 5 2012-07-18 12:23:57 tonk $
+# $Id: we-blog-make.pl 6 2013-04-09 10:48:46 tonk $
 
 # we-blog-make - generates a blog from the We-Blog repository
 # Copyright (c) 2011-2012 Ton Kersten
@@ -461,13 +461,13 @@ sub list_of_tags {
 			map {
 				$cloud->add( $_, fix_link("%root%tags/$tags{$_}->{url}" ), $tags{$_}->{count} );
 			} sort(keys(%tags));
-			return $cloud->html_and_css(50);
+			return $cloud->html(50);
 		} else {
 			# Return the list of tags:
 			return "<ul>\n" . join("\n", map {
 				"<li><a href=\"" . fix_link("%root%tags/$tags{$_}->{url}") .
 				"\">$_ (" . $tags{$_}->{count} . ")</a></li>"
-			} sort(keys(%tags))) . "\n</ul>";
+			} sort(keys(%tags))) . "\n</ul>\n";
 		}
 	}
 	else {
