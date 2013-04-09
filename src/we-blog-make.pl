@@ -464,10 +464,10 @@ sub list_of_tags {
 			return $cloud->html_and_css(50);
 		} else {
 			# Return the list of tags:
-			return join("\n", map {
+			return "<ul>\n" . join("\n", map {
 				"<li><a href=\"" . fix_link("%root%tags/$tags{$_}->{url}") .
 				"\">$_ (" . $tags{$_}->{count} . ")</a></li>"
-			} sort(keys(%tags)));
+			} sort(keys(%tags))) . "\n</ul>";
 		}
 	}
 	else {
@@ -1655,8 +1655,7 @@ sub generate_tags {
 		my $taglist_body = format_section($tags_string);
 
 		# Add the tag list:
-		$taglist_body   .= "<ul>\n".list_of_tags($data->{links}->{tags},'../').
-							"\n</ul>";
+		$taglist_body   .= list_of_tags($data->{links}->{tags},'../');
 
 		# Prepare the tag list target directory name:
 		my $target = ($destdir eq '.') ? 'tags' : catdir($destdir, 'tags');
