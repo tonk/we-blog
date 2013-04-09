@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-edit.pl 6 2012-07-18 14:18:57 tonk $
+# $Id: we-blog-edit.pl 7 2013-04-09 11:17:48 tonk $
 
 # we-blog-edit - edits a blog post or a page in the We-Blog repository
 # Copyright (c) 2011-2012 Ton Kersten
@@ -211,8 +211,8 @@ sub read_record {
 # Please take your time and replace these options with desired values. Just
 # remember that the date has to be in the YYYY-MM-DD form, tags are a comma
 # separated list of categories the post (pages ignore these) belong to, and
-# the url,  if provided, should consist of alphanumeric characters, hyphens
-# and underscores only.  Specifying your own url  is especially recommended
+# the url, if provided, should consist of alphanumeric characters, hyphens
+# and underscores only. Specifying your own url is especially recommended
 # in case you use non-ASCII characters in your blog post title.
 #
 #   title:    $title
@@ -232,11 +232,11 @@ END_POST_HEADER
 		$head_file = << "END_PAGE_HEADER";
 # vi: set sw=4 ts=4 ai:
 #
-# This and the following lines beginning with '#' are the page header. Ple-
-# ase take your time and replace these  options with  desired  values. Just
-# remember that the date has to be in the YYYY-MM-DD form, and the  url, if
-# provided, should  consist of alphanumeric characters,  hyphens and under-
-# scores only. Specifying your own url  is especially  recommended  in case
+# This and the following lines beginning with '#' are the page header.
+# Please take your time and replace these options with desired values. Just
+# remember that the date has to be in the YYYY-MM-DD form, and the url, if
+# provided, should consist of alphanumeric characters, hyphens and under-
+# scores only. Specifying your own url is especially recommended in case
 # you use non-ASCII characters in your page title.
 #
 #   title:    $title
