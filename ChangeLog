@@ -1,6 +1,9 @@
+2013-04-10  Ton Kersten <we-blog@tonkersten.com>
+  * Added a 'statistics' option to 'We-Blog-Log'
+
 2013-04-06  Ton Kersten <we-blog@tonkersten.com>
   * Added the 'Cloud' patch by C. Hackenschmidt
- 
+
 2012-07-10  Ton Kersten <we-blog@tonkersten.com>
   * Declared 0.8 stable
   * Switched to branch 0.9 for further development
