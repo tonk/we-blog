@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-log.pl 2 2011-09-21 15:34:33 tonk $
+# $Id: we-blog-log.pl 4 2013-04-10 11:25:17 tonk $
 
 # we-blog-log - displays the We-Blog repository log
 # Copyright (c) 2011-2012 Ton Kersten
@@ -41,6 +41,7 @@ Usage: $NAME [-cqrsCV] [-b DIRECTORY] [-n NUMBER]
 	                            repository is placed
 	-n, --number NUMBER         specify a number of log entries to be listed
 	-s, --short                 display each log entry on a single line
+	-S, --stats                 display log statistics
 	-r, --reverse               display log entries in reverse order
 	-c, --color                 enable colored output
 	-C, --no-color              disable colored output
@@ -147,6 +148,53 @@ sub display_log {
 	return 1;
 }
 
+# Display log statistics:
+sub display_statistics {
+	# Initialize required variables:
+	my $count = 0;
+	my $first = '';
+	my $last  = '';
+
+	# Prepare the file name:
+	my $file  = catfile($blogdir, $weblog, 'log');
+
+	# Open the log file for reading:
+	open(LOG, "$file") or return 0;
+
+	# Process each entry:
+	while (my $record = <LOG>) {
+		# Check whether the entry is the first and store its timestamp:
+		($first = $record) =~ s/ - .*\n// unless $first;
+
+		# Store the time stamp of the current entry:
+		($last  = $record) =~ s/ - .*\n//;
+
+		# Count the entry:
+		$count++;
+	}
+
+	# Close the file:
+	close(LOG);
+
+	# Check whether to use compact listing:
+	unless ($compact) {
+		# Display full results:
+		print "Log entries: $count\n";
+		print "First entry: $first\n";
+		print "Last entry:  $last\n";
+	} else {
+		# Display shortened results:
+		printf("There is a total number of $count log %s.\n",
+		(($count != 0) ? 'entries' : 'entry'));
+	}
+
+	# Return success:
+	return 1;
+}
+
+# Initialize command line options:
+my $type = 'log';
+
 # Set up the option parser:
 Getopt::Long::Configure('no_auto_abbrev', 'no_ignore_case', 'bundling');
 
@@ -154,14 +202,15 @@ Getopt::Long::Configure('no_auto_abbrev', 'no_ignore_case', 'bundling');
 GetOptions(
 	'help|h'               => sub { display_help();    exit 0; },
 	'version|v'            => sub { display_version(); exit 0; },
-	'reverse|r'            => sub { $reverse  = 1;      },
-	'short|s'              => sub { $compact  = 1;      },
-	'no-color|no-colour|C' => sub { $coloured = 0;      },
-	'color|colour|c'       => sub { $coloured = 1;      },
-	'quiet|q'              => sub { $verbose  = 0;      },
-	'verbose|V'            => sub { $verbose  = 1;      },
-	'blogdir|b=s'          => sub { $blogdir  = $_[1];  },
-	'number|n=i'           => sub { $number   = $_[1];  },
+	'reverse|r'            => sub { $reverse  = 1;       },
+	'short|s'              => sub { $compact  = 1;       },
+	'stat|stats|S'         => sub { $type     = 'stats'; },
+	'no-color|no-colour|C' => sub { $coloured = 0;       },
+	'color|colour|c'       => sub { $coloured = 1;       },
+	'quiet|q'              => sub { $verbose  = 0;       },
+	'verbose|V'            => sub { $verbose  = 1;       },
+	'blogdir|b=s'          => sub { $blogdir  = $_[1];   },
+	'number|n=i'           => sub { $number   = $_[1];   },
 );
 
 # Detect superfluous options:
@@ -185,9 +234,16 @@ unless (defined $coloured) {
 	$coloured = ($temp =~ /^(true|auto)\s*$/i) ? 1 : 0;
 }
 
-# Display log records:
-display_log()
-	or exit_with_error("Cannot read the log file.", 13);
+# Check whether to list log entries or display statistics:
+unless ($type eq 'stats') {
+	# Display log records:
+	display_log()
+		or exit_with_error("Cannot read the log file.", 13);
+} else {
+	# Display log statistics:
+	display_statistics()
+		or exit_with_error("Cannot read the log file.", 13);
+}
 
 # Return success:
 exit 0;
