@@ -20,6 +20,8 @@
 NAME    = we-blog
 VERSION = 0.9
 
+########################################################
+
 # General settings:
 SHELL   = /bin/sh
 INSTALL = /usr/bin/install -c
@@ -34,9 +36,20 @@ SRCS    = src/we-blog-add.pl src/we-blog-config.pl src/we-blog-edit.pl	\
           src/we-blog-smilies.pl src/We.pm
 SMLS	= smilies
 
+RPMSPECDIR= packaging/rpm
+RPMSPEC = $(RPMSPECDIR)/we-blog.spec
+RPMDIST = $(shell rpm --eval '%{?dist}')
+RPMRELEASE = 1
+ifeq ($(OFFICIAL),)
+    RPMRELEASE = 0.git$(DATE)
+endif
+RPMNVR = "$(NAME)-$(VERSION)-$(RPMRELEASE)$(RPMDIST)"
+
+NOSETESTS := nosetests
+
 # Installation directories:
-config  = /etc
-prefix  = /usr/local
+config  = $(DESTDIR)/etc
+prefix  = $(DESTDIR)/usr
 bindir  = $(prefix)/bin
 datadir = $(prefix)/share/$(NAME)
 docsdir = $(prefix)/share/doc/$(NAME)-$(VERSION)
@@ -183,3 +196,52 @@ clean:
 	$(POD2MAN) --section=1 --release="Version $(VERSION)" \
 	                       --center="We-Blog Documentation" $^ $@
 
+sdist:
+	@rm -rf dist/$(NAME)-$(VERSION).tgz packaging/rpm/$(NAME)-$(VERSION)
+	@mkdir /tmp/$(NAME)-$(VERSION)
+	@cp -rp * /tmp/$(NAME)-$(VERSION)
+	@mkdir -p dist packaging/rpm
+	@mv /tmp/$(NAME)-$(VERSION) packaging/rpm
+	@cd packaging/rpm; tar -czf ../../dist/$(NAME)-$(VERSION).tgz $(NAME)-$(VERSION)
+
+rpmcommon: sdist
+	@mkdir -p rpm-build
+	@cp dist/*.tgz rpm-build/
+	@sed -e 's#^Version:.*#Version: $(VERSION)#' -e 's#^Release:.*#Release: $(RPMRELEASE)%{?dist}#' $(RPMSPEC) >rpm-build/$(NAME).spec
+
+srpm: rpmcommon
+	@rpmbuild --define "_topdir %(pwd)/rpm-build" \
+	--define "_builddir %{_topdir}" \
+	--define "_rpmdir %{_topdir}" \
+	--define "_srcrpmdir %{_topdir}" \
+	--define "_specdir $(RPMSPECDIR)" \
+	--define "_sourcedir %{_topdir}" \
+	-bs rpm-build/$(NAME).spec
+	@rm -f rpm-build/$(NAME).spec
+	@echo "#############################################"
+	@echo "we-blog SRPM is built:"
+	@echo "    rpm-build/$(RPMNVR).src.rpm"
+	@echo "#############################################"
+
+rpm: rpmcommon
+	@rpmbuild --define "_topdir %(pwd)/rpm-build" \
+	--define "_builddir %{_topdir}" \
+	--define "_rpmdir %{_topdir}" \
+	--define "_srcrpmdir %{_topdir}" \
+	--define "_specdir $(RPMSPECDIR)" \
+	--define "_sourcedir %{_topdir}" \
+	--define "_rpmfilename %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm" \
+	-ba rpm-build/$(NAME).spec
+	@rm -f rpm-build/$(NAME).spec
+	@echo "#############################################"
+	@echo "Ansible RPM is built:"
+	@echo "    rpm-build/$(RPMNVR).noarch.rpm"
+	@echo "#############################################"
+
+debian: sdist
+deb: debian
+	cp -r packaging/debian ./
+	chmod 755 debian/rules
+	fakeroot debian/rules clean
+	fakeroot dh_install
+	fakeroot debian/rules binary
