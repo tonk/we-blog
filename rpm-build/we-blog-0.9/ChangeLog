@@ -1,0 +1,39 @@
+2013-04-10  Ton Kersten <we-blog@tonkersten.com>
+  * Added a 'statistics' option to 'We-Blog-Log'
+
+2013-04-06  Ton Kersten <we-blog@tonkersten.com>
+  * Added the 'Cloud' patch by C. Hackenschmidt
+
+2012-07-10  Ton Kersten <we-blog@tonkersten.com>
+  * Declared 0.8 stable
+  * Switched to branch 0.9 for further development
+
+2012-07-09  Ton Kersten <we-blog@tonkersten.com>
+  * Changed a lot of things, but they all boil down to
+    bugfixes and code reshuffeling
+
+2011-10-07  Ton Kersten <we-blog@tonkersten.com>
+  * Added 'alt' text for pages to show on mouse-over.
+
+2011-09-21  Ton Kersten <we-blog@tonkersten.com>
+  * And switched to branch 0.8 for further development
+
+2011-09-21  Ton Kersten <we-blog@tonkersten.com>
+  * Increased we-blog to version 0.7
+  * Added 'smiley' converter
+  * Published the project on GitHub
+
+2011-08-15  Ton Kersten <we-blog@tonkersten.com>
+  * Forked BlazeBlogger 1.2.0 to we-blog 0.5
+    This because development of Blaze seems to be stalled
+
+2011-02-18  Jaromir Hradilek <jhradilek@gmail.com>
+
+  * INSTALL, Makefile, README, src/we-blog-add.pl, src/we-blog-config.pl,
+  src/we-blog-edit.pl, src/we-blog-init.pl, src/we-blog-list.pl, src/we-blog-log.pl,
+  src/we-blog-make.pl, src/we-blog-remove.pl, unix/we-blog.sh, unix/man/man1/we-blog.1,
+  windows/we-blog.bat: Increased the version number.
+
+  * unix/man/man1/we-blog.1: Updated the manual page for the command wrapper.
+
+# $Id: ChangeLog 4 2012-07-10 09:34:11 tonk $
