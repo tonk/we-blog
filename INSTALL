@@ -35,8 +35,8 @@ TABLE OF CONTENTS
 
 1. SYSTEM REQUIREMENTS
 
-- A working installation of Perl is required, version 5.8.8 or higher.
-- The HTML::AnyCloud module
+A working installation of Perl is required, version 5.8.8 or higher.
+
 
 2. INSTALLING FROM THE SOURCE CODE
 
@@ -70,4 +70,4 @@ access to. For example:
 
   we-blog-x.x]$ make prefix=$HOME compdir='$(prefix)/etc' install
 
-# $Id: INSTALL 3 2013-04-06 11:27:50 tonk $
+# $Id: INSTALL 2 2011-09-22 08:56:01 tonk $

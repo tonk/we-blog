@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-edit.pl 7 2013-04-09 11:17:48 tonk $
+# $Id: we-blog-edit.pl 3 2012-05-16 16:00:33 tonk $
 
 # we-blog-edit - edits a blog post or a page in the We-Blog repository
 # Copyright (c) 2011-2012 Ton Kersten
@@ -32,7 +32,7 @@ use lib dirname($0);
 use We;
 
 # Global variables:
-our $conf     = {};				# Configuration.
+our $conf = {};					# Configuration.
 
 # Command-line options:
 my  $type = 'post';				# Type: post or page.
@@ -41,7 +41,7 @@ my  $type = 'post';				# Type: post or page.
 sub display_help {
 	# Display the usage:
 	print << "END_HELP";
-Usage: $NAME [-fpqCPV] [-b DIRECTORY] [-E EDITOR] [ID|last]
+Usage: $NAME [-fpqCPV] [-b DIRECTORY] [-E EDITOR] ID
        $NAME -h|-v
 
 	-b, --blogdir DIRECTORY     specify a directory in which the We-Blog
@@ -57,10 +57,6 @@ Usage: $NAME [-fpqCPV] [-b DIRECTORY] [-E EDITOR] [ID|last]
 	-V, --verbose               display all messages
 	-h, --help                  display this help and exit
 	-v, --version               display version information and exit
-
-	The ID is optional. When it's not supplied the last added post or page
-	will be opened for editing. When "last" is given as the ID, this will
-	result in the same action.
 END_HELP
 
 	# Return success:
@@ -211,8 +207,8 @@ sub read_record {
 # Please take your time and replace these options with desired values. Just
 # remember that the date has to be in the YYYY-MM-DD form, tags are a comma
 # separated list of categories the post (pages ignore these) belong to, and
-# the url, if provided, should consist of alphanumeric characters, hyphens
-# and underscores only. Specifying your own url is especially recommended
+# the url,  if provided, should consist of alphanumeric characters, hyphens
+# and underscores only.  Specifying your own url  is especially recommended
 # in case you use non-ASCII characters in your blog post title.
 #
 #   title:    $title
@@ -232,11 +228,11 @@ END_POST_HEADER
 		$head_file = << "END_PAGE_HEADER";
 # vi: set sw=4 ts=4 ai:
 #
-# This and the following lines beginning with '#' are the page header.
-# Please take your time and replace these options with desired values. Just
-# remember that the date has to be in the YYYY-MM-DD form, and the url, if
-# provided, should consist of alphanumeric characters, hyphens and under-
-# scores only. Specifying your own url is especially recommended in case
+# This and the following lines beginning with '#' are the page header. Ple-
+# ase take your time and replace these  options with  desired  values. Just
+# remember that the date has to be in the YYYY-MM-DD form, and the  url, if
+# provided, should  consist of alphanumeric characters,  hyphens and under-
+# scores only. Specifying your own url  is especially  recommended  in case
 # you use non-ASCII characters in your page title.
 #
 #   title:    $title
@@ -492,7 +488,7 @@ GetOptions(
 );
 
 # Check superfluous options:
-exit_with_error("Wrong number of options.", 22) if (scalar(@ARGV) > 1);
+exit_with_error("Wrong number of options.", 22) if (scalar(@ARGV) != 1);
 
 # Check whether the repository is present, no matter how naive this method
 # actually is:
@@ -513,16 +509,12 @@ else {
 	$process = 0;
 }
 
-# If keyword last (or nothing) is given, the last entry (post or page) is edited.
-my $id = last_used_id($type);
-$id = $ARGV[0] if ((scalar(@ARGV) != 0) && ($ARGV[0] ne "last"));
-
 # Edit the record:
-edit_record($id, $type)
+edit_record($ARGV[0], $type)
 	or exit_with_error("Cannot edit the $type in the repository.", 13);
 
 # Log the event:
-add_to_log("Edited the $type with ID $id.")
+add_to_log("Edited the $type with ID $ARGV[0].")
 	or display_warning("Unable to log the event.");
 
 # Report success:
@@ -539,7 +531,7 @@ we-blog-edit - edits a blog post or a page in the We-Blog repository
 
 =head1 SYNOPSIS
 
-B<we-blog-edit> [B<-fpqCPV>] [B<-b> I<directory>] [B<-E> I<editor>] [I<id>|I<last>]
+B<we-blog-edit> [B<-fpqCPV>] [B<-b> I<directory>] [B<-E> I<editor>] I<id>
 
 B<we-blog-edit> B<-h>|B<-v>
 
@@ -654,10 +646,6 @@ Edit a blog post in an external text editor:
 
 	$ we-blog-edit 10
 
-Edit the last entered blog post in an external text editor:
-
-	$ we-blog-edit last
-
 Edit a page in an external text editor:
 
 	$ we-blog-edit -p 4
@@ -674,7 +662,7 @@ B<we-blog-config>(1), B<we-blog-add>(1), B<we-blog-list>(1)
 
 To report a bug or to send a patch, please, add a new issue to the bug
 tracker at <http://code.google.com/p/we-blog/issues/>, or visit the
-discussion group at <https://groups.google.com/d/forum/tonk-we-blog>.
+discussion group at <http://groups.google.com/group/we-blog/>.
 
 =head1 COPYRIGHT
 

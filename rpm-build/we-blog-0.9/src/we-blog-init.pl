@@ -3,7 +3,7 @@
 # $Id: we-blog-init.pl 3 2012-07-12 10:25:52 tonk $
 
 # we-blog-init - creates or recovers a We-Blog repository
-# Copyright (c) 2011-2012 Ton Kersten
+# Copyright (c) 2011-2013 Ton Kersten
 # Copyright (c) 2008-2011 Jaromir Hradilek
 
 # This program is  free software:  you can redistribute it and/or modify it
@@ -327,7 +327,7 @@ sub create_style {
 	print FILE << 'END_STYLE';
 /* default.css, the default theme for We-Blog
  *
- * Copyright (c) 2011-2012 Ton Kersten
+ * Copyright (c) 2011-2013 Ton Kersten
  * Copyright (c) 2009-2010 Jaromir Hradilek
  *
  * This program is free software: you can redistribute it and/or modify it
@@ -772,7 +772,7 @@ discussion group at <https://groups.google.com/d/forum/tonk-we-blog>.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2008-2011 Jaromir Hradilek / 2011-2012 Ton Kersten
+Copyright (c) 2008-2011 Jaromir Hradilek / 2011-2013 Ton Kersten
 
 This program is free software; see the source for copying conditions. It is
 distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;

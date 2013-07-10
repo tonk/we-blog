@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-make.pl 6 2013-04-09 10:48:46 tonk $
+# $Id: we-blog-make.pl 2 2011-09-21 15:34:42 tonk $
 
 # we-blog-make - generates a blog from the We-Blog repository
 # Copyright (c) 2011-2012 Ton Kersten
@@ -451,24 +451,11 @@ sub list_of_tags {
 
 	# Check whether the list is not empty:
 	if (my %tags = %$tags) {
-		my $style_cloud = $conf->{blog}->{cloud} || undef;
-
-		if ($style_cloud && $style_cloud == 1) {
-			# Return the list of tags in a cloud:
-			use HTML::TagCloud;
-			my $cloud = HTML::TagCloud->new;
-
-			map {
-				$cloud->add( $_, fix_link("%root%tags/$tags{$_}->{url}" ), $tags{$_}->{count} );
-			} sort(keys(%tags));
-			return $cloud->html(50);
-		} else {
-			# Return the list of tags:
-			return "<ul>\n" . join("\n", map {
-				"<li><a href=\"" . fix_link("%root%tags/$tags{$_}->{url}") .
-				"\">$_ (" . $tags{$_}->{count} . ")</a></li>"
-			} sort(keys(%tags))) . "\n</ul>\n";
-		}
+		# Return the list of tags:
+		return join("\n", map {
+			"<li><a href=\"" . fix_link("%root%tags/$tags{$_}->{url}") .
+			"\">$_ (" . $tags{$_}->{count} . ")</a></li>"
+		} sort(keys(%tags)));
 	}
 	else {
 		# Return an empty string:
@@ -576,13 +563,13 @@ sub read_entry {
 	# Prepare the file name:
 	my $file    = catfile($blogdir, $weblog, "${type}s", 'body', $id);
 
-	# Get the index append for posts/pages
-	my $appends_index = $conf->{appends}->{index} || '';
-	$appends_index =~ s/%n%/\n/ig;
+	# Get the index append for posts
+	my $append_index = $conf->{appends}->{index} || '';
+	$append_index =~ s/%n%/\n/ig;
 
 	# Initialize required variables:
 	my $result  = '';
-	$result .= "\n<!-- Start of We-Blog $type ID %id% -->\n";
+	$result .= "\n<!-- Start of We-Blog Post ID %id% -->\n";
 
 	# Open the file for reading:
 	open (FILE, $file) or return '';
@@ -609,10 +596,10 @@ sub read_entry {
 	}
 
 	# Add the append to the post
-	$result .= '<!-- start-append-index -->' . $appends_index . '<!-- end-append-index -->';
+	$result .= '<!-- start-append-index -->' . $append_index . '<!-- end-append-index -->';
 
-	# Add the 'End Post/Page' tag
-	$result .= "\n<!-- End of We-Blog $type ID %id% -->\n";
+	# Add the 'End Post' tag
+	$result .= "\n<!-- End of We-Blog Post ID %id% -->\n";
 
 	# Substitute the %id% tag with the id of the current post/page/etc:
 	$result =~ s/%id%/$id/ig;
@@ -791,18 +778,6 @@ sub format_navigation {
 		}
 }
 
-# Remove strings from the $template
-sub remove_string {
-	my $string = shift;
-	my $remove = shift;
-	my $repl   = shift;
-
-	$string =~ s/<!--\s*ifdef\s+$remove\s*-->.*<!--\s*endif\s+$remove\s*-->/<!-- $repl -->/igs;
-
-	# Return the result:
-	return $string;
-}
-
 # Prepare a template:
 sub format_template {
 	my $data          = shift || die 'Missing argument';
@@ -813,27 +788,14 @@ sub format_template {
 	return $cache_theme if $cache_theme;
 
 	# Read required data from the documentation:
-	my $conf_doctype  = $conf->{core}->{doctype}		|| 'html';
-	my $conf_encoding = $conf->{core}->{encoding}		|| 'UTF-8';
-	my $conf_title    = $conf->{blog}->{title}			|| 'Blog Title';
-	my $conf_subtitle = $conf->{blog}->{subtitle}		|| 'blog subtitle';
-	my $conf_desc     = $conf->{blog}->{description}	|| 'blog description';
-	my $conf_name     = $conf->{user}->{name}			|| 'admin';
-	my $conf_email    = $conf->{user}->{email}			|| 'admin@localhost';
-	my $conf_nickname = $conf->{user}->{nickname}		|| $conf_name;
-
-	# Social network settings
-	my $conf_social     = $conf->{social}->{social}		|| undef;
-	my $conf_twitter    = $conf->{social}->{twitter}	|| undef;
-	my $conf_googleplus = $conf->{social}->{googleplus}	|| undef;
-	my $conf_linkedin   = $conf->{social}->{linkedin}	|| undef;
-	my $conf_skype      = $conf->{social}->{skype}		|| undef;
-	my $conf_github     = $conf->{social}->{github}		|| undef;
-
-	# Statistics settings:
-	my $conf_analytics	= $conf->{stats}->{analytics}	|| undef;
-	my $conf_piwik		= $conf->{stats}->{piwik}		|| undef;
-	my $conf_piwiksite	= $conf->{stats}->{piwiksite}	|| undef;
+	my $conf_doctype  = $conf->{core}->{doctype}     || 'html';
+	my $conf_encoding = $conf->{core}->{encoding}    || 'UTF-8';
+	my $conf_title    = $conf->{blog}->{title}       || 'Blog Title';
+	my $conf_subtitle = $conf->{blog}->{subtitle}    || 'blog subtitle';
+	my $conf_desc     = $conf->{blog}->{description} || 'blog description';
+	my $conf_name     = $conf->{user}->{name}        || 'admin';
+	my $conf_email    = $conf->{user}->{email}       || 'admin@localhost';
+	my $conf_nickname = $conf->{user}->{nickname}    || $conf_name;
 
 	# Prepare a list of blog posts, pages, tags, and months:
 	my $list_pages    = list_of_pages($data->{headers}->{pages});
@@ -928,64 +890,6 @@ sub format_template {
 	$template =~ s/<!--\s*nickname\s*-->/$conf_nickname/ig;
 	$template =~ s/<!--\s*e-mail\s*-->/$conf_email/ig;
 	$template =~ s/<!--\s*year\s*-->/$current_year/ig;
-
-	# Substitute social media placeholders
-	if ( ( defined $conf_social ) && ( $conf_social eq 1 ) ) {
-		# Twitter
-		if ( defined $conf_twitter ) {
-			$template =~ s/%twitter%/$conf_twitter/ig;
-		} else {
-			$template = remove_string $template, 'twitter', 'Twitter';
-		}
-
-		# Google Plus
-		if ( defined $conf_googleplus ) {
-			$template =~ s/%googleplus%/$conf_googleplus/ig;
-		} else {
-			$template = remove_string $template, 'googleplus', 'Google Plus';
-		}
-
-		# LinkedIn
-		if ( defined $conf_linkedin ) {
-			$template =~ s/%linkedin%/$conf_linkedin/ig;
-		} else {
-			$template = remove_string $template, 'linkedin', 'Linked In';
-		}
-
-		# Skype
-		if ( defined $conf_skype ) {
-			$template =~ s/%skype%/$conf_skype/ig;
-		} else {
-			$template = remove_string $template, 'skype', 'Skype';
-		}
-
-		# Github
-		if ( defined $conf_github ) {
-			$template =~ s/%github%/$conf_github/ig;
-		} else {
-			$template = remove_string $template, 'github', 'Github';
-		}
-	} else {
-		# No social media bar wanted. Remove it completely
-		$template = remove_string $template, 'social', 'Social media section';
-	}
-
-	# Google Analytics
-	if ( defined $conf_analytics ) {
-		$template =~ s/%analytics%/$conf_analytics/ig;
-	} else {
-		$template = remove_string $template, 'analytics', 'Google Analytics';
-	}
-
-	# PiWik
-	if ( defined $conf_piwik ) {
-		$template =~ s/%piwik%/$conf_piwik/ig;
-		if ( defined $conf_piwiksite ) {
-			$template =~ s/%piwiksite%/$conf_piwiksite/ig;
-		}
-	} else {
-		$template = remove_string $template, 'piwik', 'Piwik';
-	}
 
 	# Store the template to the cache:
 	$cache_theme = $template;
@@ -1346,8 +1250,8 @@ sub generate_posts {
 
 	# Read required data from the configuration:
 	my $blog_posts    = $conf->{blog}->{posts}      || 10;
-	my $appends_single = $conf->{appends}->{single}  || '';
-	$appends_single =~ s/%n%/\n/ig;
+	my $append_single = $conf->{appends}->{single}  || '';
+	$append_single =~ s/%n%/\n/ig;
 
 	# Read required data from the localization:
 	my $title_string = $locale->{lang}->{archive}  || 'Archive for';
@@ -1401,7 +1305,7 @@ sub generate_posts {
 				: catdir($destdir, $year, $month, $record->{url});
 
 		# Add the append code for each individual page/post
-		$post_body .= '<!-- start-append-single -->' . $appends_single . '<!-- end-append-single -->';
+		$post_body .= '<!-- start-append-single -->' . $append_single . '<!-- end-append-single -->';
 
 		# Substitute the %id% tag with the id of the current post/page/etc:
 		$post_body =~ s/%id%/$id/ig;
@@ -1655,7 +1559,8 @@ sub generate_tags {
 		my $taglist_body = format_section($tags_string);
 
 		# Add the tag list:
-		$taglist_body   .= list_of_tags($data->{links}->{tags},'../');
+		$taglist_body   .= "<ul>\n".list_of_tags($data->{links}->{tags},'../').
+							"\n</ul>";
 
 		# Prepare the tag list target directory name:
 		my $target = ($destdir eq '.') ? 'tags' : catdir($destdir, 'tags');
@@ -1909,7 +1814,7 @@ B<we-blog-init>(1), B<we-blog-config>(1), B<we-blog-add>(1)
 
 To report a bug or to send a patch, please, add a new issue to the bug
 tracker at <http://code.google.com/p/we-blog/issues/>, or visit the
-discussion group at <https://groups.google.com/d/forum/tonk-we-blog>.
+discussion group at <http://groups.google.com/group/we-blog/>.
 
 =head1 COPYRIGHT
 

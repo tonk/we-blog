@@ -1,7 +1,7 @@
 @echo off
 
 REM we-blog, a command wrapper for We-Blog
-REM Copyright (c) 2011-2012 Ton Kersten
+REM Copyright (c) 2011-2013 Ton Kersten
 REM Copyright (c) 2009-2011 Sergey Kuznetsov
 REM
 REM This program is  free software:  you can redistribute it and/or modify it

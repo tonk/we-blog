@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: We.pm 8 2012-07-18 10:26:59 tonk $
+# $Id: we.pm 5 2012-07-09 15:43:02 tonk $
 
 # we-blog.pm - Perl Module for We-Blog.
 # This module contains all generic things
@@ -42,7 +42,7 @@ use vars qw(
 
 # General script information:
 $NAME		= basename($0, '.pl');	# Script name.
-$VERSION	= '0.9';				# Script version.
+$VERSION	= '0.8';				# Script version.
 
 # General script settings:
 $blogdir	= '.';					# Repository location.
@@ -57,8 +57,6 @@ $prompt		= 0;					# Ask for confirmation?
 $reverse	= 0;					# Use reverse order?
 $verbose	= 1;					# Verbosity level.
 $weblog		= '.we-blog';			# We-blog data and config directory
-
-our $reserved = undef;				# Reserved ID list.
 
 # Set up the __WARN__ signal handler:
 $SIG{__WARN__} = sub {
@@ -171,11 +169,6 @@ sub read_ini {
 
 	# Process each line:
 	while (my $line = <INI>) {
-		# Skip comment lines
-		if ($line =~ /^\s*\#/) {
-			next;
-		}
-
 		# Parse the line:
 		if ($line =~ /^\s*\[([^\]]+)\]\s*$/) {
 			# Change the section:
@@ -258,54 +251,6 @@ sub write_conf {
 
 	# Return success:
 	return 1;
-}
-
-# Collect reserved post or page IDs:
-sub collect_ids {
-	my $type = shift || 'post';
-
-	# Prepare the post or page directory name:
-	my $head = catdir($blogdir, $weblog, "${type}s", 'head');
-
-	# Open the header directory:
-	opendir(HEADS, $head) or return 0;
-
-	# Build a list of used IDs:
-	my @used = grep {! /^\.\.?$/ } readdir(HEADS);
-
-	# Close the directory:
-	closedir(HEADS);
-
-	# Return the sorted result:
-	return sort {$a <=> $b} @used;
-}
-
-# Return the last used ID:
-sub last_used_id {
-	my $chosen = 1;
-	my $type = shift || 'post';
-
-	# Get the list of reserved IDs unless already done:
-	@$reserved = collect_ids($type) unless defined $reserved;
-
-	# Iterate through the used IDs:
-	while (my $used = shift(@$reserved)) {
-		# Check whether the candidate ID is really free:
-		if ($used > $chosen) {
-			$chosen = $used;
-		}
-	}
-
-	# Return the result, and increase the next candidate number:
-	return $chosen;
-}
-
-# Return the first unused ID:
-sub first_free_id {
-	my $type = shift || 'post';
-
-	# Return the result, and increase the next candidate number:
-	return last_used_id($type) + 1;
 }
 
 1;

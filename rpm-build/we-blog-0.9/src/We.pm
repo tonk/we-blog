@@ -4,7 +4,7 @@
 
 # we-blog.pm - Perl Module for We-Blog.
 # This module contains all generic things
-# Copyright (c) 2011-2012 Ton Kersten
+# Copyright (c) 2011-2013 Ton Kersten
 
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the
@@ -95,7 +95,7 @@ sub display_version {
 	print << "END_VERSION";
 $NAME version $VERSION
 
-Copyright (c) 2011-2012 Ton Kersten
+Copyright (c) 2011-2013 Ton Kersten
 Copyright (c) 2008-2011 Jaromir Hradilek
 
 This program is free software; see the source for copying conditions. It is

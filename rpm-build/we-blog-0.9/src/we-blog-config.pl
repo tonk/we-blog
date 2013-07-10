@@ -3,7 +3,7 @@
 # $Id: we-blog-config.pl 6 2012-07-12 13:22:10 tonk $
 
 # we-blog-config - displays or sets We-Blog configuration options
-# Copyright (c) 2011-2012 Ton Kersten
+# Copyright (c) 2011-2013 Ton Kersten
 # Copyright (c) 2008-2011 Jaromir Hradilek
 
 # This program is  free software:  you can redistribute it and/or modify it
@@ -901,7 +901,7 @@ discussion group at <https://groups.google.com/d/forum/tonk-we-blog>.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2008-2011 Jaromir Hradilek / 2011-2012 Ton Kersten
+Copyright (c) 2008-2011 Jaromir Hradilek / 2011-2013 Ton Kersten
 
 This program is free software; see the source for copying conditions. It is
 distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;

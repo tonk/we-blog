@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-add.pl 7 2013-04-09 11:18:17 tonk $
+# $Id: we-blog-add.pl 4 2012-05-16 16:00:17 tonk $
 
 # we-blog-add - adds a blog post or a page to the We-Blog repository
 # Copyright (c) 2011-2012 Ton Kersten
@@ -32,6 +32,8 @@ use lib dirname($0);
 use We;
 
 # Global variables:
+our $chosen		= 1;								# Available ID guess.
+our $reserved	= undef;							# Reserved ID list.
 our $conf		= {};								# Configuration.
 
 # Command line options:
@@ -282,6 +284,53 @@ sub save_record {
 	return 1;
 }
 
+# Collect reserved post or page IDs:
+sub collect_ids {
+	my $type = shift || 'post';
+
+	# Prepare the post or page directory name:
+	my $head = catdir($blogdir, $weblog, "${type}s", 'head');
+
+	# Open the header directory:
+	opendir(HEADS, $head) or return 0;
+
+	# Build a list of used IDs:
+	my @used = grep {! /^\.\.?$/ } readdir(HEADS);
+
+	# Close the directory:
+	closedir(HEADS);
+
+	# Return the sorted result:
+	return sort {$a <=> $b} @used;
+}
+
+# Return the first unused ID:
+sub choose_id {
+	my $type = shift || 'post';
+
+	# Get the list of reserved IDs unless already done:
+	@$reserved = collect_ids($type) unless defined $reserved;
+
+	# Iterate through the used IDs:
+	while (my $used = shift(@$reserved)) {
+		# Check whether the candidate ID is really free:
+		if ($chosen == $used) {
+			# Try the next ID:
+			$chosen++;
+		}
+		else {
+			# Push the last checked ID back to the list:
+			unshift(@$reserved, $used);
+
+			# Exit the loop:
+			last;
+		}
+	}
+
+	# Return the result, and increase the next candidate number:
+	return $chosen++;
+}
+
 # Add given files to the repository:
 sub add_files {
 	my $type  = shift || 'post';
@@ -294,7 +343,7 @@ sub add_files {
 	# Process each file:
 	foreach my $file (@{$files}) {
 		# Get the first available ID:
-		my $id = first_free_id($type);
+		my $id = choose_id($type);
 
 		# Save the record:
 		save_record($file, $id, $type, $data)
@@ -359,8 +408,8 @@ END_POST_HEADER
 		$head = << "END_PAGE_HEADER";
 # vi: set sw=4 ts=4 ai:
 #
-# This and the following lines beginning with '#' are the page header.
-# Please take your time and replace these options with desired values. Just
+# This and the following lines beginning with '#' are the page header. Ple-
+# ase take your time and replace these options with desired values. Just
 # remember that the date has to be in the YYYY-MM-DD form, and the url, if
 # provided, should consist of alphanumeric characters, hyphens and under-
 # scores only. Specifying your own url is especially recommended in case
@@ -675,7 +724,7 @@ B<we-blog-make>(1)
 
 To report a bug or to send a patch, please, add a new issue to the bug
 tracker at <http://code.google.com/p/we-blog/issues/>, or visit the
-discussion group at <https://groups.google.com/d/forum/tonk-we-blog>.
+discussion group at <http://groups.google.com/group/we-blog/>.
 
 =head1 COPYRIGHT
 

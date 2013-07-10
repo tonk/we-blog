@@ -1,7 +1,7 @@
 # Makefile for We-Blog, We Blog our hearts out
 # $Id: Makefile 6 2012-07-12 12:19:47 tonk $
 
-# Copyright (c) 2011-2012 Ton Kersten
+# Copyright (c) 2011-2013 Ton Kersten
 # Copyright (c) 2009-2011 Jaromir Hradilek
 
 # This program is  free software:  you can redistribute it and/or modify it
@@ -18,7 +18,7 @@
 
 # General information:
 NAME       = we-blog
-VERSION    = 0.9
+VERSION    = 1.0
 RPMRELEASE = 1
 
 ########################################################

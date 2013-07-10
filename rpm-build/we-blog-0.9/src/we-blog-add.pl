@@ -3,7 +3,7 @@
 # $Id: we-blog-add.pl 7 2013-04-09 11:18:17 tonk $
 
 # we-blog-add - adds a blog post or a page to the We-Blog repository
-# Copyright (c) 2011-2012 Ton Kersten
+# Copyright (c) 2011-2013 Ton Kersten
 # Copyright (c) 2008-2011 Jaromir Hradilek
 
 # This program is free software: you can redistribute it and/or modify it
@@ -679,7 +679,7 @@ discussion group at <https://groups.google.com/d/forum/tonk-we-blog>.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2008-2011 Jaromir Hradilek / 2011-2012 Ton Kersten
+Copyright (c) 2008-2011 Jaromir Hradilek / 2011-2013 Ton Kersten
 
 This program is free software; see the source for copying conditions. It is
 distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;

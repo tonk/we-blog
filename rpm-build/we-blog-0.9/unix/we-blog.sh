@@ -3,7 +3,7 @@
 # $Id: we-blog.sh 3 2012-07-09 12:55:25 tonk $
 
 # we-blog, a command wrapper for We-Blog
-# Copyright (c) 2011-2012 Ton Kersten
+# Copyright (c) 2011-2013 Ton Kersten
 # Copyright (c) 2009-2011 Jaromir Hradilek
 
 # This program is  free software:  you can redistribute it and/or modify it
@@ -108,7 +108,7 @@ case "$COMMAND" in
 		cat <<- @EOF
 			We-Blog $VERSION
 
-			Copyright (c) 2011-2012 Ton Kersten
+			Copyright (c) 2011-2013 Ton Kersten
 			Copyright (c) 2009-2011 Jaromir Hradilek
 
 			This program is free software; see the source for copying conditions. It is

@@ -20,7 +20,7 @@
 
 # General script information:
 NAME=${0##*/}
-VERSION='0.9'
+VERSION='0.8'
 
 # Get the command if any, and shift command line options:
 COMMAND=$1

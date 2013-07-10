@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 # vi: set sw=4 ts=4 ai:
-# $Id: we-blog-init.pl 3 2012-07-12 10:25:52 tonk $
+# $Id: we-blog-init.pl 2 2011-09-21 15:34:18 tonk $
 
 # we-blog-init - creates or recovers a We-Blog repository
 # Copyright (c) 2011-2012 Ton Kersten
@@ -83,9 +83,6 @@ sub create_conf {
 ##   lang          A translation of your blog. It must point to an existing
 ##                 file in the .we-blog/lang/ directory.
 ##   posts         A number of blog posts to be listed on a single page.
-##   baseurl       The base URL of the webblog (should end with '/')
-##   smilies       The directory where the smilies are
-##   cloud=1       When set to '1' the category list is displayed as a cloud
 ##
 [blog]
 title=Blog Title
@@ -97,8 +94,6 @@ style=default.css
 lang=en_US
 posts=10
 baseurl=http://blog.example.org
-smilies=/images/smilies
-cloud=1
 
 ## Color settings. Available options are:
 ##
@@ -143,35 +138,6 @@ processor=
 baseurl=
 posts=10
 fullposts=false
-
-## Social network settings. Available options are:
-## (If not defined it will NOT be shown)
-##
-##  social        1 -> defined and a social "bar" is shown
-##  twitter       Twitter id.         Results in: http://twitter.com/%twitter%
-##  googleplus    Google Plus ID.     Results in: https://plus.google.com/%googleplus%/posts
-##  linkedin      Linked In short ID. Results in: http://www.linkedin.com/in/%linkedin%
-##  skype         Skype ID.           Results in: skype:%skype%?add
-##  github        GitHub ID.          Results in: https://github.com/%github%
-##
-[social]
-social=1
-twitter=
-googleplus=
-linkedin=
-skype=
-github=
-
-## Website statics settings. Available options are:
-##
-##  analytics     Google Analytics ID
-##  piwik         PiWik baseurl (e.g. example.com/pi/piwik)
-##  piwiksite     PiWik site id
-##
-[stats]
-analytics=
-piwik=
-piwiksite=
 
 ## Advanced post settings. Available options are:
 ##
@@ -768,7 +734,7 @@ B<we-blog-config>(1), B<we-blog-add>(1)
 
 To report a bug or to send a patch, please, add a new issue to the bug
 tracker at <http://code.google.com/p/we-blog/issues/>, or visit the
-discussion group at <https://groups.google.com/d/forum/tonk-we-blog>.
+discussion group at <http://groups.google.com/group/we-blog/>.
 
 =head1 COPYRIGHT
 

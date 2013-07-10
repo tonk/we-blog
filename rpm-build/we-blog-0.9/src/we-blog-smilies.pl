@@ -4,7 +4,7 @@
 
 # we-blog-smilies - Convert all smiley (emoticon) text tags to pictures
 
-# Copyright (c) 2011-2012 Ton Kersten
+# Copyright (c) 2011-2013 Ton Kersten
 
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the
@@ -131,7 +131,7 @@ discussion group at <https://groups.google.com/d/forum/tonk-we-blog>.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2011-2012 Ton Kersten
+Copyright (c) 2011-2013 Ton Kersten
 
 This program is free software; see the source for copying conditions. It is
 distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;

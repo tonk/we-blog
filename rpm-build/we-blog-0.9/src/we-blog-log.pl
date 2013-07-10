@@ -3,7 +3,7 @@
 # $Id: we-blog-log.pl 4 2013-04-10 11:25:17 tonk $
 
 # we-blog-log - displays the We-Blog repository log
-# Copyright (c) 2011-2012 Ton Kersten
+# Copyright (c) 2011-2013 Ton Kersten
 # Copyright (c) 2009-2011 Jaromir Hradilek
 
 # This program is  free software:  you can redistribute it and/or modify it
@@ -368,7 +368,7 @@ discussion group at <https://groups.google.com/d/forum/tonk-we-blog>.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2008-2011 Jaromir Hradilek / 2011-2012 Ton Kersten
+Copyright (c) 2008-2011 Jaromir Hradilek / 2011-2013 Ton Kersten
 
 This program is free software; see the source for copying conditions. It is
 distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
